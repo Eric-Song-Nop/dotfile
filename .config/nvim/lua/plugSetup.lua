@@ -1,4 +1,5 @@
 require('zephyr')
 require('treeSetup')
 require('colorSetup')
-require('telescopeSetup')
+require('galaxySetup')
+--require('telescopeSetup')

@@ -26,6 +26,7 @@ set confirm             " 在处理未保存或只读文件的时候，弹出确
 set mouse=a
 let netrw_i='T'
 
+set viminfo='1000
 set pastetoggle=<F2>
 set nu
 set hls
@@ -76,7 +77,8 @@ Plug 'justinmk/vim-sneak'
 
 Plug 'liuchengxu/vim-which-key'
 
-Plug 'hardcoreplayers/spaceline.vim'
+" Plug 'hardcoreplayers/spaceline.vim'
+Plug 'glepnir/galaxyline.nvim' , {'branch': 'main'}
 
 Plug 'mhinz/vim-startify'
 
@@ -121,9 +123,9 @@ Plug 'tpope/vim-fugitive'
 
 Plug 'norcalli/nvim-colorizer.lua'
 
-Plug 'nvim-lua/popup.nvim'
-Plug 'nvim-lua/plenary.nvim'
-Plug 'nvim-telescope/telescope.nvim'
+" Plug 'nvim-lua/popup.nvim'
+" Plug 'nvim-lua/plenary.nvim'
+" Plug 'nvim-telescope/telescope.nvim'
 
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
@@ -134,6 +136,8 @@ Plug 'glepnir/zephyr-nvim'
 Plug 'tikhomirov/vim-glsl'
 
 Plug 'OmniSharp/omnisharp-vim'
+
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 call plug#end()
 
 " 打开文件自动定位到最后编辑的位置
@@ -182,6 +186,7 @@ let g:coc_global_extensions = [
             \ 'coc-cmake',
             \ 'coc-pairs',
             \ 'coc-leetcode',
+            \ 'coc-lists',
             \ 'coc-floaterm'
             \]
 
@@ -235,6 +240,11 @@ let g:vista_default_executive = 'coc'
 
 let g:OmniSharp_server_use_mono = 1
 let g:OmniSharp_server_stdio = 1
+
+"=== FZF-PREVIEW-SETTING===
+let g:fzf_preview_dev_icons_limit = 5000
+let g:fzf_preview_lines_command = 'bat --color=always --plain --number'
+let g:fzf_preview_command = 'bat --color=always --plain {-1}'
 
 lua require('init')
 
