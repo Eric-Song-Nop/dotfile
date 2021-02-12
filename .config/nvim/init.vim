@@ -243,8 +243,8 @@ let g:OmniSharp_server_stdio = 1
 
 "=== FZF-PREVIEW-SETTING===
 let g:fzf_preview_dev_icons_limit = 5000
-let g:fzf_preview_lines_command = 'bat --color=always --plain --number'
-let g:fzf_preview_command = 'bat --color=always --plain {-1}'
+let g:fzf_preview_lines_command = 'bat --color=always --plain --number --theme=gruvbox'
+let g:fzf_preview_command = 'bat --color=always --plain {-1} --theme=gruvbox'
 
 lua require('init')
 
