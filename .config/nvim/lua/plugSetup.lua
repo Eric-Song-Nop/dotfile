@@ -1,5 +1,0 @@
-require('zephyr')
-require('treeSetup')
-require('colorSetup')
-require('galaxySetup')
---require('telescopeSetup')
