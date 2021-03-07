@@ -8,7 +8,7 @@ function run {
 }
 #run dex $HOME/.config/autostart/arcolinux-welcome-app.desktop
 #run xrandr --output VGA-1 --primary --mode 1360x768 --pos 0x0 --rotate normal
-run xrandr --output HDMI-1 --mode 1920x1080 --pos 2736x0 --rotate normal --output eDP-1 --primary --mode 2736x1824 --pos 0x0 --rotate normal
+run xrandr --output HDMI-1 --mode 2560x1440 --pos 2736x0 --rotate normal --output eDP-1 --primary --mode 2736x1824 --pos 0x0 --rotate normal
 run nm-applet
 #run caffeine
 run pamac-tray
