@@ -5,9 +5,9 @@ require('telescope').setup{
       n = {
         ["k"] = actions.move_selection_next,
         ["i"] = actions.move_selection_previous,
-        ["E"] = actions.goto_file_selection_vsplit,
-        ["s"] = actions.goto_file_selection_split,
-        ["l"] = actions.goto_file_selection_edit + actions.center,
+        ["E"] = actions.select_vertical,
+        ["s"] = actions.select_horizontal,
+        ["l"] = actions.select_default + actions.center,
         ["<C-i>"] = actions.preview_scrolling_up,
         ["<C-k>"] = actions.preview_scrolling_down,
         ["Q"] = actions.close

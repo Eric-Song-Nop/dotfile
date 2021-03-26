@@ -69,21 +69,39 @@
     "hl": "preview:labeling",
     "hc": "preview:content"
   },
+  "languageserver": {
+    "lua": {
+      "command": "java",
+      "args": [
+        "-cp",
+        "/home/ericoolen/jar/EmmyLua-LS-all.jar",
+        "com.tang.vscode.MainKt"
+      ],
+      "filetypes": [
+        "lua"
+      ],
+      "rootPatterns": [
+        ".git/"
+      ]
+    },
+    "my_glsl": {
+      "command": "python",
+      "args": [
+        "/home/ericoolen/Documents/GLSL_lsp/main.py"
+      ],
+      "filetypes": [
+        "glsl"
+      ],
+      "rootPatterns": [
+        ".git/"
+      ]
+    }
+  },
   "explorer.keyMappings.vmap": {
     "ii": false,
     "ic": false,
     "hh": "textobj:indent:i",
     "hl": "textobj:line:i"
   },
-  "languageserver": {
-    "glsl_lsp": {
-      "command": "glslls",
-      "args": [
-        "--stdin"
-      ],
-      "filetypes": [
-        "glsl"
-      ]
-    }
-  }
+  "clangd.path": "/home/ericoolen/.config/coc/extensions/coc-clangd-data/install/11.0.0/clangd_11.0.0/bin/clangd"
 }

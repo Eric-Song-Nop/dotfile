@@ -63,7 +63,7 @@ Plug 'morhetz/gruvbox'
 " Plug 'whatyouhide/vim-gotham'
 Plug 'Eric-Song-Nop/vim-gotham'
 Plug 'ntk148v/vim-horizon'
-
+Plug 'arcticicestudio/nord-vim'
 "==========================="
 "============COC============"
 "==========================="
@@ -123,11 +123,11 @@ Plug 'tpope/vim-fugitive'
 
 Plug 'norcalli/nvim-colorizer.lua'
 
-" Plug 'nvim-lua/popup.nvim'
-" Plug 'nvim-lua/plenary.nvim'
-" Plug 'nvim-telescope/telescope.nvim'
+Plug 'nvim-lua/popup.nvim'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
 
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+" Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
 Plug 'liuchengxu/vista.vim'
 
@@ -138,6 +138,10 @@ Plug 'tikhomirov/vim-glsl'
 Plug 'OmniSharp/omnisharp-vim'
 
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+
+Plug 'kyazdani42/nvim-tree.lua'
+
+Plug 'puremourning/vimspector'
 call plug#end()
 
 " 打开文件自动定位到最后编辑的位置
@@ -157,6 +161,7 @@ if !exists('g:vscode')
 " colorscheme gruvbox
 " colorscheme horizon
 " colorscheme gotham
+colorscheme nord
 set background=dark
 "make background tranparent
 " hi Normal guibg=NONE ctermbg=NONE
@@ -171,7 +176,6 @@ let g:coc_global_extensions = [
             \ 'coc-texlab',
             \ 'coc-clangd',
             \ 'coc-vimlsp', 
-            \ 'coc-explorer',
             \ 'coc-python',
             \ 'coc-actions',
             \ 'coc-sh',
@@ -182,7 +186,6 @@ let g:coc_global_extensions = [
             \ 'coc-git',
             \ 'coc-snippets',
             \ 'coc-marketplace',
-            \ 'coc-lua',
             \ 'coc-cmake',
             \ 'coc-pairs',
             \ 'coc-leetcode',
@@ -253,4 +256,5 @@ source $HOME/AppData/Local/nvim/plugBinding.vim
 else
   source $HOME/.config/nvim/plugBinding.vim
 endif
+set runtimepath^=/home/ericoolen/dev/GLSL
 endif

@@ -12,6 +12,27 @@
 "nmap <leader>0 <Plug>BuffetSwitch(10)
 "nmap <leader>w :Bw<CR>
 
+"=== VIM-SPECTOR ==="
+let g:vimspector_enable_mappings = 'HUMAN'
+
+" leader d prefix for debug, except for leader doc
+
+" BreakPoint
+nmap <leader>dp <Plug>VimspectorToggleBreakpoint
+" Start
+nmap <leader>ds  <Plug>VimspectorContinue
+nmap <leader>dr  <Plug>VimspectorRestart
+nmap <leader>dp  <Plug>VimspectorPause
+nmap <leader>dt  <Plug>VimspectorStop
+
+nmap <leader>dd  <Plug>VimspectorStepOver
+nmap <leader>di  <Plug>VimspectorStepInto
+nmap <leader>du  <Plug>VimspectorStepOut
+
+nmap <leader>df  <Plug>VimspectorAddFunctionBreakpoint
+
+nnoremap <leader>dx :VimspectorReset<CR>
+
 "=== VISTA ==="
 nnoremap <leader>vi :Vista coc<CR>
 nnoremap <leader>vf :Vista finder coc<CR>
@@ -20,12 +41,11 @@ nnoremap <leader>vf :Vista finder coc<CR>
 "=== TABLE_MODE ==="
 let g:table_mode_tableize_map='<leader>tablize'
 
-" TELESCOPE descrepted
 " === TELESCOPE ==="
-"nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
-"nnoremap <leader>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
-"nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
-"nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
+nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
+nnoremap <leader>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
+nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
+nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
 
 "=== STARTIFY ==="
 autocmd User Startified for key in ['i'] |
@@ -49,9 +69,6 @@ map <Leader><leader>l <Plug>(easymotion-lineforward)
 map <Leader><leader>. <Plug>(easymotion-repeat)
 
 "=== COC ==="
-
-"== Coc-explorer =="
-nmap <leader>tr :CocCommand explorer<CR>
 
 "== Translation =="
 " popup
