@@ -134,6 +134,7 @@ Plug 'liuchengxu/vista.vim'
 Plug 'glepnir/zephyr-nvim'
 
 Plug 'tikhomirov/vim-glsl'
+Plug 'Eric-Song-Nop/vim-glslx'
 
 Plug 'OmniSharp/omnisharp-vim'
 
