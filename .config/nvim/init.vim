@@ -256,5 +256,4 @@ source $HOME/AppData/Local/nvim/plugBinding.vim
 else
   source $HOME/.config/nvim/plugBinding.vim
 endif
-set runtimepath^=/home/ericoolen/dev/GLSL
 endif

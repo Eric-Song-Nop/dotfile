@@ -83,18 +83,6 @@
       "rootPatterns": [
         ".git/"
       ]
-    },
-    "my_glsl": {
-      "command": "python",
-      "args": [
-        "/home/ericoolen/Documents/GLSL_lsp/main.py"
-      ],
-      "filetypes": [
-        "glsl"
-      ],
-      "rootPatterns": [
-        ".git/"
-      ]
     }
   },
   "explorer.keyMappings.vmap": {
