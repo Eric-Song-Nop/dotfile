@@ -177,7 +177,7 @@ let g:coc_global_extensions = [
             \ 'coc-texlab',
             \ 'coc-clangd',
             \ 'coc-vimlsp', 
-            \ 'coc-python',
+            \ 'coc-pyright',
             \ 'coc-actions',
             \ 'coc-sh',
             \ 'coc-xml',
