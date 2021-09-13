@@ -61,13 +61,12 @@ Plug 'ryanoasis/vim-devicons'
 " Plug 'flazz/vim-colorschemes'
 Plug 'morhetz/gruvbox'
 " Plug 'whatyouhide/vim-gotham'
-Plug 'Eric-Song-Nop/vim-gotham'
 Plug 'ntk148v/vim-horizon'
 Plug 'arcticicestudio/nord-vim'
 "==========================="
 "============COC============"
 "==========================="
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+" Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 Plug 'tpope/vim-surround'
 " Plug 'rstacruz/vim-closer'
@@ -112,8 +111,6 @@ Plug 'tyru/caw.vim' " So can use gci to comment a line
 Plug 'gcmt/wildfire.vim'
 Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 
-" Plug 'rafcamlet/coc-nvim-lua'
-
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
 
 Plug 'mzlogin/vim-markdown-toc'
@@ -123,11 +120,13 @@ Plug 'tpope/vim-fugitive'
 
 Plug 'norcalli/nvim-colorizer.lua'
 
+Plug 'neovim/nvim-lspconfig'
+Plug 'glepnir/lspsaga.nvim'
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 
-" Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
 Plug 'liuchengxu/vista.vim'
 
@@ -136,15 +135,23 @@ Plug 'glepnir/zephyr-nvim'
 Plug 'tikhomirov/vim-glsl'
 Plug 'Eric-Song-Nop/vim-glslx'
 
-Plug 'OmniSharp/omnisharp-vim'
-
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 
 Plug 'kyazdani42/nvim-tree.lua'
 
 Plug 'puremourning/vimspector'
-call plug#end()
+" Install nvim-cmp
+Plug 'hrsh7th/nvim-cmp'
+Plug 'hrsh7th/vim-vsnip'
+" Install snippet engine (This example installs [hrsh7th/vim-vsnip](https://github.com/hrsh7th/vim-vsnip))
+Plug 'saadparwaiz1/cmp_luasnip'
 
+" Install the buffer completion source
+Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/cmp-path'
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'wakatime/vim-wakatime'
+call plug#end()
 " 打开文件自动定位到最后编辑的位置
 autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | execute "normal! g'\"" | endif
 
@@ -162,7 +169,7 @@ if !exists('g:vscode')
 " colorscheme gruvbox
 " colorscheme horizon
 " colorscheme gotham
-colorscheme nord
+" colorscheme nord
 set background=dark
 "make background tranparent
 " hi Normal guibg=NONE ctermbg=NONE
@@ -172,27 +179,27 @@ set background=dark
 "==========================="
 
 " CocPulggins
-let g:coc_global_extensions = [
-            \ 'coc-json',
-            \ 'coc-texlab',
-            \ 'coc-clangd',
-            \ 'coc-vimlsp', 
-            \ 'coc-pyright',
-            \ 'coc-actions',
-            \ 'coc-sh',
-            \ 'coc-xml',
-            \ 'coc-yank',
-            \ 'coc-emoji',
-            \ 'coc-translator',
-            \ 'coc-git',
-            \ 'coc-snippets',
-            \ 'coc-marketplace',
-            \ 'coc-cmake',
-            \ 'coc-pairs',
-            \ 'coc-leetcode',
-            \ 'coc-lists',
-            \ 'coc-floaterm'
-            \]
+" let g:coc_global_extensions = [
+"            \ 'coc-json',
+"            \ 'coc-texlab',
+"            \ 'coc-clangd',
+"            \ 'coc-vimlsp', 
+"            \ 'coc-pyright',
+"            \ 'coc-actions',
+"            \ 'coc-sh',
+"            \ 'coc-xml',
+"            \ 'coc-yank',
+"            \ 'coc-emoji',
+"            \ 'coc-translator',
+"            \ 'coc-git',
+"            \ 'coc-snippets',
+"            \ 'coc-marketplace',
+"            \ 'coc-cmake',
+"            \ 'coc-pairs',
+"            \ 'coc-leetcode',
+"            \ 'coc-lists',
+"            \ 'coc-floaterm'
+"            \]
 
 " TextEdit might fail if hidden is not set.
 set hidden
@@ -210,29 +217,6 @@ let g:sneak#label = 1
 let g:livepreview_engine = 'pdflatex'
 let g:indentLine_conceallevel = 0
 
-"  Define mappings for denite
-"let g:webdevicons_enable_denite = 0
-"autocmd FileType denite call s:denite_my_settings()
-"function! s:denite_my_settings() abort
-"  nnoremap <silent><buffer><expr> <CR>
-"  \ denite#do_map('do_action')
-"  nnoremap <silent><buffer><expr> d
-"  \ denite#do_map('do_action', 'delete')
-"  nnoremap <silent><buffer><expr> p
-"  \ denite#do_map('do_action', 'preview')
-"  nnoremap <silent><buffer><expr> q
-"  \ denite#do_map('quit')
-"  nnoremap <silent><buffer><expr> i
-"  \ denite#do_map('open_filter_buffer')
-"  nnoremap <silent><buffer><expr> <Space>
-"  \ denite#do_map('toggle_select').'j'
-"endfunction
-"nmap <C-P> :Denite buffer -split=floating -winrow=1<CR>
-"nmap <C-p> :Denite file/rec -split=floating -winrow=1<CR>
-"if exists("g:loaded_webdevicons")
-"  call webdevicons#refresh()
-"endif
-
 if(has("win32") || has("win64") || has("win95") || has("win16"))
   let g:floaterm_shell = 'powershell'
 else
@@ -240,20 +224,23 @@ else
 endif
 let g:floaterm_autoinsert = v:false
 
-let g:vista_default_executive = 'coc'
+let g:vista_default_executive = 'nvim_lsp'
+function! NearestMethodOrFunction() abort
+  return get(b:, 'vista_nearest_method_or_function', '')
+endfunction
 
-let g:OmniSharp_server_use_mono = 1
-let g:OmniSharp_server_stdio = 1
+set statusline+=%{NearestMethodOrFunction()}
 
-"=== FZF-PREVIEW-SETTING===
-let g:fzf_preview_dev_icons_limit = 5000
-let g:fzf_preview_lines_command = 'bat --color=always --plain --number --theme=gruvbox'
-let g:fzf_preview_command = 'bat --color=always --plain {-1} --theme=gruvbox'
+" By default vista.vim never run if you don't call it explicitly.
+"
+" If you want to show the nearest function in your statusline automatically,
+" you can add the following line to your vimrc
+autocmd VimEnter * call vista#RunForNearestMethodOrFunction()
 
 lua require('init')
 
 if(has("win32") || has("win64") || has("win95") || has("win16"))
-source $HOME/AppData/Local/nvim/plugBinding.vim
+  source $HOME/AppData/Local/nvim/plugBinding.vim
 else
   source $HOME/.config/nvim/plugBinding.vim
 endif
