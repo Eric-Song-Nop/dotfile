@@ -31,7 +31,18 @@ lsp.clangd.setup{
 }
 
 lsp.vimls.setup{
-  capbilities = capabilities,
+  capabilities = capabilities,
+  commands = {
+    Format = {
+      function()
+        vim.lsp.buf.formatting()
+      end
+    }
+  };
+}
+
+lsp.pylsp.setup{
+  capabilities = capabilities,
   commands = {
     Format = {
       function()
