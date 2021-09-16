@@ -1,7 +1,6 @@
 local lsp = require('lspconfig')
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
-
 -- For omnisharp
 local pid = vim.fn.getpid()
 
@@ -21,6 +20,7 @@ lsp.omnisharp.setup{
 
 lsp.clangd.setup{
   capbilities = capabilities,
+  cmd = { "clangd", "--background-index" , "--clang-tidy"},
   commands = {
     Format = {
       function()
