@@ -1,6 +1,10 @@
+"=== NVIM-TREE ==="
 nnoremap <leader>tr :NvimTreeToggle<CR>
 nnoremap <leader>tf :NvimTreeRefresh<CR>
 " nnoremap <leader>tf :NvimTreeFindFile<CR>
+
+"=== NVIM-NABLA ==="
+autocmd FileType markdown,python nnoremap <leader>n :lua require("nabla").action()<CR>
 
 "=== VIM-SPECTOR ==="
 let g:vimspector_enable_mappings = 'HUMAN'
@@ -29,13 +33,14 @@ nnoremap <leader>vf :Vista finder<CR>
 
 
 "=== TABLE_MODE ==="
-let g:table_mode_tableize_map='<leader>tablize'
+autocmd FileType markdown let g:table_mode_tableize_map='<leader>tablize'
 
 " === TELESCOPE ==="
 nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
 nnoremap <leader>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
 nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
 nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
+nnoremap <leader>fc <cmd>lua require('telescope.builtin').colorscheme()<cr>
 
 "=== STARTIFY ==="
 autocmd User Startified for key in ['i'] |

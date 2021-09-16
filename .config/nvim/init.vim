@@ -59,14 +59,10 @@ call plug#begin('~/.vim/plugged')
 Plug 'ryanoasis/vim-devicons'
 
 " Plug 'flazz/vim-colorschemes'
-Plug 'morhetz/gruvbox'
+" Plug 'morhetz/gruvbox'
 " Plug 'whatyouhide/vim-gotham'
 Plug 'ntk148v/vim-horizon'
 Plug 'arcticicestudio/nord-vim'
-"==========================="
-"============COC============"
-"==========================="
-" Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 Plug 'tpope/vim-surround'
 " Plug 'rstacruz/vim-closer'
@@ -76,7 +72,6 @@ Plug 'justinmk/vim-sneak'
 
 Plug 'liuchengxu/vim-which-key'
 
-" Plug 'hardcoreplayers/spaceline.vim'
 Plug 'glepnir/galaxyline.nvim' , {'branch': 'main'}
 
 Plug 'mhinz/vim-startify'
@@ -85,24 +80,10 @@ Plug 'Yggdroot/indentLine'
 
 Plug 'easymotion/vim-easymotion'
 
-" Plug 'airblade/vim-gitgutter'
- 
-" Plug 'kevinhwang91/rnvimr'
-
 Plug 'xuhdev/vim-latex-live-preview'
 
-" if has('nvim')
-"   Plug 'Shougo/denite.nvim', { 'do': ':UpdateRemotePlugins' }
-" else
-"   Plug 'Shougo/denite.nvim'
-"   Plug 'roxma/nvim-yarp'
-"   Plug 'roxma/vim-hug-neovim-rpc'
-" endif
-
 Plug 'kyazdani42/nvim-web-devicons'
-" Plug 'romgrk/lib.kom' -- removed! You can remove it from your vimrc
 Plug 'romgrk/barbar.nvim'
-" Plug 'bagrat/vim-buffet'
 
 " Plug 'https://github.com/junegunn/vim-github-dashboard.git'
 Plug 'voldikss/vim-floaterm'
@@ -113,7 +94,7 @@ Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
 
-Plug 'mzlogin/vim-markdown-toc'
+Plug 'mzlogin/vim-markdown-toc', {'for': 'markdown'}
 Plug 'dhruvasagar/vim-table-mode', {'for': 'markdown'}
 
 Plug 'tpope/vim-fugitive'
@@ -131,6 +112,7 @@ Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'liuchengxu/vista.vim'
 
 Plug 'glepnir/zephyr-nvim'
+Plug 'sainnhe/gruvbox-material'
 
 Plug 'tikhomirov/vim-glsl'
 Plug 'Eric-Song-Nop/vim-glslx'
@@ -156,6 +138,8 @@ Plug 'hrsh7th/cmp-calc'
 Plug 'hrsh7th/cmp-emoji'
 Plug 'f3fora/cmp-spell'
 Plug 'ray-x/cmp-treesitter'
+
+Plug 'jbyuki/nabla.nvim', { 'for': 'markdown' }
 call plug#end()
 " 打开文件自动定位到最后编辑的位置
 autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | execute "normal! g'\"" | endif
@@ -170,41 +154,11 @@ let $COLORTERM="truecolor"
 "=======Not in VSCode======="
 "==========================="
 if !exists('g:vscode')
-" colorscheme zephyr
-" colorscheme gruvbox
-" colorscheme horizon
-" colorscheme gotham
-" colorscheme nord
+colorscheme gruvbox-material
 set background=dark
+let g:gruvbox_material_background = 'hard'
 "make background tranparent
 " hi Normal guibg=NONE ctermbg=NONE
-
-"==========================="
-"========COC relative======="
-"==========================="
-
-" CocPulggins
-" let g:coc_global_extensions = [
-"            \ 'coc-json',
-"            \ 'coc-texlab',
-"            \ 'coc-clangd',
-"            \ 'coc-vimlsp', 
-"            \ 'coc-pyright',
-"            \ 'coc-actions',
-"            \ 'coc-sh',
-"            \ 'coc-xml',
-"            \ 'coc-yank',
-"            \ 'coc-emoji',
-"            \ 'coc-translator',
-"            \ 'coc-git',
-"            \ 'coc-snippets',
-"            \ 'coc-marketplace',
-"            \ 'coc-cmake',
-"            \ 'coc-pairs',
-"            \ 'coc-leetcode',
-"            \ 'coc-lists',
-"            \ 'coc-floaterm'
-"            \]
 
 " TextEdit might fail if hidden is not set.
 set hidden
