@@ -53,6 +53,7 @@ nnoremap <leader>fa <cmd>lua require('telescope.builtin').lsp_code_actions()<cr>
 nnoremap <leader>fi <cmd>lua require('telescope.builtin').lsp_implementations()<cr>
 nnoremap <leader>fd <cmd>lua require('telescope.builtin').lsp_definitions()<cr>
 nnoremap <leader>fe <cmd>lua require('telescope.builtin').lsp_document_diagnostics()<cr>
+nnoremap <leader>fp <cmd>lua require('telescope').extensions.project.project{}<cr>
 
 "=== STARTIFY ==="
 autocmd User Startified for key in ['i'] |

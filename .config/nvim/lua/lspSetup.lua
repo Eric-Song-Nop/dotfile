@@ -51,3 +51,15 @@ lsp.pylsp.setup{
     }
   };
 }
+
+lsp.texlab.setup{
+  capabilities = capabilities,
+  commands = {
+    Format = {
+      function()
+        vim.lsp.buf.formatting()
+      end
+    }
+  };
+}
+
