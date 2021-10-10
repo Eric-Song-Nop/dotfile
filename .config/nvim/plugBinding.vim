@@ -1,3 +1,15 @@
+"=== FORMAT COMMAND ==="
+command Format :lua vim.lsp.buf.formatting()<CR>
+"=== LUASNIP ==="
+imap <silent><expr> <Tab> luasnip#expand_or_jumpable() ? '<Plug>luasnip-expand-or-jump' : '<Tab>' 
+inoremap <silent> <S-Tab> <cmd>lua require'luasnip'.jump(-1)<Cr>
+
+snoremap <silent> <Tab> <cmd>lua require('luasnip').jump(1)<Cr>
+snoremap <silent> <S-Tab> <cmd>lua require('luasnip').jump(-1)<Cr>
+
+imap <silent><expr> <C-E> luasnip#choice_active() ? '<Plug>luasnip-next-choice' : '<C-E>'
+smap <silent><expr> <C-E> luasnip#choice_active() ? '<Plug>luasnip-next-choice' : '<C-E>'
+
 "=== NVIM-TREE ==="
 nnoremap <leader>tr :NvimTreeToggle<CR>
 nnoremap <leader>tf :NvimTreeRefresh<CR>
@@ -6,26 +18,42 @@ nnoremap <leader>tf :NvimTreeRefresh<CR>
 "=== NVIM-NABLA ==="
 autocmd FileType markdown,python nnoremap <leader>n :lua require("nabla").action()<CR>
 
-"=== VIM-SPECTOR ==="
-let g:vimspector_enable_mappings = 'HUMAN'
+"=== VIM-SPECTOR2DAP ==="
+" let g:vimspector_enable_mappings = 'HUMAN'
 
 " leader d prefix for debug, except for leader doc
+nnoremap <silent> <leader>du :lua require'dapui'.toggle()<CR>
 
 " BreakPoint
-nmap <leader>dp <Plug>VimspectorToggleBreakpoint
-" Start
-nmap <leader>ds  <Plug>VimspectorContinue
-nmap <leader>dr  <Plug>VimspectorRestart
-nmap <leader>dp  <Plug>VimspectorPause
-nmap <leader>dt  <Plug>VimspectorStop
-
-nmap <leader>dd  <Plug>VimspectorStepOver
-nmap <leader>di  <Plug>VimspectorStepInto
-nmap <leader>du  <Plug>VimspectorStepOut
-
-nmap <leader>df  <Plug>VimspectorAddFunctionBreakpoint
-
-nnoremap <leader>dx :VimspectorReset<CR>
+nnoremap <silent> <leader>dc :lua require'dap'.continue()<CR>
+" n for next
+nnoremap <silent> <leader>dn :lua require'dap'.step_over()<CR>
+nnoremap <silent> <leader>di :lua require'dap'.step_into()<CR>
+nnoremap <silent> <leader>do :lua require'dap'.step_out()<CR>
+nnoremap <silent> <leader>db :lua require'dap'.toggle_breakpoint()<CR>
+nnoremap <silent> <leader>dB :lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>
+" nnoremap <silent> <leader>dsb :lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>
+nnoremap <silent> <leader>dr :lua require'dap'.repl.open()<CR>
+nnoremap <silent> <leader>df :lua require'dapui'.float_element()<CR>
+nnoremap <silent> <leader>de :lua require'dapui'.eval()<CR>
+vnoremap <silent> <leader>de :lua require'dapui'.eval()<CR>
+nnoremap <silent> <leader>dl :lua require'dap'.run_last()<CR>
+nnoremap <silent> <leader>dd :lua require'dap'.disconnect()<CR>
+nnoremap <silent> <leader>dq :lua require'dap'.close()<CR>
+" nmap <leader>dp <Plug>VimspectorToggleBreakpoint
+" " Start
+" nmap <leader>ds  <Plug>VimspectorContinue
+" nmap <leader>dr  <Plug>VimspectorRestart
+" nmap <leader>dp  <Plug>VimspectorPause
+" nmap <leader>dt  <Plug>VimspectorStop
+" 
+" nmap <leader>dd  <Plug>VimspectorStepOver
+" nmap <leader>di  <Plug>VimspectorStepInto
+" nmap <leader>du  <Plug>VimspectorStepOut
+" 
+" nmap <leader>df  <Plug>VimspectorAddFunctionBreakpoint
+" 
+" nnoremap <leader>dx :VimspectorReset<CR>
 
 "=== VISTA ==="
 nnoremap <leader>vi :Vista<CR>

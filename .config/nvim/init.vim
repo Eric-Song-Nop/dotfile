@@ -44,11 +44,12 @@ let &t_SR = "\<Esc>]50;CursorShape=2\x7"
 let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 
 if(has("win32") || has("win64") || has("win95") || has("win16"))
-source $HOME/AppData/Local/nvim/normalBinding.vim
+  source $HOME/AppData/Local/nvim/normalBinding.vim
 else
   source $HOME/.config/nvim/normalBinding.vim
 endif
 
+if !exists('g:vscode')
 "==========================="
 "==========Plugins=========="
 "==========================="
@@ -122,12 +123,13 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 
 Plug 'kyazdani42/nvim-tree.lua'
 
-Plug 'puremourning/vimspector'
 " Install nvim-cmp
 Plug 'hrsh7th/nvim-cmp'
+Plug 'hrsh7th/cmp-vsnip'
 Plug 'hrsh7th/vim-vsnip'
 " Install snippet engine (This example installs [hrsh7th/vim-vsnip](https://github.com/hrsh7th/vim-vsnip))
-Plug 'saadparwaiz1/cmp_luasnip'
+" Plug 'L3MON4D3/LuaSnip'
+" Plug 'saadparwaiz1/cmp_luasnip'
 
 " Install the buffer completion source
 Plug 'hrsh7th/cmp-buffer'
@@ -142,19 +144,32 @@ Plug 'ray-x/cmp-treesitter'
 
 Plug 'jbyuki/nabla.nvim', { 'for': 'markdown' }
 Plug 'folke/trouble.nvim'
+
+Plug 'mfussenegger/nvim-dap'
+Plug 'rcarriga/nvim-dap-ui'
 call plug#end()
+
+else
+
+call plug#begin('~/.vim/plugged')
+  Plug 'easymotion/vim-easymotion'
+call plug#end()
+
+endif
 " 打开文件自动定位到最后编辑的位置
+"==========================="
+"=======Not in VSCode======="
+"==========================="
 autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | execute "normal! g'\"" | endif
 
 "==========================="
 "======Color relative======="
 "==========================="
+" set guifont=
+set guifont=CaskaydiaCove\ Nerd\ Font\ Mono:h11
 set termguicolors
 let $COLORTERM="truecolor"
 
-"==========================="
-"=======Not in VSCode======="
-"==========================="
 if !exists('g:vscode')
 colorscheme gruvbox-material
 set background=dark
@@ -205,4 +220,13 @@ if(has("win32") || has("win64") || has("win95") || has("win16"))
 else
   source $HOME/.config/nvim/plugBinding.vim
 endif
+
+else
+
+if(has("win32") || has("win64") || has("win95") || has("win16"))
+  source $HOME/AppData/Local/nvim/codePluginBinding.vim
+else
+  source $HOME/.config/nvim/codePluginBinding.vim
+endif
+
 endif
