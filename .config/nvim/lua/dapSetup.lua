@@ -75,6 +75,12 @@ dap.configurations.python = {
   },
 }
 
+dap.adapters.netcoredbg = {
+  type = 'executable',
+  command = '/home/eric/Downloads/netcoredbg/netcoredbg',
+  args = {'--interpreter=vscode'}
+}
+
 dap.configurations.cs = {
   {
     type = "netcoredbg",

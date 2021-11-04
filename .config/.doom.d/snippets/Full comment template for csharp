@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+# name: Full comment template for csharp
+# uuid: ecomment
+# key: ecomment
+# condition: t
+# --
+/// <summary>
+/// $1
+/// </summary>
+/// <param name="$2">$3</param>

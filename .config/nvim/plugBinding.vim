@@ -1,11 +1,15 @@
 "=== FORMAT COMMAND ==="
 command Format :lua vim.lsp.buf.formatting()<CR>
-"=== LUASNIP ==="
-imap <silent><expr> <Tab> luasnip#expand_or_jumpable() ? '<Plug>luasnip-expand-or-jump' : '<Tab>' 
-inoremap <silent> <S-Tab> <cmd>lua require'luasnip'.jump(-1)<Cr>
 
-snoremap <silent> <Tab> <cmd>lua require('luasnip').jump(1)<Cr>
-snoremap <silent> <S-Tab> <cmd>lua require('luasnip').jump(-1)<Cr>
+"=== TROUBLE ==="
+nnoremap <silent> <leader>dt :TroubleToggle<CR>
+
+"=== LUASNIP ==="
+" imap <silent><expr> <Tab> luasnip#expand_or_jumpable() ? '<Plug>luasnip-expand-or-jump' : '<Tab>' 
+" inoremap <silent> <S-Tab> <cmd>lua require'luasnip'.jump(-1)<Cr>
+
+" snoremap <silent> <Tab> <cmd>lua require('luasnip').jump(1)<Cr>
+" snoremap <silent> <S-Tab> <cmd>lua require('luasnip').jump(-1)<Cr>
 
 imap <silent><expr> <C-E> luasnip#choice_active() ? '<Plug>luasnip-next-choice' : '<C-E>'
 smap <silent><expr> <C-E> luasnip#choice_active() ? '<Plug>luasnip-next-choice' : '<C-E>'
@@ -90,7 +94,7 @@ autocmd User Startified for key in ['i'] |
 "=== WHICH KEY ==="
 
 " vim which key config
-nnoremap <silent> <leader> :WhichKey '<Space>'<CR>
+nnoremap <silent> <leader> :WhichKey '<leader>'<CR>
 vnoremap <silent> <leader> :WhichKeyVisual '<Space>'<CR>
 
 "=== EASY MOTION ==="

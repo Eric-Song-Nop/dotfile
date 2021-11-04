@@ -3,7 +3,7 @@
 require('colorSetup')
 require('galaxySetup')
 require('telescopeSetup')
-require('sagaSetup')
+-- require('sagaSetup')
 require('lspSetup')
 require('cmpSetup')
 require('troubleSetup')
