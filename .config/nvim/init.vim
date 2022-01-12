@@ -116,6 +116,7 @@ Plug 'liuchengxu/vista.vim'
 
 Plug 'glepnir/zephyr-nvim'
 Plug 'sainnhe/gruvbox-material'
+Plug 'sainnhe/edge'
 
 Plug 'tikhomirov/vim-glsl'
 Plug 'Eric-Song-Nop/vim-glslx'
@@ -177,7 +178,7 @@ colorscheme gruvbox-material
 set background=dark
 let g:gruvbox_material_background = 'hard'
 "make background tranparent
-" hi Normal guibg=NONE ctermbg=NONE
+hi Normal guibg=NONE ctermbg=NONE
 
 " TextEdit might fail if hidden is not set.
 set hidden
