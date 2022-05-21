@@ -8,8 +8,18 @@ an executable
 ]]
 -- THESE ARE EXAMPLE CONFIGS FEEL FREE TO CHANGE TO WHATEVER YOU WANT
 
+-- TODO: User Config for predefined plugins
+-- After changing plugin config exit and reopen LunarVim, Run :PackerInstall :PackerCompile
+lvim.builtin.alpha.active = true
+lvim.builtin.alpha.mode = "dashboard"
+lvim.builtin.notify.active = false
+lvim.builtin.terminal.active = true
+lvim.builtin.nvimtree.setup.view.side = "left"
+lvim.builtin.nvimtree.show_icons.git = 0
+lvim.builtin.autopairs.active = false
 -- general
 lvim.log.level = "warn"
+-- lvim.log.level = "error"
 lvim.format_on_save = true
 lvim.colorscheme = "onedarker"
 
@@ -21,6 +31,7 @@ lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
 -- lvim.keys.normal_mode["<C-Up>"] = false
 -- edit a default keymapping
 lvim.keys.normal_mode["<C-q>"] = ":q<cr>"
+vim.opt.relativenumber = true
 
 vim.opt.shiftwidth = 4 -- the number of spaces inserted for each indentation
 vim.opt.tabstop = 4 -- insert 2 spaces for a tab
@@ -55,29 +66,21 @@ vim.opt.tabstop = 4 -- insert 2 spaces for a tab
 --   w = { "<cmd>Trouble workspace_diagnostics<cr>", "Wordspace Diagnostics" },
 -- }
 
--- TODO: User Config for predefined plugins
--- After changing plugin config exit and reopen LunarVim, Run :PackerInstall :PackerCompile
-lvim.builtin.alpha.active = true
-lvim.builtin.alpha.mode = "dashboard"
-lvim.builtin.notify.active = true
-lvim.builtin.terminal.active = true
-lvim.builtin.nvimtree.setup.view.side = "left"
-lvim.builtin.nvimtree.show_icons.git = 0
 
 -- if you don't want all the parsers change this to a table of the ones you want
 lvim.builtin.treesitter.ensure_installed = {
-  "bash",
-  "c",
-  "javascript",
-  "json",
-  "lua",
-  "python",
-  "typescript",
-  "tsx",
-  "css",
-  "rust",
-  "java",
-  "yaml",
+    "bash",
+    "c",
+    "javascript",
+    "json",
+    "lua",
+    "python",
+    "typescript",
+    "tsx",
+    "css",
+    "rust",
+    "java",
+    "yaml",
 }
 
 lvim.builtin.treesitter.ignore_install = { "haskell" }
@@ -90,9 +93,37 @@ lvim.builtin.treesitter.highlight.enabled = true
 
 -- ---configure a server manually. !!Requires `:LvimCacheReset` to take effect!!
 -- ---see the full default list `:lua print(vim.inspect(lvim.lsp.automatic_configuration.skipped_servers))`
--- vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "pyright" })
--- local opts = {} -- check the lspconfig documentation for a list of all possible options
--- require("lvim.lsp.manager").setup("pyright", opts)
+vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "clangd" })
+-- some settings can only passed as commandline flags `clangd --help`
+local clangd_flags = {
+    "--all-scopes-completion",
+    "--suggest-missing-includes",
+    "--background-index",
+    "--pch-storage=disk",
+    "--cross-file-rename",
+    "--log=info",
+    "--completion-style=detailed",
+    "--enable-config", -- clangd 11+ supports reading from .clangd configuration file
+    -- "--clang-tidy",
+    "--clang-tidy-checks=-*,llvm-*,clang-analyzer-*,modernize-*,-modernize-use-trailing-return-type",
+    "--fallback-style=Microsoft",
+    -- "--header-insertion=never",
+    -- "--query-driver=<list-of-white-listed-complers>"
+}
+
+local clangd_bin = "clangd"
+
+local custom_on_attach = function(client, bufnr)
+    require("lvim.lsp").common_on_attach(client, bufnr)
+    local opts = { noremap = true, silent = true }
+    vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>lh", "<Cmd>ClangdSwitchSourceHeader<CR>", opts)
+end
+
+local opts = {
+    cmd = { clangd_bin, unpack(clangd_flags) },
+    on_attach = custom_on_attach,
+}
+require("lvim.lsp.manager").setup("clangd", opts)
 
 -- ---remove a server from the skipped list, e.g. eslint, or emmet_ls. !!Requires `:LvimCacheReset` to take effect!!
 -- ---`:LvimInfo` lists which server(s) are skiipped for the current filetype
@@ -147,19 +178,48 @@ lvim.builtin.treesitter.highlight.enabled = true
 -- Additional Plugins
 lvim.plugins = {
     {
-      "folke/trouble.nvim",
-      cmd = "TroubleToggle",
+        "folke/trouble.nvim",
+        cmd = "TroubleToggle",
     },
     {
-      "wakatime/vim-wakatime"
+        "wakatime/vim-wakatime"
     },
     {
-      "tzachar/cmp-tabnine",
-      run = "./install.sh",
-      requires = "hrsh7th/nvim-cmp",
-      event = "InsertEnter",
+        "simrat39/symbols-outline.nvim",
+        cmd = "SymbolsOutline",
     },
+    {
+        "tzachar/cmp-tabnine",
+        run = "./install.sh",
+        requires = "hrsh7th/nvim-cmp",
+        event = "InsertEnter",
+    },
+    {
+        "mickael-menu/zk-nvim"
+    }
 }
+
+require("zk").setup({
+    -- can be "telescope", "fzf" or "select" (`vim.ui.select`)
+    -- it's recommended to use "telescope" or "fzf"
+    picker = "telescope",
+
+    lsp = {
+        -- `config` is passed to `vim.lsp.start_client(config)`
+        config = {
+            cmd = { "zk", "lsp" },
+            name = "zk",
+            -- on_attach = ...
+            -- etc, see `:h vim.lsp.start_client()`
+        },
+
+        -- automatically attach buffers in a zk notebook that match the given filetypes
+        auto_attach = {
+            enabled = true,
+            filetypes = { "markdown" },
+        },
+    },
+})
 
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
 -- lvim.autocommands.custom_groups = {
