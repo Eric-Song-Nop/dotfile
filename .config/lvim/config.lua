@@ -196,34 +196,54 @@ lvim.plugins = {
         requires = "hrsh7th/nvim-cmp",
         event = "InsertEnter",
     },
-    {
-        "mickael-menu/zk-nvim"
-    }
 }
-
-require("zk").setup({
-    -- can be "telescope", "fzf" or "select" (`vim.ui.select`)
-    -- it's recommended to use "telescope" or "fzf"
-    picker = "telescope",
-
-    lsp = {
-        -- `config` is passed to `vim.lsp.start_client(config)`
-        config = {
-            cmd = { "zk", "lsp" },
-            name = "zk",
-            -- on_attach = ...
-            -- etc, see `:h vim.lsp.start_client()`
-        },
-
-        -- automatically attach buffers in a zk notebook that match the given filetypes
-        auto_attach = {
-            enabled = true,
-            filetypes = { "markdown" },
-        },
-    },
-})
 
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
 -- lvim.autocommands.custom_groups = {
---   { "BufWinEnter", "*.lua", "setlocal ts=8 sw=8" },
+--     --   { "BufWinEnter", "*.lua", "setlocal ts=8 sw=8" },
+--     { "InsertEnter", "*", "silent !fcitx-remote -o" },
+--     { "InsertLeave", "*", "silent !fcitx-remote -o" },
+--     { "BufCreate", "*", "silent !fcitx-remote -o" },
+--     { "BufEnter", "*", "silent !fcitx-remote -o" },
+--     { "BufLeave", "*", "silent !fcitx-remote -o" }
 -- }
+vim.api.nvim_create_autocmd(
+    "InsertEnter",
+    { -- this is passed directly as opts to `nvim_create_autocmd()`
+        pattern = { "*" },
+        -- enable wrap mode for json files only
+        command = "silent !fcitx-remote -o",
+    }
+)
+vim.api.nvim_create_autocmd(
+    "BufEnter",
+    { -- this is passed directly as opts to `nvim_create_autocmd()`
+        pattern = { "*" },
+        -- enable wrap mode for json files only
+        command = "silent !fcitx-remote -c",
+    }
+)
+vim.api.nvim_create_autocmd(
+    "BufLeave",
+    { -- this is passed directly as opts to `nvim_create_autocmd()`
+        pattern = { "*" },
+        -- enable wrap mode for json files only
+        command = "silent !fcitx-remote -c",
+    }
+)
+vim.api.nvim_create_autocmd(
+    "BufCreate",
+    { -- this is passed directly as opts to `nvim_create_autocmd()`
+        pattern = { "*" },
+        -- enable wrap mode for json files only
+        command = "silent !fcitx-remote -c",
+    }
+)
+vim.api.nvim_create_autocmd(
+    "InsertLeave",
+    { -- this is passed directly as opts to `nvim_create_autocmd()`
+        pattern = { "*" },
+        -- enable wrap mode for json files only
+        command = "silent !fcitx-remote -c",
+    }
+)
