@@ -15,7 +15,7 @@ lvim.builtin.alpha.mode = "dashboard"
 lvim.builtin.notify.active = false
 lvim.builtin.terminal.active = true
 lvim.builtin.nvimtree.setup.view.side = "left"
-lvim.builtin.nvimtree.show_icons.git = 0
+lvim.builtin.nvimtree.setup.renderer.icons.show.git = false
 lvim.builtin.autopairs.active = false
 -- general
 lvim.log.level = "warn"
