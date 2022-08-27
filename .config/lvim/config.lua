@@ -12,24 +12,28 @@ an executable
 -- After changing plugin config exit and reopen LunarVim, Run :PackerInstall :PackerCompile
 lvim.builtin.alpha.active = true
 lvim.builtin.alpha.mode = "dashboard"
-lvim.builtin.notify.active = false
+-- lvim.builtin.notify.active = false
 lvim.builtin.terminal.active = true
 lvim.builtin.nvimtree.setup.view.side = "left"
-lvim.builtin.nvimtree.setup.renderer.icons.show.git = false
-lvim.builtin.autopairs.active = false
+-- lvim.builtin.nvimtree.setup.renderer.icons.show.git = false
+-- lvim.builtin.autopairs.active = false
 -- general
 lvim.log.level = "warn"
--- lvim.log.level = "error"
 lvim.format_on_save = true
 lvim.colorscheme = "onedarker"
+-- to disable icons and use a minimalist setup, uncomment the following
+-- lvim.use_icons = false
 
 -- keymappings [view all the defaults by pressing <leader>Lk]
 lvim.leader = "space"
 -- add your own keymapping
 lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
+lvim.keys.normal_mode["<S-l>"] = ":BufferLineCycleNext<CR>"
+lvim.keys.normal_mode["<S-h>"] = ":BufferLineCyclePrev<CR>"
 -- unmap a default keymapping
--- lvim.keys.normal_mode["<C-Up>"] = false
--- edit a default keymapping
+-- vim.keymap.del("n", "<C-Up>")
+-- override a default keymapping
+-- lvim.keys.normal_mode["<C-q>"] = ":q<cr>" -- or vim.keymap.set("n", "<C-q>", ":q<cr>" )
 lvim.keys.normal_mode["<C-q>"] = ":q<cr>"
 vim.opt.relativenumber = true
 
@@ -37,6 +41,7 @@ vim.opt.shiftwidth = 4 -- the number of spaces inserted for each indentation
 vim.opt.tabstop = 4 -- insert 2 spaces for a tab
 vim.opt.foldmethod = "expr" -- folding set to "expr" for treesitter based folding
 vim.opt.foldexpr = "nvim_treesitter#foldexpr()" -- set to "nvim_treesitter#foldexpr()" for treesitter based folding
+vim.opt.foldlevel = 99
 
 -- Change Telescope navigation to use j and k for navigation and n and p for history in both input and normal mode.
 -- we use protected-mode (pcall) just in case the plugin wasn't loaded yet.
@@ -65,7 +70,7 @@ vim.opt.foldexpr = "nvim_treesitter#foldexpr()" -- set to "nvim_treesitter#folde
 --   d = { "<cmd>Trouble document_diagnostics<cr>", "Diagnostics" },
 --   q = { "<cmd>Trouble quickfix<cr>", "QuickFix" },
 --   l = { "<cmd>Trouble loclist<cr>", "LocationList" },
---   w = { "<cmd>Trouble workspace_diagnostics<cr>", "Wordspace Diagnostics" },
+--   w = { "<cmd>Trouble workspace_diagnostics<cr>", "Workspace Diagnostics" },
 -- }
 
 
@@ -90,8 +95,22 @@ lvim.builtin.treesitter.highlight.enabled = true
 
 -- generic LSP settings
 
+-- -- make sure server will always be installed even if the server is in skipped_servers list
+-- lvim.lsp.installer.setup.ensure_installed = {
+--     "sumeko_lua",
+--     "jsonls",
+-- }
+-- -- change UI setting of `LspInstallInfo`
+-- -- see <https://github.com/williamboman/nvim-lsp-installer#default-configuration>
+-- lvim.lsp.installer.setup.ui.check_outdated_servers_on_open = false
+-- lvim.lsp.installer.setup.ui.border = "rounded"
+-- lvim.lsp.installer.setup.ui.keymaps = {
+--     uninstall_server = "d",
+--     toggle_server_expand = "o",
+-- }
+
 -- ---@usage disable automatic installation of servers
--- lvim.lsp.automatic_servers_installation = false
+-- lvim.lsp.installer.setup.automatic_installation = false
 
 -- ---configure a server manually. !!Requires `:LvimCacheReset` to take effect!!
 -- ---see the full default list `:lua print(vim.inspect(lvim.lsp.automatic_configuration.skipped_servers))`
@@ -128,7 +147,7 @@ local opts = {
 require("lvim.lsp.manager").setup("clangd", opts)
 
 -- ---remove a server from the skipped list, e.g. eslint, or emmet_ls. !!Requires `:LvimCacheReset` to take effect!!
--- ---`:LvimInfo` lists which server(s) are skiipped for the current filetype
+-- ---`:LvimInfo` lists which server(s) are skipped for the current filetype
 -- vim.tbl_map(function(server)
 --   return server ~= "emmet_ls"
 -- end, lvim.lsp.automatic_configuration.skipped_servers)
@@ -199,51 +218,15 @@ lvim.plugins = {
 }
 
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
--- lvim.autocommands.custom_groups = {
---     --   { "BufWinEnter", "*.lua", "setlocal ts=8 sw=8" },
---     { "InsertEnter", "*", "silent !fcitx-remote -o" },
---     { "InsertLeave", "*", "silent !fcitx-remote -o" },
---     { "BufCreate", "*", "silent !fcitx-remote -o" },
---     { "BufEnter", "*", "silent !fcitx-remote -o" },
---     { "BufLeave", "*", "silent !fcitx-remote -o" }
--- }
-vim.api.nvim_create_autocmd(
-    "InsertEnter",
-    { -- this is passed directly as opts to `nvim_create_autocmd()`
-        pattern = { "*" },
-        -- enable wrap mode for json files only
-        command = "silent !fcitx-remote -o",
-    }
-)
-vim.api.nvim_create_autocmd(
-    "BufEnter",
-    { -- this is passed directly as opts to `nvim_create_autocmd()`
-        pattern = { "*" },
-        -- enable wrap mode for json files only
-        command = "silent !fcitx-remote -c",
-    }
-)
-vim.api.nvim_create_autocmd(
-    "BufLeave",
-    { -- this is passed directly as opts to `nvim_create_autocmd()`
-        pattern = { "*" },
-        -- enable wrap mode for json files only
-        command = "silent !fcitx-remote -c",
-    }
-)
-vim.api.nvim_create_autocmd(
-    "BufCreate",
-    { -- this is passed directly as opts to `nvim_create_autocmd()`
-        pattern = { "*" },
-        -- enable wrap mode for json files only
-        command = "silent !fcitx-remote -c",
-    }
-)
-vim.api.nvim_create_autocmd(
-    "InsertLeave",
-    { -- this is passed directly as opts to `nvim_create_autocmd()`
-        pattern = { "*" },
-        -- enable wrap mode for json files only
-        command = "silent !fcitx-remote -c",
-    }
-)
+-- vim.api.nvim_create_autocmd("BufEnter", {
+--   pattern = { "*.json", "*.jsonc" },
+--   -- enable wrap mode for json files only
+--   command = "setlocal wrap",
+-- })
+-- vim.api.nvim_create_autocmd("FileType", {
+--   pattern = "zsh",
+--   callback = function()
+--     -- let treesitter use bash highlight for zsh files as well
+--     require("nvim-treesitter.highlight").attach(0, "bash")
+--   end,
+-- })
