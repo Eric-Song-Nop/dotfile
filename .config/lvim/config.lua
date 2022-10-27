@@ -20,7 +20,11 @@ lvim.builtin.nvimtree.setup.view.side = "left"
 -- general
 lvim.log.level = "warn"
 lvim.format_on_save = true
-lvim.colorscheme = "onedarker"
+-- lvim.colorscheme = "onedarker"
+-- lvim.colorscheme = "tokyonight-moon"
+lvim.colorscheme = "pink-panic"
+-- lvim.colorscheme = "doom-one"
+vim.opt.background = "light"
 -- to disable icons and use a minimalist setup, uncomment the following
 -- lvim.use_icons = false
 
@@ -42,6 +46,9 @@ vim.opt.tabstop = 4 -- insert 2 spaces for a tab
 vim.opt.foldmethod = "expr" -- folding set to "expr" for treesitter based folding
 vim.opt.foldexpr = "nvim_treesitter#foldexpr()" -- set to "nvim_treesitter#foldexpr()" for treesitter based folding
 vim.opt.foldlevel = 99
+
+vim.opt.guifont = { "CaskaydiaCove Nerd Font Mono", ":h12" }
+vim.api.nvim_set_var("neovide_transparency", 0.95)
 
 -- Change Telescope navigation to use j and k for navigation and n and p for history in both input and normal mode.
 -- we use protected-mode (pcall) just in case the plugin wasn't loaded yet.
@@ -163,20 +170,20 @@ require("lvim.lsp.manager").setup("clangd", opts)
 -- end
 
 -- -- set a formatter, this will override the language server formatting capabilities (if it exists)
--- local formatters = require "lvim.lsp.null-ls.formatters"
--- formatters.setup {
---   { command = "black", filetypes = { "python" } },
---   { command = "isort", filetypes = { "python" } },
---   {
---     -- each formatter accepts a list of options identical to https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md#Configuration
---     command = "prettier",
---     ---@usage arguments to pass to the formatter
---     -- these cannot contain whitespaces, options such as `--line-width 80` become either `{'--line-width', '80'}` or `{'--line-width=80'}`
---     extra_args = { "--print-with", "100" },
---     ---@usage specify which filetypes to enable. By default a providers will attach to all the filetypes it supports.
---     filetypes = { "typescript", "typescriptreact" },
---   },
--- }
+local formatters = require "lvim.lsp.null-ls.formatters"
+formatters.setup {
+    { command = "black", filetypes = { "python" } },
+    { command = "isort", filetypes = { "python" } },
+    --   {
+    --     -- each formatter accepts a list of options identical to https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md#Configuration
+    --     command = "prettier",
+    --     ---@usage arguments to pass to the formatter
+    --     -- these cannot contain whitespaces, options such as `--line-width 80` become either `{'--line-width', '80'}` or `{'--line-width=80'}`
+    --     extra_args = { "--print-with", "100" },
+    --     ---@usage specify which filetypes to enable. By default a providers will attach to all the filetypes it supports.
+    --     filetypes = { "typescript", "typescriptreact" },
+    --   },
+}
 
 -- -- set additional linters
 -- local linters = require "lvim.lsp.null-ls.linters"
@@ -215,8 +222,60 @@ lvim.plugins = {
         requires = "hrsh7th/nvim-cmp",
         event = "InsertEnter",
     },
-}
+    {
+        "scalameta/nvim-metals",
+        ft = { 'scala' },
+        config = function()
+            require("user.metals").config()
+        end,
+    },
+    {
+        'NTBBloodbath/doom-one.nvim',
+        setup = function()
+            -- Add color to cursor
+            vim.g.doom_one_cursor_coloring = false
+            -- Set :terminal colors
+            vim.g.doom_one_terminal_colors = true
+            -- Enable italic comments
+            vim.g.doom_one_italic_comments = false
+            -- Enable TS support
+            vim.g.doom_one_enable_treesitter = true
+            -- Color whole diagnostic text or only underline
+            vim.g.doom_one_diagnostics_text_color = false
+            -- Enable transparent background
+            vim.g.doom_one_transparent_background = false
 
+            -- Pumblend transparency
+            vim.g.doom_one_pumblend_enable = false
+            vim.g.doom_one_pumblend_transparency = 20
+
+            -- Plugins integration
+            vim.g.doom_one_plugin_neorg = true
+            vim.g.doom_one_plugin_barbar = false
+            vim.g.doom_one_plugin_telescope = false
+            vim.g.doom_one_plugin_neogit = true
+            vim.g.doom_one_plugin_nvim_tree = true
+            vim.g.doom_one_plugin_dashboard = true
+            vim.g.doom_one_plugin_startify = true
+            vim.g.doom_one_plugin_whichkey = true
+            vim.g.doom_one_plugin_indent_blankline = true
+            vim.g.doom_one_plugin_vim_illuminate = true
+            vim.g.doom_one_plugin_lspsaga = false
+        end,
+        config = function()
+        end
+    },
+    {
+        "rktjmp/lush.nvim"
+    },
+    {
+        "Scysta/pink-panic.nvim"
+    },
+}
+vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
+    pattern = { "*.scala", "*.sbt", "*.sc" },
+    callback = function() require('user.metals').config() end,
+})
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
 -- vim.api.nvim_create_autocmd("BufEnter", {
 --   pattern = { "*.json", "*.jsonc" },
