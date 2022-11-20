@@ -1,3 +1,7 @@
+* My other configs
+** Automatic screenshot insertion
+This is already supported by: org-screenshot-take
+#+BEGIN_SRC emacs-lisp
 ;; (defun my-org-screenshot ()
 ;;   "Take a screenshot into a time stamped unique-named file in the
 ;; same directory as the org-buffer and insert a link to this file."
@@ -11,3 +15,4 @@
 ;;   (call-process "import" nil nil nil filename)
 ;;   (insert (concat "[[" filename "]]"))
 ;;   (org-display-inline-images))
+#+END_SRC
