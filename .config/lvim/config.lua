@@ -2,7 +2,6 @@
  THESE ARE EXAMPLE CONFIGS FEEL FREE TO CHANGE TO WHATEVER YOU WANT
  `lvim` is the global options object
 ]]
-
 -- vim options
 vim.opt.shiftwidth = 4
 vim.opt.tabstop = 4
@@ -221,6 +220,38 @@ lvim.plugins = {
     },
     {
         "purescript-contrib/purescript-vim",
+    },
+    { 'quarto-dev/quarto-nvim',
+        dependencies = {
+            'jmbuhr/otter.nvim',
+            'neovim/nvim-lspconfig'
+        },
+        config = function()
+            require 'quarto'.setup {
+                lspFeatures = {
+                    enabled = true,
+                    languages = { 'r', 'python', 'julia' },
+                    diagnostics = {
+                        enabled = true,
+                        triggers = { "BufWrite" }
+                    },
+                    completion = {
+                        enabled = true
+                    }
+                }
+            }
+        end
+    },
+    {
+        'gorbit99/codewindow.nvim',
+        config = function()
+            local codewindow = require('codewindow')
+            codewindow.setup({
+                auto_enable = true,
+                minimap_width = 13,
+            })
+            codewindow.apply_default_keybinds()
+        end,
     },
 }
 vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
