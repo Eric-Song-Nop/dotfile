@@ -34,11 +34,12 @@ lvim.keys.visual_mode["<leader>r"] = "*Ncgn"
 -- lvim.builtin.which_key.mappings["P"] = { "<cmd>Telescope projects<CR>", "Projects" }
 
 -- -- Change theme settings
-lvim.colorscheme = "lunar"
+-- lvim.colorscheme = "lunar"
+lvim.colorscheme = "gruvbox-material"
 -- lvim.colorscheme = "tokyonight-moon"
 -- lvim.colorscheme = "pink-panic"
 -- lvim.colorscheme = "doom-one"
-vim.opt.background = "light"
+vim.opt.background = "dark"
 -- to disable icons and use a minimalist setup, uncomment the following
 -- lvim.use_icons = false
 lvim.builtin.alpha.active = true
@@ -51,47 +52,21 @@ lvim.builtin.nvimtree.setup.renderer.icons.show.git = false
 -- Automatically install missing parsers when entering buffer
 lvim.builtin.treesitter.auto_install = true
 
-lvim.builtin.treesitter.ignore_install = { "haskell" }
+-- lvim.builtin.treesitter.ignore_install = { "haskell" }
+
+-- -- always installed on startup, useful for parsers without a strict filetype
+-- lvim.builtin.treesitter.ensure_installed = { "comment", "markdown_inline", "regex" }
 
 -- -- generic LSP settings <https://www.lunarvim.org/docs/languages#lsp-support>
 
 -- --- disable automatic installation of servers
--- lvim.lsp.installer.setup.automatic_installation = false
+lvim.lsp.installer.setup.automatic_installation = false
 
 -- ---configure a server manually. IMPORTANT: Requires `:LvimCacheReset` to take effect
 -- ---see the full default list `:lua =lvim.lsp.automatic_configuration.skipped_servers`
-vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "clangd" })
--- some settings can only passed as commandline flags `clangd --help`
-local clangd_flags = {
-    "--all-scopes-completion",
-    "--suggest-missing-includes",
-    "--background-index",
-    "--pch-storage=disk",
-    "--cross-file-rename",
-    "--log=info",
-    "--completion-style=detailed",
-    "--enable-config", -- clangd 11+ supports reading from .clangd configuration file
-    -- "--clang-tidy",
-    "--clang-tidy-checks=-*,llvm-*,clang-analyzer-*,modernize-*,-modernize-use-trailing-return-type",
-    "--fallback-style=Microsoft",
-    -- "--header-insertion=never",
-    -- "--query-driver=<list-of-white-listed-complers>"
-}
-
-local clangd_bin = "clangd"
-
-local custom_on_attach = function(client, bufnr)
-    require("lvim.lsp").common_on_attach(client, bufnr)
-    local opts = { noremap = true, silent = true }
-    vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>lh", "<Cmd>ClangdSwitchSourceHeader<CR>", opts)
-end
-
-local opts = {
-    cmd = { clangd_bin, unpack(clangd_flags) },
-    on_attach = custom_on_attach,
-}
-require("lvim.lsp.manager").setup("clangd", opts)
-
+-- vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "pyright" })
+-- local opts = {} -- check the lspconfig documentation for a list of all possible options
+-- require("lvim.lsp.manager").setup("pyright", opts)
 -- ---remove a server from the skipped list, e.g. eslint, or emmet_ls. IMPORTANT: Requires `:LvimCacheReset` to take effect
 -- ---`:LvimInfo` lists which server(s) are skipped for the current filetype
 -- lvim.lsp.automatic_configuration.skipped_servers = vim.tbl_filter(function(server)
@@ -177,6 +152,37 @@ lvim.plugins = {
         end,
     },
     {
+        "folke/noice.nvim",
+        config = function()
+            require("noice").setup({
+                lsp = {
+                    -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
+                    override = {
+                        ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+                        ["vim.lsp.util.stylize_markdown"] = true,
+                        ["cmp.entry.get_documentation"] = true,
+                    },
+                },
+                -- you can enable a preset for easier configuration
+                presets = {
+                    bottom_search = true, -- use a classic bottom cmdline for search
+                    command_palette = true, -- position the cmdline and popupmenu together
+                    long_message_to_split = true, -- long messages will be sent to a split
+                    inc_rename = false, -- enables an input dialog for inc-rename.nvim
+                    lsp_doc_border = false, -- add a border to hover docs and signature help
+                },
+                -- add any options here
+            })
+        end,
+        dependencies = {
+            "MunifTanjim/nui.nvim",
+            -- OPTIONAL:
+            --   `nvim-notify` is only needed, if you want to use the notification view.
+            --   If not available, we use `mini` as the fallback
+            "rcarriga/nvim-notify",
+        },
+    },
+    {
         'NTBBloodbath/doom-one.nvim',
         init = function()
             -- Add color to cursor
@@ -219,6 +225,9 @@ lvim.plugins = {
         "Scysta/pink-panic.nvim"
     },
     {
+        "sainnhe/gruvbox-material"
+    },
+    {
         "purescript-contrib/purescript-vim",
     },
     { 'quarto-dev/quarto-nvim',
@@ -247,7 +256,7 @@ lvim.plugins = {
         config = function()
             local codewindow = require('codewindow')
             codewindow.setup({
-                auto_enable = true,
+                -- auto_enable = true,
                 minimap_width = 13,
             })
             codewindow.apply_default_keybinds()
