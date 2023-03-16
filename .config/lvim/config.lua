@@ -3,10 +3,11 @@
  `lvim` is the global options object
 ]]
 -- vim options
+vim.opt.exrc = true
 vim.opt.shiftwidth = 4
 vim.opt.tabstop = 4
 vim.opt.relativenumber = true
-vim.opt.foldmethod = "expr" -- folding set to "expr" for treesitter based folding
+vim.opt.foldmethod = "expr"                     -- folding set to "expr" for treesitter based folding
 vim.opt.foldexpr = "nvim_treesitter#foldexpr()" -- set to "nvim_treesitter#foldexpr()" for treesitter based folding
 vim.opt.foldlevel = 99
 -- general
@@ -39,7 +40,7 @@ lvim.colorscheme = "gruvbox-material"
 -- lvim.colorscheme = "tokyonight-moon"
 -- lvim.colorscheme = "pink-panic"
 -- lvim.colorscheme = "doom-one"
-vim.opt.background = "dark"
+vim.opt.background = "light"
 -- to disable icons and use a minimalist setup, uncomment the following
 -- lvim.use_icons = false
 lvim.builtin.alpha.active = true
@@ -64,9 +65,9 @@ lvim.lsp.installer.setup.automatic_installation = false
 
 -- ---configure a server manually. IMPORTANT: Requires `:LvimCacheReset` to take effect
 -- ---see the full default list `:lua =lvim.lsp.automatic_configuration.skipped_servers`
--- vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "pyright" })
--- local opts = {} -- check the lspconfig documentation for a list of all possible options
--- require("lvim.lsp.manager").setup("pyright", opts)
+vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "csharp_ls" })
+local opts = {} -- check the lspconfig documentation for a list of all possible options
+require("lvim.lsp.manager").setup("csharp_ls", opts)
 -- ---remove a server from the skipped list, e.g. eslint, or emmet_ls. IMPORTANT: Requires `:LvimCacheReset` to take effect
 -- ---`:LvimInfo` lists which server(s) are skipped for the current filetype
 -- lvim.lsp.automatic_configuration.skipped_servers = vim.tbl_filter(function(server)
@@ -86,6 +87,10 @@ lvim.lsp.installer.setup.automatic_installation = false
 -- -- linters and formatters <https://www.lunarvim.org/docs/languages#lintingformatting>
 local formatters = require "lvim.lsp.null-ls.formatters"
 formatters.setup {
+    {
+        command = "markdownlint",
+        filetypes = { "markdown" }
+    },
     { command = "black", filetypes = { "python" } },
     { command = "isort", filetypes = { "python" } },
     --   { command = "stylua" },
@@ -95,18 +100,23 @@ formatters.setup {
     --     filetypes = { "typescript", "typescriptreact" },
     --   },
 }
--- local linters = require "lvim.lsp.null-ls.linters"
--- linters.setup {
---   { command = "flake8", filetypes = { "python" } },
---   {
---     command = "shellcheck",
---     args = { "--severity", "warning" },
---   },
--- }
+local linters = require "lvim.lsp.null-ls.linters"
+linters.setup {
+    {
+        command = "markdownlint",
+        filetypes = { "markdown" }
+    },
+    { command = "flake8", filetypes = { "python" } },
+    {
+        command = "shellcheck",
+        args = { "--severity", "warning" },
+    },
+}
 
 -- -- Additional Plugins <https://www.lunarvim.org/docs/plugins#user-plugins>
 lvim.plugins = {
     {
+        -- Use :number to pick and peek lines
         "nacro90/numb.nvim",
         config = function()
             require("numb").setup({
@@ -114,6 +124,9 @@ lvim.plugins = {
         end
     },
     {
+        -- Change surround: cs'"
+        -- Surround word: ysiw)
+        -- Delete surround: ds]
         "kylechui/nvim-surround",
         version = "*", -- Use for stability; omit to use `main` branch for the latest features
         config = function()
@@ -157,19 +170,25 @@ lvim.plugins = {
             require("noice").setup({
                 lsp = {
                     -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
+                    hover = {
+                        enabled = false,
+                    },
+                    signature = {
+                        enabled = false,
+                    },
                     override = {
-                        ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
-                        ["vim.lsp.util.stylize_markdown"] = true,
-                        ["cmp.entry.get_documentation"] = true,
+                            ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+                            ["vim.lsp.util.stylize_markdown"] = true,
+                            ["cmp.entry.get_documentation"] = true,
                     },
                 },
                 -- you can enable a preset for easier configuration
                 presets = {
-                    bottom_search = true, -- use a classic bottom cmdline for search
-                    command_palette = true, -- position the cmdline and popupmenu together
+                    bottom_search = true,         -- use a classic bottom cmdline for search
+                    command_palette = true,       -- position the cmdline and popupmenu together
                     long_message_to_split = true, -- long messages will be sent to a split
-                    inc_rename = false, -- enables an input dialog for inc-rename.nvim
-                    lsp_doc_border = false, -- add a border to hover docs and signature help
+                    inc_rename = false,           -- enables an input dialog for inc-rename.nvim
+                    lsp_doc_border = false,       -- add a border to hover docs and signature help
                 },
                 -- add any options here
             })
@@ -230,7 +249,8 @@ lvim.plugins = {
     {
         "purescript-contrib/purescript-vim",
     },
-    { 'quarto-dev/quarto-nvim',
+    {
+        'quarto-dev/quarto-nvim',
         dependencies = {
             'jmbuhr/otter.nvim',
             'neovim/nvim-lspconfig'
@@ -252,6 +272,7 @@ lvim.plugins = {
         end
     },
     {
+        -- <leader>mm
         'gorbit99/codewindow.nvim',
         config = function()
             local codewindow = require('codewindow')
