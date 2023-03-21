@@ -7,7 +7,7 @@ vim.opt.exrc = true
 vim.opt.shiftwidth = 4
 vim.opt.tabstop = 4
 vim.opt.relativenumber = true
-vim.opt.foldmethod = "expr"                     -- folding set to "expr" for treesitter based folding
+vim.opt.foldmethod = "expr" -- folding set to "expr" for treesitter based folding
 vim.opt.foldexpr = "nvim_treesitter#foldexpr()" -- set to "nvim_treesitter#foldexpr()" for treesitter based folding
 vim.opt.foldlevel = 99
 -- general
@@ -40,7 +40,7 @@ lvim.colorscheme = "gruvbox-material"
 -- lvim.colorscheme = "tokyonight-moon"
 -- lvim.colorscheme = "pink-panic"
 -- lvim.colorscheme = "doom-one"
-vim.opt.background = "light"
+vim.opt.background = "dark"
 -- to disable icons and use a minimalist setup, uncomment the following
 -- lvim.use_icons = false
 lvim.builtin.alpha.active = true
@@ -177,18 +177,18 @@ lvim.plugins = {
                         enabled = false,
                     },
                     override = {
-                            ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
-                            ["vim.lsp.util.stylize_markdown"] = true,
-                            ["cmp.entry.get_documentation"] = true,
+                        ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+                        ["vim.lsp.util.stylize_markdown"] = true,
+                        ["cmp.entry.get_documentation"] = true,
                     },
                 },
                 -- you can enable a preset for easier configuration
                 presets = {
-                    bottom_search = true,         -- use a classic bottom cmdline for search
-                    command_palette = true,       -- position the cmdline and popupmenu together
+                    bottom_search = true, -- use a classic bottom cmdline for search
+                    command_palette = true, -- position the cmdline and popupmenu together
                     long_message_to_split = true, -- long messages will be sent to a split
-                    inc_rename = false,           -- enables an input dialog for inc-rename.nvim
-                    lsp_doc_border = false,       -- add a border to hover docs and signature help
+                    inc_rename = false, -- enables an input dialog for inc-rename.nvim
+                    lsp_doc_border = false, -- add a border to hover docs and signature help
                 },
                 -- add any options here
             })
@@ -283,6 +283,11 @@ lvim.plugins = {
             codewindow.apply_default_keybinds()
         end,
     },
+    {
+        'sindrets/diffview.nvim',
+        dependencies = 'nvim-lua/plenary.nvim',
+        cmd = 'DiffviewOpen'
+    }
 }
 vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
     pattern = { "*.scala", "*.sbt", "*.sc" },
