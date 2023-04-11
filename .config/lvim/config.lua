@@ -40,7 +40,7 @@ lvim.colorscheme = "gruvbox-material"
 -- lvim.colorscheme = "tokyonight-moon"
 -- lvim.colorscheme = "pink-panic"
 -- lvim.colorscheme = "doom-one"
-vim.opt.background = "dark"
+vim.opt.background = "light"
 -- to disable icons and use a minimalist setup, uncomment the following
 -- lvim.use_icons = false
 lvim.builtin.alpha.active = true
@@ -65,14 +65,30 @@ lvim.lsp.installer.setup.automatic_installation = false
 
 -- ---configure a server manually. IMPORTANT: Requires `:LvimCacheReset` to take effect
 -- ---see the full default list `:lua =lvim.lsp.automatic_configuration.skipped_servers`
-vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "csharp_ls" })
+vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "csharp_ls", "typst_lsp" })
 local opts = {} -- check the lspconfig documentation for a list of all possible options
 require("lvim.lsp.manager").setup("csharp_ls", opts)
+require("lvim.lsp.manager").setup("typst_lsp", opts)
 -- ---remove a server from the skipped list, e.g. eslint, or emmet_ls. IMPORTANT: Requires `:LvimCacheReset` to take effect
 -- ---`:LvimInfo` lists which server(s) are skipped for the current filetype
--- lvim.lsp.automatic_configuration.skipped_servers = vim.tbl_filter(function(server)
---   return server ~= "emmet_ls"
--- end, lvim.lsp.automatic_configuration.skipped_servers)
+lvim.lsp.automatic_configuration.skipped_servers = vim.tbl_filter(function(server)
+    return server ~= "clangd"
+end, lvim.lsp.automatic_configuration.skipped_servers)
+
+if io.open("/home/yifan/Documents/Sources/typst-related/tree-sitter-typst/src/parser.c") ~= nil then
+    local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
+    parser_config.typst = {
+        install_info = {
+            url = "/home/yifan/Documents/Sources/typst-related/tree-sitter-typst/", -- local path or git repo
+            files = { "src/parser.c" }, -- note that some parsers also require src/scanner.c or src/scanner.cc
+            -- optional entries:
+            branch = "main", -- default branch in case of git repo if different from master
+            generate_requires_npm = true, -- if stand-alone parser without npm dependencies
+            requires_generate_from_grammar = false, -- if folder contains pre-generated src/parser.c
+        },
+        filetype = "typst", -- if filetype does not match the parser name
+    }
+end
 
 -- -- you can set a custom on_attach function that will be used for all the language servers
 -- -- See <https://github.com/neovim/nvim-lspconfig#keybindings-and-completion>
@@ -292,6 +308,10 @@ lvim.plugins = {
 vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
     pattern = { "*.scala", "*.sbt", "*.sc" },
     callback = function() require('user.metals').config() end,
+})
+vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
+    pattern = { "*.typ", },
+    command = "set ft=typst"
 })
 -- -- Autocommands (`:help autocmd`) <https://neovim.io/doc/user/autocmd.html>
 -- vim.api.nvim_create_autocmd("FileType", {
