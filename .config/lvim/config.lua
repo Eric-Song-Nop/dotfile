@@ -7,7 +7,7 @@ vim.opt.exrc = true
 vim.opt.shiftwidth = 4
 vim.opt.tabstop = 4
 vim.opt.relativenumber = true
-vim.opt.foldmethod = "expr" -- folding set to "expr" for treesitter based folding
+vim.opt.foldmethod = "expr"                     -- folding set to "expr" for treesitter based folding
 vim.opt.foldexpr = "nvim_treesitter#foldexpr()" -- set to "nvim_treesitter#foldexpr()" for treesitter based folding
 vim.opt.foldlevel = 99
 -- general
@@ -27,19 +27,16 @@ lvim.keys.normal_mode["<C-q>"] = ":q<cr>"
 lvim.keys.normal_mode["<leader>r"] = "*Ncgn"
 lvim.keys.visual_mode["<leader>r"] = "*Ncgn"
 
--- lvim.keys.normal_mode["<S-l>"] = ":BufferLineCycleNext<CR>"
--- lvim.keys.normal_mode["<S-h>"] = ":BufferLineCyclePrev<CR>"
+lvim.keys.normal_mode["<S-l>"] = ":BufferLineCycleNext<CR>"
+lvim.keys.normal_mode["<S-h>"] = ":BufferLineCyclePrev<CR>"
 
 -- -- Use which-key to add extra bindings with the leader-key prefix
--- lvim.builtin.which_key.mappings["W"] = { "<cmd>noautocmd w<cr>", "Save without formatting" }
--- lvim.builtin.which_key.mappings["P"] = { "<cmd>Telescope projects<CR>", "Projects" }
+lvim.builtin.which_key.mappings["W"] = { "<cmd>noautocmd w<cr>", "Save without formatting" }
+lvim.builtin.which_key.mappings["P"] = { "<cmd>Telescope projects<CR>", "Projects" }
 
 -- -- Change theme settings
--- lvim.colorscheme = "lunar"
-lvim.colorscheme = "gruvbox-material"
--- lvim.colorscheme = "tokyonight-moon"
--- lvim.colorscheme = "pink-panic"
--- lvim.colorscheme = "doom-one"
+local colorschemes = { "lunar", "gruvbox-material", "tokyonight-moon", "pink-panic", "doom-one" }
+lvim.colorscheme = colorschemes[5]
 vim.opt.background = "light"
 -- to disable icons and use a minimalist setup, uncomment the following
 -- lvim.use_icons = false
@@ -49,6 +46,7 @@ lvim.builtin.alpha.mode = "dashboard"
 lvim.builtin.terminal.active = true
 lvim.builtin.nvimtree.setup.view.side = "left"
 lvim.builtin.nvimtree.setup.renderer.icons.show.git = false
+lvim.builtin.dap.active = true
 
 -- Automatically install missing parsers when entering buffer
 lvim.builtin.treesitter.auto_install = true
@@ -71,22 +69,22 @@ require("lvim.lsp.manager").setup("csharp_ls", opts)
 require("lvim.lsp.manager").setup("typst_lsp", opts)
 -- ---remove a server from the skipped list, e.g. eslint, or emmet_ls. IMPORTANT: Requires `:LvimCacheReset` to take effect
 -- ---`:LvimInfo` lists which server(s) are skipped for the current filetype
-lvim.lsp.automatic_configuration.skipped_servers = vim.tbl_filter(function(server)
-    return server ~= "clangd"
-end, lvim.lsp.automatic_configuration.skipped_servers)
+-- lvim.lsp.automatic_configuration.skipped_servers = vim.tbl_filter(function(server)
+--     return server ~= "clangd"
+-- end, lvim.lsp.automatic_configuration.skipped_servers)
 
 if io.open("/home/yifan/Documents/Sources/typst-related/tree-sitter-typst/src/parser.c") ~= nil then
     local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
     parser_config.typst = {
         install_info = {
             url = "/home/yifan/Documents/Sources/typst-related/tree-sitter-typst/", -- local path or git repo
-            files = { "src/parser.c" }, -- note that some parsers also require src/scanner.c or src/scanner.cc
+            files = { "src/parser.c" },                                             -- note that some parsers also require src/scanner.c or src/scanner.cc
             -- optional entries:
-            branch = "main", -- default branch in case of git repo if different from master
-            generate_requires_npm = true, -- if stand-alone parser without npm dependencies
-            requires_generate_from_grammar = false, -- if folder contains pre-generated src/parser.c
+            branch = "main",                                                        -- default branch in case of git repo if different from master
+            generate_requires_npm = true,                                           -- if stand-alone parser without npm dependencies
+            requires_generate_from_grammar = false,                                 -- if folder contains pre-generated src/parser.c
         },
-        filetype = "typst", -- if filetype does not match the parser name
+        filetype = "typst",                                                         -- if filetype does not match the parser name
     }
 end
 
@@ -101,8 +99,12 @@ end
 -- end
 
 -- -- linters and formatters <https://www.lunarvim.org/docs/languages#lintingformatting>
+local null_ls = require("null-ls")
 local formatters = require "lvim.lsp.null-ls.formatters"
 formatters.setup {
+    -- null_ls.builtins.formatting.clang_format.with({
+    --     extra_args = { "-style={BasedOnStyle: Microsoft,SortIncludes: Never}" }
+    -- }),
     {
         command = "markdownlint",
         filetypes = { "markdown" }
@@ -116,6 +118,8 @@ formatters.setup {
     --     filetypes = { "typescript", "typescriptreact" },
     --   },
 }
+
+
 local linters = require "lvim.lsp.null-ls.linters"
 linters.setup {
     {
@@ -180,43 +184,43 @@ lvim.plugins = {
             require("user.metals").config()
         end,
     },
-    {
-        "folke/noice.nvim",
-        config = function()
-            require("noice").setup({
-                lsp = {
-                    -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
-                    hover = {
-                        enabled = false,
-                    },
-                    signature = {
-                        enabled = false,
-                    },
-                    override = {
-                        ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
-                        ["vim.lsp.util.stylize_markdown"] = true,
-                        ["cmp.entry.get_documentation"] = true,
-                    },
-                },
-                -- you can enable a preset for easier configuration
-                presets = {
-                    bottom_search = true, -- use a classic bottom cmdline for search
-                    command_palette = true, -- position the cmdline and popupmenu together
-                    long_message_to_split = true, -- long messages will be sent to a split
-                    inc_rename = false, -- enables an input dialog for inc-rename.nvim
-                    lsp_doc_border = false, -- add a border to hover docs and signature help
-                },
-                -- add any options here
-            })
-        end,
-        dependencies = {
-            "MunifTanjim/nui.nvim",
-            -- OPTIONAL:
-            --   `nvim-notify` is only needed, if you want to use the notification view.
-            --   If not available, we use `mini` as the fallback
-            "rcarriga/nvim-notify",
-        },
-    },
+    -- {
+    --     "folke/noice.nvim",
+    --     config = function()
+    --         require("noice").setup({
+    --             lsp = {
+    --                 -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
+    --                 hover = {
+    --                     enabled = false,
+    --                 },
+    --                 signature = {
+    --                     enabled = false,
+    --                 },
+    --                 override = {
+    --                     ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+    --                     ["vim.lsp.util.stylize_markdown"] = true,
+    --                     ["cmp.entry.get_documentation"] = true,
+    --                 },
+    --             },
+    --             -- you can enable a preset for easier configuration
+    --             presets = {
+    --                 bottom_search = true, -- use a classic bottom cmdline for search
+    --                 command_palette = true, -- position the cmdline and popupmenu together
+    --                 long_message_to_split = true, -- long messages will be sent to a split
+    --                 inc_rename = false, -- enables an input dialog for inc-rename.nvim
+    --                 lsp_doc_border = false, -- add a border to hover docs and signature help
+    --             },
+    --             -- add any options here
+    --         })
+    --     end,
+    --     dependencies = {
+    --         "MunifTanjim/nui.nvim",
+    --         -- OPTIONAL:
+    --         --   `nvim-notify` is only needed, if you want to use the notification view.
+    --         --   If not available, we use `mini` as the fallback
+    --         "rcarriga/nvim-notify",
+    --     },
+    -- },
     {
         'NTBBloodbath/doom-one.nvim',
         init = function()
@@ -266,28 +270,6 @@ lvim.plugins = {
         "purescript-contrib/purescript-vim",
     },
     {
-        'quarto-dev/quarto-nvim',
-        dependencies = {
-            'jmbuhr/otter.nvim',
-            'neovim/nvim-lspconfig'
-        },
-        config = function()
-            require 'quarto'.setup {
-                lspFeatures = {
-                    enabled = true,
-                    languages = { 'r', 'python', 'julia' },
-                    diagnostics = {
-                        enabled = true,
-                        triggers = { "BufWrite" }
-                    },
-                    completion = {
-                        enabled = true
-                    }
-                }
-            }
-        end
-    },
-    {
         -- <leader>mm
         'gorbit99/codewindow.nvim',
         config = function()
@@ -303,16 +285,66 @@ lvim.plugins = {
         'sindrets/diffview.nvim',
         dependencies = 'nvim-lua/plenary.nvim',
         cmd = 'DiffviewOpen'
+    },
+    {
+        'ggandor/flit.nvim',
+        dependencies =
+        {
+            'ggandor/leap.nvim',
+            'tpope/vim-repeat',
+        },
+        config = function()
+            require('flit').setup {
+                keys = { f = 'f', F = 'F', t = 't', T = 'T' },
+                -- A string like "nv", "nvo", "o", etc.
+                labeled_modes = "nvo",
+                multiline = true,
+                -- Like `leap`s similar argument (call-specific overrides).
+                -- E.g.: opts = { equivalence_classes = {} }
+                opts = {}
+            }
+        end
+    },
+    {
+        'danymat/neogen',
+        dependencies = {
+            "nvim-treesitter/nvim-treesitter"
+        },
+        config = function()
+            require('neogen').setup({
+                snippet_engine = "luasnip",
+                languages = {
+                    ['cpp.doxygen'] = require('neogen.configurations.cpp')
+                }
+            })
+        end
     }
 }
-vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
-    pattern = { "*.scala", "*.sbt", "*.sc" },
-    callback = function() require('user.metals').config() end,
-})
+
+require("dap").configurations.scala = {
+    {
+        type = "scala",
+        request = "launch",
+        name = "Run or Test Target",
+        metals = {
+            runType = "runOrTestFile",
+        },
+    },
+    {
+        type = "scala",
+        request = "launch",
+        name = "Test Target",
+        metals = {
+            runType = "testTarget",
+        },
+    },
+}
+
 vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
     pattern = { "*.typ", },
     command = "set ft=typst"
 })
+
 -- -- Autocommands (`:help autocmd`) <https://neovim.io/doc/user/autocmd.html>
 -- vim.api.nvim_create_autocmd("FileType", {
 --   pattern = "zsh",

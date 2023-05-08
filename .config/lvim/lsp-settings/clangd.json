@@ -1,0 +1,5 @@
+{
+    "clangd.arguments": [
+        "--fallback-style=microsoft"
+    ]
+}
