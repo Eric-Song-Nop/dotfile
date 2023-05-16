@@ -2,7 +2,6 @@
  THESE ARE EXAMPLE CONFIGS FEEL FREE TO CHANGE TO WHATEVER YOU WANT
  `lvim` is the global options object
 ]]
--- vim options
 vim.opt.exrc = true
 vim.opt.shiftwidth = 4
 vim.opt.tabstop = 4
@@ -24,6 +23,9 @@ lvim.leader = "space"
 -- add your own keymapping
 lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
 lvim.keys.normal_mode["<C-q>"] = ":q<cr>"
+
+
+-- Cool binding to change selected text
 lvim.keys.normal_mode["<leader>r"] = "*Ncgn"
 lvim.keys.visual_mode["<leader>r"] = "*Ncgn"
 
@@ -34,15 +36,17 @@ lvim.keys.normal_mode["<S-h>"] = ":BufferLineCyclePrev<CR>"
 lvim.builtin.which_key.mappings["W"] = { "<cmd>noautocmd w<cr>", "Save without formatting" }
 lvim.builtin.which_key.mappings["P"] = { "<cmd>Telescope projects<CR>", "Projects" }
 
+lvim.builtin.which_key.mappings["n"] = { "<cmd>Navbuddy<CR>", "Navbuddy" }
+
 -- -- Change theme settings
-local colorschemes = { "lunar", "gruvbox-material", "tokyonight-moon", "pink-panic", "doom-one" }
-lvim.colorscheme = colorschemes[5]
+local colorschemes = { "lunar", "gruvbox-material", "tokyonight-moon", "pink-panic", "doom-one", "catppuccin" }
+lvim.colorscheme = colorschemes[6]
 vim.opt.background = "light"
 -- to disable icons and use a minimalist setup, uncomment the following
 -- lvim.use_icons = false
 lvim.builtin.alpha.active = true
 lvim.builtin.alpha.mode = "dashboard"
--- lvim.builtin.notify.active = false
+-- lvim.builtin.notify.active = true
 lvim.builtin.terminal.active = true
 lvim.builtin.nvimtree.setup.view.side = "left"
 lvim.builtin.nvimtree.setup.renderer.icons.show.git = false
@@ -50,6 +54,8 @@ lvim.builtin.dap.active = true
 
 -- Automatically install missing parsers when entering buffer
 lvim.builtin.treesitter.auto_install = true
+
+lvim.builtin.lualine.style = "lvim"
 
 -- lvim.builtin.treesitter.ignore_install = { "haskell" }
 
@@ -73,19 +79,22 @@ require("lvim.lsp.manager").setup("typst_lsp", opts)
 --     return server ~= "clangd"
 -- end, lvim.lsp.automatic_configuration.skipped_servers)
 
-if io.open("/home/yifan/Documents/Sources/typst-related/tree-sitter-typst/src/parser.c") ~= nil then
-    local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
-    parser_config.typst = {
-        install_info = {
-            url = "/home/yifan/Documents/Sources/typst-related/tree-sitter-typst/", -- local path or git repo
-            files = { "src/parser.c" },                                             -- note that some parsers also require src/scanner.c or src/scanner.cc
-            -- optional entries:
-            branch = "main",                                                        -- default branch in case of git repo if different from master
-            generate_requires_npm = true,                                           -- if stand-alone parser without npm dependencies
-            requires_generate_from_grammar = false,                                 -- if folder contains pre-generated src/parser.c
-        },
-        filetype = "typst",                                                         -- if filetype does not match the parser name
-    }
+if (os.getenv("TYPST_PATH") ~= nil) then
+    local typst_path = os.getenv("TYPST_PATH")
+    if io.open(typst_path .. "/tree-sitter-typst/src/parser.c") ~= nil then
+        local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
+        parser_config.typst = {
+            install_info = {
+                url = typst_path .. "/tree-sitter-typst/", -- local path or git repo
+                files = { "src/parser.c" },                -- note that some parsers also require src/scanner.c or src/scanner.cc
+                -- optional entries:
+                branch = "main",                           -- default branch in case of git repo if different from master
+                generate_requires_npm = true,              -- if stand-alone parser without npm dependencies
+                requires_generate_from_grammar = false,    -- if folder contains pre-generated src/parser.c
+            },
+            filetype = "typst",                            -- if filetype does not match the parser name
+        }
+    end
 end
 
 -- -- you can set a custom on_attach function that will be used for all the language servers
@@ -156,6 +165,14 @@ lvim.plugins = {
     },
     {
         "andweeb/presence.nvim",
+        config = function()
+            require("presence").setup({
+                auto_update       = true,
+                neovim_image_text = "The One True Text Editor",
+                main_image        = "neovim",
+                buttons           = true,
+            })
+        end
     },
     {
         "folke/trouble.nvim",
@@ -167,9 +184,47 @@ lvim.plugins = {
     {
         "simrat39/symbols-outline.nvim",
         cmd = "SymbolsOutline",
+        keys = {
+            { "<leader>S", "<cmd>SymbolsOutline<cr>", desc = "SymbolsOutline" }
+        },
         config = function()
-            require("symbols-outline").setup()
+            require("symbols-outline").setup({
+                auto_preview = true
+            })
         end
+    },
+    {
+        'stevearc/aerial.nvim',
+        dependencies = {
+            "nvim-treesitter/nvim-treesitter",
+            "nvim-tree/nvim-web-devicons"
+        },
+        cmd = "AerialToggle",
+        config = function()
+            require('aerial').setup({
+                -- optionally use on_attach to set keymaps when aerial has attached to a buffer
+                on_attach = function(bufnr)
+                    -- Jump forwards/backwards with '{' and '}'
+                    vim.keymap.set('n', '{', '<cmd>AerialPrev<CR>', { buffer = bufnr })
+                    vim.keymap.set('n', '}', '<cmd>AerialNext<CR>', { buffer = bufnr })
+                end
+            })
+        end
+    },
+    {
+        "neovim/nvim-lspconfig",
+        dependencies = {
+            {
+                "SmiteshP/nvim-navbuddy",
+                dependencies = {
+                    "SmiteshP/nvim-navic",
+                    "MunifTanjim/nui.nvim",
+                    "numToStr/Comment.nvim",         -- Optional
+                    "nvim-telescope/telescope.nvim", -- Optional
+                },
+                opts = { lsp = { auto_attach = true } }
+            }
+        },
     },
     {
         "tzachar/cmp-tabnine",
@@ -262,6 +317,12 @@ lvim.plugins = {
     },
     {
         "Scysta/pink-panic.nvim"
+    },
+    {
+        "catppuccin/nvim",
+        require("catppuccin").setup({
+            flavour = "latte",
+        })
     },
     {
         "sainnhe/gruvbox-material"
