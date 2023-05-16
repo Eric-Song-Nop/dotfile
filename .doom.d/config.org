@@ -23,15 +23,12 @@ This is already supported by: org-screenshot-take
   (setq
    org-bullets-bullet-list '("⁖")
    org-ellipsis " ... "
-   org-todo-keywords '((sequence "TODO(t)" "PROGRESS(p)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)"))
-   org-todo-keyword-faces
-   '(("TODO" :foreground "#7c7c75" :weight normal :underline t)
-     ("WAITING" :foreground "#9f7efe" :weight normal :underline t)
-     ("PROGRESS" :foreground "#0098dd" :weight normal :underline t)
-     ("DONE" :foreground "#50a14f" :weight normal :underline t)
-     ("CANCELLED" :foreground "#ff6480" :weight normal :underline t))
-   org-priority-faces '((65 :foreground "#e45649")
-                        (66 :foreground "#da8548")
-                        (67 :foreground "#0098dd"))
    ))
 #+END_SRC
+
+** Line no
+#+begin_src emacs-lisp
+(setq display-line-numbers-type 'relative)
+(setq doom-font (font-spec :family "CaskaydiaCove Nerd Font Mono" :size 29))
+(setq org-log-done 'time)
+#+end_src
