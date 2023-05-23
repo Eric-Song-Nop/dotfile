@@ -495,7 +495,7 @@ end
 
 lvim.builtin.which_key.mappings["gg"] = {}
 
-lvim.builtin.which_key.mappings["gg"] = {
+lvim.builtin.which_key.mappings["gi"] = {
 	"<cmd>lua toggle_gitui()<cr>",
 	"Gitui",
 }
