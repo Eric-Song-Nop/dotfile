@@ -1,3 +1,5 @@
+local vim = vim
+local lvim = lvim
 --[[
  THESE ARE EXAMPLE CONFIGS FEEL FREE TO CHANGE TO WHATEVER YOU WANT
  `lvim` is the global options object
@@ -6,24 +8,25 @@ vim.opt.exrc = true
 vim.opt.shiftwidth = 4
 vim.opt.tabstop = 4
 vim.opt.relativenumber = true
-vim.opt.foldmethod = "expr"                     -- folding set to "expr" for treesitter based folding
-vim.opt.foldexpr = "nvim_treesitter#foldexpr()" -- set to "nvim_treesitter#foldexpr()" for treesitter based folding
+-- vim.opt.foldmethod = "expr" -- folding set to "expr" for treesitter based folding
+-- vim.opt.foldexpr = "nvim_treesitter#foldexpr()" -- set to "nvim_treesitter#foldexpr()" for treesitter based folding
+vim.o.foldcolumn = "1"
 vim.opt.foldlevel = 99
+vim.o.foldlevelstart = 99
+vim.o.foldenable = true
 -- general
 lvim.log.level = "info"
 lvim.format_on_save = {
-    enabled = true,
-    -- pattern = "*.lua",
-    timeout = 1000,
+	enabled = true,
+	-- pattern = "*.lua",
+	timeout = 1000,
 }
-
 
 -- keymappings <https://www.lunarvim.org/docs/configuration/keybindings>
 lvim.leader = "space"
 -- add your own keymapping
 lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
 lvim.keys.normal_mode["<C-q>"] = ":q<cr>"
-
 
 -- Cool binding to change selected text
 lvim.keys.normal_mode["<leader>r"] = "*Ncgn"
@@ -41,7 +44,7 @@ lvim.builtin.which_key.mappings["n"] = { "<cmd>Navbuddy<CR>", "Navbuddy" }
 -- -- Change theme settings
 local colorschemes = { "lunar", "gruvbox-material", "tokyonight-moon", "pink-panic", "doom-one", "catppuccin" }
 lvim.colorscheme = colorschemes[6]
-vim.opt.background = "light"
+vim.opt.background = "dark"
 -- to disable icons and use a minimalist setup, uncomment the following
 -- lvim.use_icons = false
 lvim.builtin.alpha.active = true
@@ -51,6 +54,7 @@ lvim.builtin.terminal.active = true
 lvim.builtin.nvimtree.setup.view.side = "left"
 lvim.builtin.nvimtree.setup.renderer.icons.show.git = false
 lvim.builtin.dap.active = true
+lvim.builtin.cmp.cmdline.enable = true
 
 -- Automatically install missing parsers when entering buffer
 lvim.builtin.treesitter.auto_install = true
@@ -69,33 +73,15 @@ lvim.lsp.installer.setup.automatic_installation = false
 
 -- ---configure a server manually. IMPORTANT: Requires `:LvimCacheReset` to take effect
 -- ---see the full default list `:lua =lvim.lsp.automatic_configuration.skipped_servers`
-vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "csharp_ls", "typst_lsp" })
+vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "rust_analyzer", "csharp_ls" })
 local opts = {} -- check the lspconfig documentation for a list of all possible options
 require("lvim.lsp.manager").setup("csharp_ls", opts)
-require("lvim.lsp.manager").setup("typst_lsp", opts)
--- ---remove a server from the skipped list, e.g. eslint, or emmet_ls. IMPORTANT: Requires `:LvimCacheReset` to take effect
+-- ---remove a server from the skipped list, e.g. eslint, or emmet_ls.
+-- IMPORTANT: Requires `:LvimCacheReset` to take effect
 -- ---`:LvimInfo` lists which server(s) are skipped for the current filetype
 -- lvim.lsp.automatic_configuration.skipped_servers = vim.tbl_filter(function(server)
 --     return server ~= "clangd"
 -- end, lvim.lsp.automatic_configuration.skipped_servers)
-
-if (os.getenv("TYPST_PATH") ~= nil) then
-    local typst_path = os.getenv("TYPST_PATH")
-    if io.open(typst_path .. "/tree-sitter-typst/src/parser.c") ~= nil then
-        local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
-        parser_config.typst = {
-            install_info = {
-                url = typst_path .. "/tree-sitter-typst/", -- local path or git repo
-                files = { "src/parser.c" },                -- note that some parsers also require src/scanner.c or src/scanner.cc
-                -- optional entries:
-                branch = "main",                           -- default branch in case of git repo if different from master
-                generate_requires_npm = true,              -- if stand-alone parser without npm dependencies
-                requires_generate_from_grammar = false,    -- if folder contains pre-generated src/parser.c
-            },
-            filetype = "typst",                            -- if filetype does not match the parser name
-        }
-    end
-end
 
 -- -- you can set a custom on_attach function that will be used for all the language servers
 -- -- See <https://github.com/neovim/nvim-lspconfig#keybindings-and-completion>
@@ -108,303 +94,335 @@ end
 -- end
 
 -- -- linters and formatters <https://www.lunarvim.org/docs/languages#lintingformatting>
-local null_ls = require("null-ls")
-local formatters = require "lvim.lsp.null-ls.formatters"
-formatters.setup {
-    -- null_ls.builtins.formatting.clang_format.with({
-    --     extra_args = { "-style={BasedOnStyle: Microsoft,SortIncludes: Never}" }
-    -- }),
-    {
-        command = "markdownlint",
-        filetypes = { "markdown" }
-    },
-    { command = "black", filetypes = { "python" } },
-    { command = "isort", filetypes = { "python" } },
-    --   { command = "stylua" },
-    --   {
-    --     command = "prettier",
-    --     extra_args = { "--print-width", "100" },
-    --     filetypes = { "typescript", "typescriptreact" },
-    --   },
-}
+-- local null_ls = require("null-ls")
+local formatters = require("lvim.lsp.null-ls.formatters")
+formatters.setup({
+	-- null_ls.builtins.formatting.clang_format.with({
+	--     extra_args = { "-style={BasedOnStyle: Microsoft,SortIncludes: Never}" }
+	-- }),
+	{
+		command = "markdownlint",
+		filetypes = { "markdown" },
+	},
+	{ command = "black", filetypes = { "python" } },
+	{ command = "isort", filetypes = { "python" } },
+	{ command = "stylua" },
+	--   {
+	--     command = "prettier",
+	--     extra_args = { "--print-width", "100" },
+	--     filetypes = { "typescript", "typescriptreact" },
+	--   },
+})
 
-
-local linters = require "lvim.lsp.null-ls.linters"
-linters.setup {
-    {
-        command = "markdownlint",
-        filetypes = { "markdown" }
-    },
-    { command = "flake8", filetypes = { "python" } },
-    {
-        command = "shellcheck",
-        args = { "--severity", "warning" },
-    },
-}
+local linters = require("lvim.lsp.null-ls.linters")
+linters.setup({
+	{
+		command = "markdownlint",
+		filetypes = { "markdown" },
+	},
+	{ command = "flake8", filetypes = { "python" } },
+	{
+		command = "shellcheck",
+		args = { "--severity", "warning" },
+	},
+	{
+		command = "luacheck",
+		filetypes = { "lua" },
+	},
+})
 
 -- -- Additional Plugins <https://www.lunarvim.org/docs/plugins#user-plugins>
 lvim.plugins = {
-    {
-        -- Use :number to pick and peek lines
-        "nacro90/numb.nvim",
-        config = function()
-            require("numb").setup({
-            })
-        end
-    },
-    {
-        -- Change surround: cs'"
-        -- Surround word: ysiw)
-        -- Delete surround: ds]
-        "kylechui/nvim-surround",
-        version = "*", -- Use for stability; omit to use `main` branch for the latest features
-        config = function()
-            require("nvim-surround").setup({
-            })
-        end
-    },
-    {
-        "andweeb/presence.nvim",
-        config = function()
-            require("presence").setup({
-                auto_update       = true,
-                neovim_image_text = "The One True Text Editor",
-                main_image        = "neovim",
-                buttons           = true,
-            })
-        end
-    },
-    {
-        "folke/trouble.nvim",
-        cmd = "TroubleToggle",
-    },
-    {
-        "wakatime/vim-wakatime"
-    },
-    {
-        "simrat39/symbols-outline.nvim",
-        cmd = "SymbolsOutline",
-        keys = {
-            { "<leader>S", "<cmd>SymbolsOutline<cr>", desc = "SymbolsOutline" }
-        },
-        config = function()
-            require("symbols-outline").setup({
-                auto_preview = true
-            })
-        end
-    },
-    {
-        'stevearc/aerial.nvim',
-        dependencies = {
-            "nvim-treesitter/nvim-treesitter",
-            "nvim-tree/nvim-web-devicons"
-        },
-        cmd = "AerialToggle",
-        config = function()
-            require('aerial').setup({
-                -- optionally use on_attach to set keymaps when aerial has attached to a buffer
-                on_attach = function(bufnr)
-                    -- Jump forwards/backwards with '{' and '}'
-                    vim.keymap.set('n', '{', '<cmd>AerialPrev<CR>', { buffer = bufnr })
-                    vim.keymap.set('n', '}', '<cmd>AerialNext<CR>', { buffer = bufnr })
-                end
-            })
-        end
-    },
-    {
-        "neovim/nvim-lspconfig",
-        dependencies = {
-            {
-                "SmiteshP/nvim-navbuddy",
-                dependencies = {
-                    "SmiteshP/nvim-navic",
-                    "MunifTanjim/nui.nvim",
-                    "numToStr/Comment.nvim",         -- Optional
-                    "nvim-telescope/telescope.nvim", -- Optional
-                },
-                opts = { lsp = { auto_attach = true } }
-            }
-        },
-    },
-    {
-        "tzachar/cmp-tabnine",
-        build = "./install.sh",
-        dependencies = "hrsh7th/nvim-cmp",
-        event = "InsertEnter",
-    },
-    {
-        "scalameta/nvim-metals",
-        ft = { 'scala' },
-        config = function()
-            require("user.metals").config()
-        end,
-    },
-    -- {
-    --     "folke/noice.nvim",
-    --     config = function()
-    --         require("noice").setup({
-    --             lsp = {
-    --                 -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
-    --                 hover = {
-    --                     enabled = false,
-    --                 },
-    --                 signature = {
-    --                     enabled = false,
-    --                 },
-    --                 override = {
-    --                     ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
-    --                     ["vim.lsp.util.stylize_markdown"] = true,
-    --                     ["cmp.entry.get_documentation"] = true,
-    --                 },
-    --             },
-    --             -- you can enable a preset for easier configuration
-    --             presets = {
-    --                 bottom_search = true, -- use a classic bottom cmdline for search
-    --                 command_palette = true, -- position the cmdline and popupmenu together
-    --                 long_message_to_split = true, -- long messages will be sent to a split
-    --                 inc_rename = false, -- enables an input dialog for inc-rename.nvim
-    --                 lsp_doc_border = false, -- add a border to hover docs and signature help
-    --             },
-    --             -- add any options here
-    --         })
-    --     end,
-    --     dependencies = {
-    --         "MunifTanjim/nui.nvim",
-    --         -- OPTIONAL:
-    --         --   `nvim-notify` is only needed, if you want to use the notification view.
-    --         --   If not available, we use `mini` as the fallback
-    --         "rcarriga/nvim-notify",
-    --     },
-    -- },
-    {
-        'NTBBloodbath/doom-one.nvim',
-        init = function()
-            -- Add color to cursor
-            vim.g.doom_one_cursor_coloring = false
-            -- Set :terminal colors
-            vim.g.doom_one_terminal_colors = true
-            -- Enable italic comments
-            vim.g.doom_one_italic_comments = false
-            -- Enable TS support
-            vim.g.doom_one_enable_treesitter = true
-            -- Color whole diagnostic text or only underline
-            vim.g.doom_one_diagnostics_text_color = false
-            -- Enable transparent background
-            vim.g.doom_one_transparent_background = false
+	{
+		"kevinhwang91/nvim-ufo",
+		dependencies = {
+			"kevinhwang91/promise-async",
+			"nvim-treesitter/nvim-treesitter",
+		},
+		config = function()
+			require("ufo").setup({
+				provider_selector = function(bufnr, filetype, buftype)
+					return { "treesitter", "indent" }
+				end,
+			})
+			lvim.keys.normal_mode["zR"] = require("ufo").openAllFolds
+			lvim.keys.normal_mode["zM"] = require("ufo").closeAllFolds
+		end,
+	},
+	{
+		"notomo/cmdbuf.nvim",
+	},
+	{
+		"lukas-reineke/indent-blankline.nvim",
+		config = function()
+			vim.opt.list = true
+			vim.opt.listchars:append("space:⋅")
+			vim.opt.listchars:append("eol:↴")
 
-            -- Pumblend transparency
-            vim.g.doom_one_pumblend_enable = false
-            vim.g.doom_one_pumblend_transparency = 20
+			require("indent_blankline").setup({
+				show_end_of_line = true,
+				space_char_blankline = " ",
+				show_current_context = true,
+				show_current_context_start = true,
+			})
+		end,
+	},
+	{
+		"nvim-treesitter/nvim-treesitter-context",
+		dependencies = { "nvim-treesitter/nvim-treesitter" },
+		config = function()
+			require("treesitter-context").setup()
+		end,
+	},
+	{
+		-- Use :number to pick and peek lines
+		"nacro90/numb.nvim",
+		config = function()
+			require("numb").setup({})
+		end,
+	},
+	{
+		-- Change surround: cs'"
+		-- Surround word: ysiw)
+		-- Delete surround: ds]
+		"kylechui/nvim-surround",
+		version = "*", -- Use for stability; omit to use `main` branch for the latest features
+		config = function()
+			require("nvim-surround").setup({})
+		end,
+	},
+	{
+		"andweeb/presence.nvim",
+		config = function()
+			require("presence").setup({
+				auto_update = true,
+				neovim_image_text = "The One True Text Editor",
+				main_image = "neovim",
+				buttons = true,
+			})
+		end,
+	},
+	{
+		"folke/trouble.nvim",
+		cmd = "TroubleToggle",
+	},
+	{
+		"wakatime/vim-wakatime",
+	},
+	{
+		"simrat39/symbols-outline.nvim",
+		cmd = "SymbolsOutline",
+		keys = {
+			{ "<leader>S", "<cmd>SymbolsOutline<cr>", desc = "SymbolsOutline" },
+		},
+		config = function()
+			require("symbols-outline").setup({
+				auto_preview = true,
+			})
+		end,
+	},
+	{
+		"stevearc/aerial.nvim",
+		dependencies = {
+			"nvim-treesitter/nvim-treesitter",
+			"nvim-tree/nvim-web-devicons",
+		},
+		cmd = "AerialToggle",
+		config = function()
+			require("aerial").setup({
+				-- optionally use on_attach to set keymaps when aerial has attached to a buffer
+				on_attach = function(bufnr)
+					-- Jump forwards/backwards with '{' and '}'
+					vim.keymap.set("n", "{", "<cmd>AerialPrev<CR>", { buffer = bufnr })
+					vim.keymap.set("n", "}", "<cmd>AerialNext<CR>", { buffer = bufnr })
+				end,
+			})
+		end,
+	},
+	{
+		"neovim/nvim-lspconfig",
+		dependencies = {
+			{
+				"SmiteshP/nvim-navbuddy",
+				dependencies = {
+					"SmiteshP/nvim-navic",
+					"MunifTanjim/nui.nvim",
+					"numToStr/Comment.nvim", -- Optional
+					"nvim-telescope/telescope.nvim", -- Optional
+				},
+				opts = { lsp = { auto_attach = true } },
+			},
+		},
+	},
+	{
+		"tzachar/cmp-tabnine",
+		build = "./install.sh",
+		dependencies = "hrsh7th/nvim-cmp",
+		event = "InsertEnter",
+	},
+	{
+		"scalameta/nvim-metals",
+		ft = { "scala" },
+		config = function()
+			require("user.metals").config()
+		end,
+	},
+	{
+		"NTBBloodbath/doom-one.nvim",
+		init = function()
+			-- Add color to cursor
+			vim.g.doom_one_cursor_coloring = false
+			-- Set :terminal colors
+			vim.g.doom_one_terminal_colors = true
+			-- Enable italic comments
+			vim.g.doom_one_italic_comments = false
+			-- Enable TS support
+			vim.g.doom_one_enable_treesitter = true
+			-- Color whole diagnostic text or only underline
+			vim.g.doom_one_diagnostics_text_color = false
+			-- Enable transparent background
+			vim.g.doom_one_transparent_background = false
 
-            -- Plugins integration
-            vim.g.doom_one_plugin_neorg = true
-            vim.g.doom_one_plugin_barbar = false
-            vim.g.doom_one_plugin_telescope = false
-            vim.g.doom_one_plugin_neogit = true
-            vim.g.doom_one_plugin_nvim_tree = true
-            vim.g.doom_one_plugin_dashboard = true
-            vim.g.doom_one_plugin_startify = true
-            vim.g.doom_one_plugin_whichkey = true
-            vim.g.doom_one_plugin_indent_blankline = true
-            vim.g.doom_one_plugin_vim_illuminate = true
-            vim.g.doom_one_plugin_lspsaga = false
-        end,
-        config = function()
-        end
-    },
-    {
-        "rktjmp/lush.nvim"
-    },
-    {
-        "Scysta/pink-panic.nvim"
-    },
-    {
-        "catppuccin/nvim",
-        require("catppuccin").setup({
-            flavour = "latte",
-        })
-    },
-    {
-        "sainnhe/gruvbox-material"
-    },
-    {
-        "purescript-contrib/purescript-vim",
-    },
-    {
-        -- <leader>mm
-        'gorbit99/codewindow.nvim',
-        config = function()
-            local codewindow = require('codewindow')
-            codewindow.setup({
-                -- auto_enable = true,
-                minimap_width = 13,
-            })
-            codewindow.apply_default_keybinds()
-        end,
-    },
-    {
-        'sindrets/diffview.nvim',
-        dependencies = 'nvim-lua/plenary.nvim',
-        cmd = 'DiffviewOpen'
-    },
-    {
-        'ggandor/flit.nvim',
-        dependencies =
-        {
-            'ggandor/leap.nvim',
-            'tpope/vim-repeat',
-        },
-        config = function()
-            require('flit').setup {
-                keys = { f = 'f', F = 'F', t = 't', T = 'T' },
-                -- A string like "nv", "nvo", "o", etc.
-                labeled_modes = "nvo",
-                multiline = true,
-                -- Like `leap`s similar argument (call-specific overrides).
-                -- E.g.: opts = { equivalence_classes = {} }
-                opts = {}
-            }
-        end
-    },
-    {
-        'danymat/neogen',
-        dependencies = {
-            "nvim-treesitter/nvim-treesitter"
-        },
-        config = function()
-            require('neogen').setup({
-                snippet_engine = "luasnip",
-                languages = {
-                    ['cpp.doxygen'] = require('neogen.configurations.cpp')
-                }
-            })
-        end
-    }
+			-- Pumblend transparency
+			vim.g.doom_one_pumblend_enable = false
+			vim.g.doom_one_pumblend_transparency = 20
+
+			-- Plugins integration
+			vim.g.doom_one_plugin_neorg = true
+			vim.g.doom_one_plugin_barbar = false
+			vim.g.doom_one_plugin_telescope = false
+			vim.g.doom_one_plugin_neogit = true
+			vim.g.doom_one_plugin_nvim_tree = true
+			vim.g.doom_one_plugin_dashboard = true
+			vim.g.doom_one_plugin_startify = true
+			vim.g.doom_one_plugin_whichkey = true
+			vim.g.doom_one_plugin_indent_blankline = true
+			vim.g.doom_one_plugin_vim_illuminate = true
+			vim.g.doom_one_plugin_lspsaga = false
+		end,
+		config = function() end,
+	},
+	{
+		"rktjmp/lush.nvim",
+	},
+	{
+		"Scysta/pink-panic.nvim",
+	},
+	{
+		"catppuccin/nvim",
+		require("catppuccin").setup({
+			background = {
+				-- :h background
+				light = "latte",
+				dark = "mocha",
+			},
+			-- flavour = "latte",
+			transparent_background = (vim.g.neovide ~= nil),
+			-- transparent_background = true,
+		}),
+	},
+	{
+		"sainnhe/gruvbox-material",
+	},
+	{
+		"purescript-contrib/purescript-vim",
+	},
+	{
+		-- <leader>mm
+		"gorbit99/codewindow.nvim",
+		config = function()
+			local codewindow = require("codewindow")
+			codewindow.setup({
+				-- auto_enable = true,
+				minimap_width = 13,
+			})
+			codewindow.apply_default_keybinds()
+		end,
+	},
+	{
+		"sindrets/diffview.nvim",
+		dependencies = "nvim-lua/plenary.nvim",
+		cmd = "DiffviewOpen",
+	},
+	{
+		"ggandor/flit.nvim",
+		dependencies = {
+			"ggandor/leap.nvim",
+			"tpope/vim-repeat",
+		},
+		config = function()
+			require("flit").setup({
+				keys = { f = "f", F = "F", t = "t", T = "T" },
+				-- A string like "nv", "nvo", "o", etc.
+				labeled_modes = "nvo",
+				multiline = true,
+				-- Like `leap`s similar argument (call-specific overrides).
+				-- E.g.: opts = { equivalence_classes = {} }
+				opts = {},
+			})
+		end,
+	},
+	{
+		"danymat/neogen",
+		dependencies = {
+			"nvim-treesitter/nvim-treesitter",
+		},
+		config = function()
+			require("neogen").setup({
+				snippet_engine = "luasnip",
+				languages = {
+					["cpp.doxygen"] = require("neogen.configurations.cpp"),
+				},
+			})
+		end,
+	},
+	"simrat39/rust-tools.nvim",
+	{
+		"saecki/crates.nvim",
+		version = "v0.3.0",
+		dependencies = { "nvim-lua/plenary.nvim" },
+		config = function()
+			require("crates").setup({
+				null_ls = {
+					enabled = true,
+					name = "crates.nvim",
+				},
+				popup = {
+					border = "rounded",
+				},
+			})
+		end,
+	},
+	{
+		"j-hui/fidget.nvim",
+		config = function()
+			require("fidget").setup()
+		end,
+	},
+	{
+		"kaarmu/typst.vim",
+		filetypes = "typst",
+	},
 }
 
 require("dap").configurations.scala = {
-    {
-        type = "scala",
-        request = "launch",
-        name = "Run or Test Target",
-        metals = {
-            runType = "runOrTestFile",
-        },
-    },
-    {
-        type = "scala",
-        request = "launch",
-        name = "Test Target",
-        metals = {
-            runType = "testTarget",
-        },
-    },
+	{
+		type = "scala",
+		request = "launch",
+		name = "Run or Test Target",
+		metals = {
+			runType = "runOrTestFile",
+		},
+	},
+	{
+		type = "scala",
+		request = "launch",
+		name = "Test Target",
+		metals = {
+			runType = "testTarget",
+		},
+	},
 }
-
-vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
-    pattern = { "*.typ", },
-    command = "set ft=typst"
-})
 
 -- -- Autocommands (`:help autocmd`) <https://neovim.io/doc/user/autocmd.html>
 -- vim.api.nvim_create_autocmd("FileType", {
@@ -421,5 +439,63 @@ vim.g.neovide_cursor_vfx_particle_lifetime = 2.0
 vim.g.neovide_cursor_vfx_particle_density = 10.0
 vim.g.neovide_floating_blur_amount_x = 2.0
 vim.g.neovide_floating_blur_amount_y = 2.0
-vim.opt.guifont = { "CaskaydiaCove Nerd Font Mono", ":h12" }
-vim.api.nvim_set_var("neovide_transparency", 0.95)
+vim.opt.guifont = { "CaskaydiaCove Nerd Font Mono", ":h18" }
+vim.api.nvim_set_var("neovide_transparency", 0.85)
+
+-- lldb dap related
+-- lvim.builtin.dap.on_config_done = require("user.llbd").config
+
+-- rust
+local rust_config = require("user.rust")
+
+pcall(rust_config.rust_tools_config)
+lvim.builtin.dap.on_config_done = rust_config.dap_config
+
+vim.api.nvim_set_keymap("n", "<m-d>", "<cmd>RustOpenExternalDocs<Cr>", { noremap = true, silent = true })
+lvim.builtin.which_key.mappings["C"] = {
+	name = "Rust",
+	r = { "<cmd>RustRunnables<Cr>", "Runnables" },
+	t = { "<cmd>lua _CARGO_TEST()<cr>", "Cargo Test" },
+	m = { "<cmd>RustExpandMacro<Cr>", "Expand Macro" },
+	c = { "<cmd>RustOpenCargo<Cr>", "Open Cargo" },
+	p = { "<cmd>RustParentModule<Cr>", "Parent Module" },
+	d = { "<cmd>RustDebuggables<Cr>", "Debuggables" },
+	v = { "<cmd>RustViewCrateGraph<Cr>", "View Crate Graph" },
+	R = {
+		"<cmd>lua require('rust-tools/workspace_refresh')._reload_workspace_from_cargo_toml()<Cr>",
+		"Reload Workspace",
+	},
+	o = { "<cmd>RustOpenExternalDocs<Cr>", "Open External Docs" },
+	y = { "<cmd>lua require'crates'.open_repository()<cr>", "[crates] open repository" },
+	P = { "<cmd>lua require'crates'.show_popup()<cr>", "[crates] show popup" },
+	i = { "<cmd>lua require'crates'.show_crate_popup()<cr>", "[crates] show info" },
+	f = { "<cmd>lua require'crates'.show_features_popup()<cr>", "[crates] show features" },
+	D = { "<cmd>lua require'crates'.show_dependencies_popup()<cr>", "[crates] show dependencies" },
+}
+
+function toggle_gitui()
+	local Terminal = require("toggleterm.terminal").Terminal
+	local gitui = Terminal:new({
+		cmd = "gitui",
+		hidden = true,
+		direction = "float",
+		float_opts = {
+			border = "none",
+			width = 100000,
+			height = 100000,
+		},
+		on_open = function(_)
+			vim.cmd("startinsert!")
+		end,
+		on_close = function(_) end,
+		count = 99,
+	})
+	gitui:toggle()
+end
+
+lvim.builtin.which_key.mappings["gg"] = {}
+
+lvim.builtin.which_key.mappings["gg"] = {
+	"<cmd>lua toggle_gitui()<cr>",
+	"Gitui",
+}
