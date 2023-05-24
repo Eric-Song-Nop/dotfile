@@ -44,7 +44,11 @@ lvim.builtin.which_key.mappings["n"] = { "<cmd>Navbuddy<CR>", "Navbuddy" }
 -- -- Change theme settings
 local colorschemes = { "lunar", "gruvbox-material", "tokyonight-moon", "pink-panic", "doom-one", "catppuccin" }
 lvim.colorscheme = colorschemes[6]
-vim.opt.background = "dark"
+if vim.g.neovide == nil then
+	vim.opt.background = "light"
+else
+	vim.opt.background = "dark"
+end
 -- to disable icons and use a minimalist setup, uncomment the following
 -- lvim.use_icons = false
 lvim.builtin.alpha.active = true
