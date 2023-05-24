@@ -477,10 +477,10 @@ lvim.builtin.which_key.mappings["C"] = {
 	D = { "<cmd>lua require'crates'.show_dependencies_popup()<cr>", "[crates] show dependencies" },
 }
 
-function toggle_gitui()
+function toggle_term_with(app_cmd)
 	local Terminal = require("toggleterm.terminal").Terminal
 	local gitui = Terminal:new({
-		cmd = "gitui",
+		cmd = app_cmd,
 		hidden = true,
 		direction = "float",
 		float_opts = {
@@ -500,6 +500,11 @@ end
 lvim.builtin.which_key.mappings["gg"] = {}
 
 lvim.builtin.which_key.mappings["gi"] = {
-	"<cmd>lua toggle_gitui()<cr>",
+	'<cmd>lua toggle_term_with("gitui")<cr>',
 	"Gitui",
+}
+
+lvim.builtin.which_key.mappings["gt"] = {
+	'<cmd>lua toggle_term_with("btm")<cr>',
+	"btm",
 }
