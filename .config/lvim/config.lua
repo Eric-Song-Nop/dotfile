@@ -124,7 +124,7 @@ lvim.plugins = {
 	{
 		"iamcco/markdown-preview.nvim",
 		build = "cd app && yarn install",
-		filetypes = { "markdown" },
+		ft = { "markdown" },
 		config = require("user.md").config,
 	},
 	{
@@ -302,6 +302,9 @@ lvim.plugins = {
 			})
 			codewindow.apply_default_keybinds()
 		end,
+		keys = {
+			{ "<leader>mm" },
+		},
 	},
 	{
 		"sindrets/diffview.nvim",
@@ -345,6 +348,7 @@ lvim.plugins = {
 		"saecki/crates.nvim",
 		version = "v0.3.0",
 		dependencies = { "nvim-lua/plenary.nvim" },
+		ft = { "rust", "toml" },
 		config = function()
 			require("crates").setup({
 				null_ls = {
@@ -365,7 +369,7 @@ lvim.plugins = {
 	},
 	{
 		"kaarmu/typst.vim",
-		filetypes = "typst",
+		ft = "typst",
 	},
 }
 
