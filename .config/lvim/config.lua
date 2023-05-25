@@ -4,6 +4,9 @@ local lvim = lvim
  THESE ARE EXAMPLE CONFIGS FEEL FREE TO CHANGE TO WHATEVER YOU WANT
  `lvim` is the global options object
 ]]
+require("user.keymaps")
+
+vim.opt.scrolloff = 5
 vim.opt.exrc = true
 vim.opt.shiftwidth = 4
 vim.opt.tabstop = 4
@@ -21,25 +24,6 @@ lvim.format_on_save = {
 	-- pattern = "*.lua",
 	timeout = 1000,
 }
-
--- keymappings <https://www.lunarvim.org/docs/configuration/keybindings>
-lvim.leader = "space"
--- add your own keymapping
-lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
-lvim.keys.normal_mode["<C-q>"] = ":q<cr>"
-
--- Cool binding to change selected text
-lvim.keys.normal_mode["<leader>r"] = "*Ncgn"
-lvim.keys.visual_mode["<leader>r"] = "*Ncgn"
-
-lvim.keys.normal_mode["<S-l>"] = ":BufferLineCycleNext<CR>"
-lvim.keys.normal_mode["<S-h>"] = ":BufferLineCyclePrev<CR>"
-
--- -- Use which-key to add extra bindings with the leader-key prefix
-lvim.builtin.which_key.mappings["W"] = { "<cmd>noautocmd w<cr>", "Save without formatting" }
-lvim.builtin.which_key.mappings["P"] = { "<cmd>Telescope projects<CR>", "Projects" }
-
-lvim.builtin.which_key.mappings["n"] = { "<cmd>Navbuddy<CR>", "Navbuddy" }
 
 -- -- Change theme settings
 local colorschemes = { "lunar", "gruvbox-material", "tokyonight-moon", "pink-panic", "doom-one", "catppuccin" }
@@ -137,6 +121,12 @@ linters.setup({
 
 -- -- Additional Plugins <https://www.lunarvim.org/docs/plugins#user-plugins>
 lvim.plugins = {
+	{
+		"iamcco/markdown-preview.nvim",
+		build = "cd app && yarn install",
+		filetypes = { "markdown" },
+		config = require("user.md").config,
+	},
 	{
 		"kevinhwang91/nvim-ufo",
 		dependencies = {
@@ -273,37 +263,7 @@ lvim.plugins = {
 	},
 	{
 		"NTBBloodbath/doom-one.nvim",
-		init = function()
-			-- Add color to cursor
-			vim.g.doom_one_cursor_coloring = false
-			-- Set :terminal colors
-			vim.g.doom_one_terminal_colors = true
-			-- Enable italic comments
-			vim.g.doom_one_italic_comments = false
-			-- Enable TS support
-			vim.g.doom_one_enable_treesitter = true
-			-- Color whole diagnostic text or only underline
-			vim.g.doom_one_diagnostics_text_color = false
-			-- Enable transparent background
-			vim.g.doom_one_transparent_background = false
-
-			-- Pumblend transparency
-			vim.g.doom_one_pumblend_enable = false
-			vim.g.doom_one_pumblend_transparency = 20
-
-			-- Plugins integration
-			vim.g.doom_one_plugin_neorg = true
-			vim.g.doom_one_plugin_barbar = false
-			vim.g.doom_one_plugin_telescope = false
-			vim.g.doom_one_plugin_neogit = true
-			vim.g.doom_one_plugin_nvim_tree = true
-			vim.g.doom_one_plugin_dashboard = true
-			vim.g.doom_one_plugin_startify = true
-			vim.g.doom_one_plugin_whichkey = true
-			vim.g.doom_one_plugin_indent_blankline = true
-			vim.g.doom_one_plugin_vim_illuminate = true
-			vim.g.doom_one_plugin_lspsaga = false
-		end,
+		init = require("user.doom").init,
 		config = function() end,
 	},
 	{
@@ -455,28 +415,6 @@ local rust_config = require("user.rust")
 pcall(rust_config.rust_tools_config)
 lvim.builtin.dap.on_config_done = rust_config.dap_config
 
-vim.api.nvim_set_keymap("n", "<m-d>", "<cmd>RustOpenExternalDocs<Cr>", { noremap = true, silent = true })
-lvim.builtin.which_key.mappings["C"] = {
-	name = "Rust",
-	r = { "<cmd>RustRunnables<Cr>", "Runnables" },
-	t = { "<cmd>lua _CARGO_TEST()<cr>", "Cargo Test" },
-	m = { "<cmd>RustExpandMacro<Cr>", "Expand Macro" },
-	c = { "<cmd>RustOpenCargo<Cr>", "Open Cargo" },
-	p = { "<cmd>RustParentModule<Cr>", "Parent Module" },
-	d = { "<cmd>RustDebuggables<Cr>", "Debuggables" },
-	v = { "<cmd>RustViewCrateGraph<Cr>", "View Crate Graph" },
-	R = {
-		"<cmd>lua require('rust-tools/workspace_refresh')._reload_workspace_from_cargo_toml()<Cr>",
-		"Reload Workspace",
-	},
-	o = { "<cmd>RustOpenExternalDocs<Cr>", "Open External Docs" },
-	y = { "<cmd>lua require'crates'.open_repository()<cr>", "[crates] open repository" },
-	P = { "<cmd>lua require'crates'.show_popup()<cr>", "[crates] show popup" },
-	i = { "<cmd>lua require'crates'.show_crate_popup()<cr>", "[crates] show info" },
-	f = { "<cmd>lua require'crates'.show_features_popup()<cr>", "[crates] show features" },
-	D = { "<cmd>lua require'crates'.show_dependencies_popup()<cr>", "[crates] show dependencies" },
-}
-
 function toggle_term_with(app_cmd)
 	local Terminal = require("toggleterm.terminal").Terminal
 	local gitui = Terminal:new({
@@ -496,15 +434,3 @@ function toggle_term_with(app_cmd)
 	})
 	gitui:toggle()
 end
-
-lvim.builtin.which_key.mappings["gg"] = {}
-
-lvim.builtin.which_key.mappings["gi"] = {
-	'<cmd>lua toggle_term_with("gitui")<cr>',
-	"Gitui",
-}
-
-lvim.builtin.which_key.mappings["gt"] = {
-	'<cmd>lua toggle_term_with("btm")<cr>',
-	"btm",
-}
