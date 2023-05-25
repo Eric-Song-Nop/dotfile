@@ -342,6 +342,7 @@ lvim.plugins = {
 				},
 			})
 		end,
+		cmd = { "Neogen" },
 	},
 	"simrat39/rust-tools.nvim",
 	{
