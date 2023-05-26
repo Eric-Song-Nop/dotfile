@@ -427,9 +427,13 @@ function toggle_term_with(app_cmd)
 		hidden = true,
 		direction = "float",
 		float_opts = {
-			border = "none",
-			width = 100000,
-			height = 100000,
+			border = "double",
+			width = function(_)
+				return math.floor(vim.o.columns)
+			end,
+			height = function(_)
+				return math.floor(vim.o.lines * 0.85)
+			end,
 		},
 		on_open = function(_)
 			vim.cmd("startinsert!")
