@@ -122,6 +122,13 @@ linters.setup({
 -- -- Additional Plugins <https://www.lunarvim.org/docs/plugins#user-plugins>
 lvim.plugins = {
 	{
+		"folke/todo-comments.nvim",
+		dependencies = { "nvim-lua/plenary.nvim", "nvim-telescope/telescope.nvim", "folke/trouble.nvim" },
+		config = function()
+			require("todo-comments").setup()
+		end,
+	},
+	{
 		"iamcco/markdown-preview.nvim",
 		build = "cd app && yarn install",
 		ft = { "markdown" },

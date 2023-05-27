@@ -53,3 +53,8 @@ lvim.builtin.which_key.mappings["n"] = {
 	name = "Navbuddy & New instance",
 	a = { "<cmd>Navbuddy<CR>", "navbuddy" },
 }
+
+lvim.builtin.which_key.mappings["sd"] = {
+	"<cmd>TodoTelescope<CR>",
+	"Search TODOs",
+}
