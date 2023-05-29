@@ -8,6 +8,7 @@ This is where I put all my important config files.
 - [gitui](https://github.com/extrawurst/gitui)
 - [ranger](https://ranger.github.io)
 - [kitty](https://sw.kovidgoyal.net/kitty/)
+- [BetterDiscord](https://betterdiscord.app/themes)
 
 - [clang-tidy](https://clang.llvm.org/extra/clang-tidy/)
   - My common used clang-tidy is extracted from Clion and put in `.config/lvim/lua/user`.
