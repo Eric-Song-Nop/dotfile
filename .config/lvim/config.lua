@@ -33,6 +33,7 @@ if vim.g.neovide == nil then
 else
     vim.opt.background = "dark"
 end
+vim.opt.background = "dark"
 -- to disable icons and use a minimalist setup, uncomment the following
 -- lvim.use_icons = false
 lvim.builtin.alpha.active = true
@@ -289,7 +290,7 @@ lvim.plugins = {
             },
             -- flavour = "latte",
             transparent_background = (vim.g.neovide ~= nil),
-            -- transparent_background = true,
+            -- transparent_background = false,
         }),
     },
     {
