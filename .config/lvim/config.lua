@@ -20,18 +20,18 @@ vim.o.foldenable = true
 -- general
 lvim.log.level = "info"
 lvim.format_on_save = {
-	enabled = true,
-	-- pattern = "*.lua",
-	timeout = 1000,
+    enabled = true,
+    -- pattern = "*.lua",
+    timeout = 1000,
 }
 
 -- -- Change theme settings
 local colorschemes = { "lunar", "gruvbox-material", "tokyonight-moon", "pink-panic", "doom-one", "catppuccin" }
 lvim.colorscheme = colorschemes[6]
 if vim.g.neovide == nil then
-	vim.opt.background = "light"
+    vim.opt.background = "light"
 else
-	vim.opt.background = "dark"
+    vim.opt.background = "dark"
 end
 -- to disable icons and use a minimalist setup, uncomment the following
 -- lvim.use_icons = false
@@ -85,319 +85,319 @@ require("lvim.lsp.manager").setup("csharp_ls", opts)
 -- local null_ls = require("null-ls")
 local formatters = require("lvim.lsp.null-ls.formatters")
 formatters.setup({
-	-- null_ls.builtins.formatting.clang_format.with({
-	--     extra_args = { "-style={BasedOnStyle: Microsoft,SortIncludes: Never}" }
-	-- }),
-	{
-		command = "markdownlint",
-		filetypes = { "markdown" },
-	},
-	{ command = "black", filetypes = { "python" } },
-	{ command = "isort", filetypes = { "python" } },
-	{ command = "stylua" },
-	--   {
-	--     command = "prettier",
-	--     extra_args = { "--print-width", "100" },
-	--     filetypes = { "typescript", "typescriptreact" },
-	--   },
+    -- null_ls.builtins.formatting.clang_format.with({
+    --     extra_args = { "-style={BasedOnStyle: Microsoft,SortIncludes: Never}" }
+    -- }),
+    {
+        command = "markdownlint",
+        filetypes = { "markdown" },
+    },
+    { command = "black", filetypes = { "python" } },
+    { command = "isort", filetypes = { "python" } },
+    { command = "stylua" },
+    --   {
+    --     command = "prettier",
+    --     extra_args = { "--print-width", "100" },
+    --     filetypes = { "typescript", "typescriptreact" },
+    --   },
 })
 
 local linters = require("lvim.lsp.null-ls.linters")
 linters.setup({
-	{
-		command = "markdownlint",
-		filetypes = { "markdown" },
-	},
-	{ command = "flake8", filetypes = { "python" } },
-	{
-		command = "shellcheck",
-		args = { "--severity", "warning" },
-	},
-	{
-		command = "luacheck",
-		filetypes = { "lua" },
-	},
+    {
+        command = "markdownlint",
+        filetypes = { "markdown" },
+    },
+    { command = "flake8", filetypes = { "python" } },
+    {
+        command = "shellcheck",
+        args = { "--severity", "warning" },
+    },
+    {
+        command = "luacheck",
+        filetypes = { "lua" },
+    },
 })
 
 -- -- Additional Plugins <https://www.lunarvim.org/docs/plugins#user-plugins>
 lvim.plugins = {
-	{
-		"folke/todo-comments.nvim",
-		dependencies = { "nvim-lua/plenary.nvim", "nvim-telescope/telescope.nvim", "folke/trouble.nvim" },
-		config = function()
-			require("todo-comments").setup()
-		end,
-	},
-	{
-		"iamcco/markdown-preview.nvim",
-		build = "cd app && yarn install",
-		ft = { "markdown" },
-		config = require("user.md").config,
-	},
-	{
-		"kevinhwang91/nvim-ufo",
-		dependencies = {
-			"kevinhwang91/promise-async",
-			"nvim-treesitter/nvim-treesitter",
-		},
-		config = function()
-			require("ufo").setup({
-				provider_selector = function(bufnr, filetype, buftype)
-					return { "treesitter", "indent" }
-				end,
-			})
-			lvim.keys.normal_mode["zR"] = require("ufo").openAllFolds
-			lvim.keys.normal_mode["zM"] = require("ufo").closeAllFolds
-		end,
-	},
-	{
-		"notomo/cmdbuf.nvim",
-	},
-	{
-		"lukas-reineke/indent-blankline.nvim",
-		config = function()
-			vim.opt.list = true
-			vim.opt.listchars:append("space:⋅")
-			-- vim.opt.listchars:append("eol:↴")
+    {
+        "folke/todo-comments.nvim",
+        dependencies = { "nvim-lua/plenary.nvim", "nvim-telescope/telescope.nvim", "folke/trouble.nvim" },
+        config = function()
+            require("todo-comments").setup()
+        end,
+    },
+    {
+        "iamcco/markdown-preview.nvim",
+        build = "cd app && yarn install",
+        ft = { "markdown" },
+        config = require("user.md").config,
+    },
+    {
+        "kevinhwang91/nvim-ufo",
+        dependencies = {
+            "kevinhwang91/promise-async",
+            "nvim-treesitter/nvim-treesitter",
+        },
+        config = function()
+            require("ufo").setup({
+                provider_selector = function(bufnr, filetype, buftype)
+                    return { "treesitter", "indent" }
+                end,
+            })
+            lvim.keys.normal_mode["zR"] = require("ufo").openAllFolds
+            lvim.keys.normal_mode["zM"] = require("ufo").closeAllFolds
+        end,
+    },
+    {
+        "notomo/cmdbuf.nvim",
+    },
+    {
+        "lukas-reineke/indent-blankline.nvim",
+        config = function()
+            vim.opt.list = true
+            vim.opt.listchars:append("space:⋅")
+            -- vim.opt.listchars:append("eol:↴")
 
-			require("indent_blankline").setup({
-				show_end_of_line = false,
-				space_char_blankline = " ",
-				show_current_context = true,
-				show_current_context_start = true,
-			})
-		end,
-	},
-	{
-		"nvim-treesitter/nvim-treesitter-context",
-		dependencies = { "nvim-treesitter/nvim-treesitter" },
-		config = function()
-			require("treesitter-context").setup()
-		end,
-	},
-	{
-		-- Use :number to pick and peek lines
-		"nacro90/numb.nvim",
-		config = function()
-			require("numb").setup({})
-		end,
-	},
-	{
-		-- Change surround: cs'"
-		-- Surround word: ysiw)
-		-- Delete surround: ds]
-		"kylechui/nvim-surround",
-		version = "*", -- Use for stability; omit to use `main` branch for the latest features
-		config = function()
-			require("nvim-surround").setup({})
-		end,
-	},
-	{
-		"andweeb/presence.nvim",
-		config = function()
-			require("presence").setup({
-				auto_update = true,
-				neovim_image_text = "The One True Text Editor",
-				main_image = "neovim",
-				buttons = true,
-			})
-		end,
-	},
-	{
-		"folke/trouble.nvim",
-		cmd = "TroubleToggle",
-	},
-	{
-		"wakatime/vim-wakatime",
-	},
-	{
-		"simrat39/symbols-outline.nvim",
-		cmd = "SymbolsOutline",
-		keys = {
-			{ "<leader>S", "<cmd>SymbolsOutline<cr>", desc = "SymbolsOutline" },
-		},
-		config = function()
-			require("symbols-outline").setup({
-				auto_preview = true,
-			})
-		end,
-	},
-	{
-		"stevearc/aerial.nvim",
-		dependencies = {
-			"nvim-treesitter/nvim-treesitter",
-			"nvim-tree/nvim-web-devicons",
-		},
-		cmd = "AerialToggle",
-		config = function()
-			require("aerial").setup({
-				-- optionally use on_attach to set keymaps when aerial has attached to a buffer
-				on_attach = function(bufnr)
-					-- Jump forwards/backwards with '{' and '}'
-					vim.keymap.set("n", "{", "<cmd>AerialPrev<CR>", { buffer = bufnr })
-					vim.keymap.set("n", "}", "<cmd>AerialNext<CR>", { buffer = bufnr })
-				end,
-			})
-		end,
-	},
-	{
-		"neovim/nvim-lspconfig",
-		dependencies = {
-			{
-				"SmiteshP/nvim-navbuddy",
-				dependencies = {
-					"SmiteshP/nvim-navic",
-					"MunifTanjim/nui.nvim",
-					"numToStr/Comment.nvim", -- Optional
-					"nvim-telescope/telescope.nvim", -- Optional
-				},
-				opts = { lsp = { auto_attach = true } },
-			},
-		},
-	},
-	{
-		"tzachar/cmp-tabnine",
-		build = "./install.sh",
-		dependencies = "hrsh7th/nvim-cmp",
-		event = "InsertEnter",
-	},
-	{
-		"scalameta/nvim-metals",
-		ft = { "scala" },
-		config = function()
-			require("user.metals").config()
-		end,
-	},
-	{
-		"NTBBloodbath/doom-one.nvim",
-		init = require("user.doom").init,
-		config = function() end,
-	},
-	{
-		"rktjmp/lush.nvim",
-	},
-	{
-		"Scysta/pink-panic.nvim",
-	},
-	{
-		"catppuccin/nvim",
-		require("catppuccin").setup({
-			background = {
-				-- :h background
-				light = "latte",
-				dark = "mocha",
-			},
-			-- flavour = "latte",
-			transparent_background = (vim.g.neovide ~= nil),
-			-- transparent_background = true,
-		}),
-	},
-	{
-		"sainnhe/gruvbox-material",
-	},
-	{
-		"purescript-contrib/purescript-vim",
-	},
-	{
-		-- <leader>mm
-		"gorbit99/codewindow.nvim",
-		config = function()
-			local codewindow = require("codewindow")
-			codewindow.setup({
-				-- auto_enable = true,
-				minimap_width = 13,
-			})
-			codewindow.apply_default_keybinds()
-		end,
-		keys = {
-			{ "<leader>mm" },
-		},
-	},
-	{
-		"sindrets/diffview.nvim",
-		dependencies = "nvim-lua/plenary.nvim",
-		cmd = "DiffviewOpen",
-	},
-	{
-		"ggandor/flit.nvim",
-		dependencies = {
-			"ggandor/leap.nvim",
-			"tpope/vim-repeat",
-		},
-		config = function()
-			require("flit").setup({
-				keys = { f = "f", F = "F", t = "t", T = "T" },
-				-- A string like "nv", "nvo", "o", etc.
-				labeled_modes = "nvo",
-				multiline = true,
-				-- Like `leap`s similar argument (call-specific overrides).
-				-- E.g.: opts = { equivalence_classes = {} }
-				opts = {},
-			})
-		end,
-	},
-	{
-		"danymat/neogen",
-		dependencies = {
-			"nvim-treesitter/nvim-treesitter",
-		},
-		config = function()
-			require("neogen").setup({
-				snippet_engine = "luasnip",
-				languages = {
-					["cpp.doxygen"] = require("neogen.configurations.cpp"),
-				},
-			})
-		end,
-		cmd = { "Neogen" },
-	},
-	"simrat39/rust-tools.nvim",
-	{
-		"saecki/crates.nvim",
-		version = "v0.3.0",
-		dependencies = { "nvim-lua/plenary.nvim" },
-		ft = { "rust", "toml" },
-		config = function()
-			require("crates").setup({
-				null_ls = {
-					enabled = true,
-					name = "crates.nvim",
-				},
-				popup = {
-					border = "rounded",
-				},
-			})
-		end,
-	},
-	{
-		"j-hui/fidget.nvim",
-		config = function()
-			require("fidget").setup()
-		end,
-	},
-	{
-		"kaarmu/typst.vim",
-		ft = "typst",
-	},
+            require("indent_blankline").setup({
+                show_end_of_line = false,
+                space_char_blankline = " ",
+                show_current_context = true,
+                show_current_context_start = true,
+            })
+        end,
+    },
+    {
+        "nvim-treesitter/nvim-treesitter-context",
+        dependencies = { "nvim-treesitter/nvim-treesitter" },
+        config = function()
+            require("treesitter-context").setup()
+        end,
+    },
+    {
+        -- Use :number to pick and peek lines
+        "nacro90/numb.nvim",
+        config = function()
+            require("numb").setup({})
+        end,
+    },
+    {
+        -- Change surround: cs'"
+        -- Surround word: ysiw)
+        -- Delete surround: ds]
+        "kylechui/nvim-surround",
+        version = "*", -- Use for stability; omit to use `main` branch for the latest features
+        config = function()
+            require("nvim-surround").setup({})
+        end,
+    },
+    {
+        "andweeb/presence.nvim",
+        config = function()
+            require("presence").setup({
+                auto_update = true,
+                neovim_image_text = "The One True Text Editor",
+                main_image = "neovim",
+                buttons = true,
+            })
+        end,
+    },
+    {
+        "folke/trouble.nvim",
+        cmd = "TroubleToggle",
+    },
+    {
+        "wakatime/vim-wakatime",
+    },
+    {
+        "simrat39/symbols-outline.nvim",
+        cmd = "SymbolsOutline",
+        keys = {
+            { "<leader>S", "<cmd>SymbolsOutline<cr>", desc = "SymbolsOutline" },
+        },
+        config = function()
+            require("symbols-outline").setup({
+                auto_preview = true,
+            })
+        end,
+    },
+    {
+        "stevearc/aerial.nvim",
+        dependencies = {
+            "nvim-treesitter/nvim-treesitter",
+            "nvim-tree/nvim-web-devicons",
+        },
+        cmd = "AerialToggle",
+        config = function()
+            require("aerial").setup({
+                -- optionally use on_attach to set keymaps when aerial has attached to a buffer
+                on_attach = function(bufnr)
+                    -- Jump forwards/backwards with '{' and '}'
+                    vim.keymap.set("n", "{", "<cmd>AerialPrev<CR>", { buffer = bufnr })
+                    vim.keymap.set("n", "}", "<cmd>AerialNext<CR>", { buffer = bufnr })
+                end,
+            })
+        end,
+    },
+    {
+        "neovim/nvim-lspconfig",
+        dependencies = {
+            {
+                "SmiteshP/nvim-navbuddy",
+                dependencies = {
+                    "SmiteshP/nvim-navic",
+                    "MunifTanjim/nui.nvim",
+                    "numToStr/Comment.nvim", -- Optional
+                    "nvim-telescope/telescope.nvim", -- Optional
+                },
+                opts = { lsp = { auto_attach = true } },
+            },
+        },
+    },
+    {
+        "tzachar/cmp-tabnine",
+        build = "./install.sh",
+        dependencies = "hrsh7th/nvim-cmp",
+        event = "InsertEnter",
+    },
+    {
+        "scalameta/nvim-metals",
+        -- ft = { "scala" },
+        config = function()
+            require("user.metals").config()
+        end,
+    },
+    {
+        "NTBBloodbath/doom-one.nvim",
+        init = require("user.doom").init,
+        config = function() end,
+    },
+    {
+        "rktjmp/lush.nvim",
+    },
+    {
+        "Scysta/pink-panic.nvim",
+    },
+    {
+        "catppuccin/nvim",
+        require("catppuccin").setup({
+            background = {
+                -- :h background
+                light = "latte",
+                dark = "mocha",
+            },
+            -- flavour = "latte",
+            transparent_background = (vim.g.neovide ~= nil),
+            -- transparent_background = true,
+        }),
+    },
+    {
+        "sainnhe/gruvbox-material",
+    },
+    {
+        "purescript-contrib/purescript-vim",
+    },
+    {
+        -- <leader>mm
+        "gorbit99/codewindow.nvim",
+        config = function()
+            local codewindow = require("codewindow")
+            codewindow.setup({
+                -- auto_enable = true,
+                minimap_width = 13,
+            })
+            codewindow.apply_default_keybinds()
+        end,
+        keys = {
+            { "<leader>mm" },
+        },
+    },
+    {
+        "sindrets/diffview.nvim",
+        dependencies = "nvim-lua/plenary.nvim",
+        cmd = "DiffviewOpen",
+    },
+    {
+        "ggandor/flit.nvim",
+        dependencies = {
+            "ggandor/leap.nvim",
+            "tpope/vim-repeat",
+        },
+        config = function()
+            require("flit").setup({
+                keys = { f = "f", F = "F", t = "t", T = "T" },
+                -- A string like "nv", "nvo", "o", etc.
+                labeled_modes = "nvo",
+                multiline = false,
+                -- Like `leap`s similar argument (call-specific overrides).
+                -- E.g.: opts = { equivalence_classes = {} }
+                opts = {},
+            })
+        end,
+    },
+    {
+        "danymat/neogen",
+        dependencies = {
+            "nvim-treesitter/nvim-treesitter",
+        },
+        config = function()
+            require("neogen").setup({
+                snippet_engine = "luasnip",
+                languages = {
+                    ["cpp.doxygen"] = require("neogen.configurations.cpp"),
+                },
+            })
+        end,
+        cmd = { "Neogen" },
+    },
+    "simrat39/rust-tools.nvim",
+    {
+        "saecki/crates.nvim",
+        version = "v0.3.0",
+        dependencies = { "nvim-lua/plenary.nvim" },
+        ft = { "rust", "toml" },
+        config = function()
+            require("crates").setup({
+                null_ls = {
+                    enabled = true,
+                    name = "crates.nvim",
+                },
+                popup = {
+                    border = "rounded",
+                },
+            })
+        end,
+    },
+    {
+        "j-hui/fidget.nvim",
+        config = function()
+            require("fidget").setup()
+        end,
+    },
+    {
+        "kaarmu/typst.vim",
+        ft = "typst",
+    },
 }
 
 require("dap").configurations.scala = {
-	{
-		type = "scala",
-		request = "launch",
-		name = "Run or Test Target",
-		metals = {
-			runType = "runOrTestFile",
-		},
-	},
-	{
-		type = "scala",
-		request = "launch",
-		name = "Test Target",
-		metals = {
-			runType = "testTarget",
-		},
-	},
+    {
+        type = "scala",
+        request = "launch",
+        name = "Run or Test Target",
+        metals = {
+            runType = "runOrTestFile",
+        },
+    },
+    {
+        type = "scala",
+        request = "launch",
+        name = "Test Target",
+        metals = {
+            runType = "testTarget",
+        },
+    },
 }
 
 -- -- Autocommands (`:help autocmd`) <https://neovim.io/doc/user/autocmd.html>
@@ -428,25 +428,25 @@ pcall(rust_config.rust_tools_config)
 lvim.builtin.dap.on_config_done = rust_config.dap_config
 
 function toggle_term_with(app_cmd)
-	local Terminal = require("toggleterm.terminal").Terminal
-	local gitui = Terminal:new({
-		cmd = app_cmd,
-		hidden = true,
-		direction = "float",
-		float_opts = {
-			border = "double",
-			width = function(_)
-				return math.floor(vim.o.columns)
-			end,
-			height = function(_)
-				return math.floor(vim.o.lines * 0.85)
-			end,
-		},
-		on_open = function(_)
-			vim.cmd("startinsert!")
-		end,
-		on_close = function(_) end,
-		count = 99,
-	})
-	gitui:toggle()
+    local Terminal = require("toggleterm.terminal").Terminal
+    local gitui = Terminal:new({
+        cmd = app_cmd,
+        hidden = true,
+        direction = "float",
+        float_opts = {
+            border = "double",
+            width = function(_)
+                return math.floor(vim.o.columns)
+            end,
+            height = function(_)
+                return math.floor(vim.o.lines * 0.85)
+            end,
+        },
+        on_open = function(_)
+            vim.cmd("startinsert!")
+        end,
+        on_close = function(_) end,
+        count = 99,
+    })
+    gitui:toggle()
 end
