@@ -26,7 +26,7 @@ lvim.format_on_save = {
 }
 
 -- -- Change theme settings
-local colorschemes = { "lunar", "gruvbox-material", "tokyonight-moon", "pink-panic", "doom-one", "catppuccin" }
+local colorschemes = { "lunar", "gruvbox-material", "tokyonight-moon", "pink-ai", "doom-one", "catppuccin" }
 lvim.colorscheme = colorschemes[4]
 if vim.g.neovide == nil then
 	vim.opt.background = "light"
@@ -122,6 +122,9 @@ linters.setup({
 
 -- -- Additional Plugins <https://www.lunarvim.org/docs/plugins#user-plugins>
 lvim.plugins = {
+	{
+		dir = vim.env.HOME .. "/.config/lvim/lua/user/colors/pink_ai",
+	},
 	{
 		"kevinhwang91/rnvimr",
 		cmd = { "RnvimrToggle" },
@@ -421,7 +424,7 @@ vim.g.neovide_cursor_vfx_particle_lifetime = 2.0
 vim.g.neovide_cursor_vfx_particle_density = 10.0
 vim.g.neovide_floating_blur_amount_x = 2.0
 vim.g.neovide_floating_blur_amount_y = 2.0
-vim.opt.guifont = { "CaskaydiaCove Nerd Font Mono", ":h18" }
+vim.opt.guifont = { "CaskaydiaCove Nerd Font Mono", ":h14" }
 vim.api.nvim_set_var("neovide_transparency", 0.85)
 
 -- lldb dap related
