@@ -27,7 +27,8 @@ lvim.format_on_save = {
 
 -- -- Change theme settings
 local colorschemes = { "lunar", "gruvbox-material", "tokyonight-moon", "pink-ai", "doom-one", "catppuccin" }
-lvim.colorscheme = colorschemes[4]
+lvim.colorscheme = colorschemes[6]
+-- lvim.colorscheme = "lunar"
 if vim.g.neovide == nil then
 	vim.opt.background = "light"
 else
@@ -74,13 +75,21 @@ require("lvim.lsp.manager").setup("csharp_ls", opts)
 
 -- -- you can set a custom on_attach function that will be used for all the language servers
 -- -- See <https://github.com/neovim/nvim-lspconfig#keybindings-and-completion>
--- lvim.lsp.on_attach_callback = function(client, bufnr)
---   local function buf_set_option(...)
---     vim.api.nvim_buf_set_option(bufnr, ...)
---   end
---   --Enable completion triggered by <c-x><c-o>
---   buf_set_option("omnifunc", "v:lua.vim.lsp.omnifunc")
--- end
+lvim.lsp.on_attach_callback = function(client, bufnr)
+	for index, data in ipairs(client) do
+		print("index: " .. index .. "data: " .. data)
+
+		-- for key, value in pairs(data) do
+		-- 	print("\t", key, value)
+		-- end
+	end
+	require("nvim-navbuddy").attach(client, bufnr)
+	--   local function buf_set_option(...)
+	--     vim.api.nvim_buf_set_option(bufnr, ...)
+	--   end
+	--   --Enable completion triggered by <c-x><c-o>
+	--   buf_set_option("omnifunc", "v:lua.vim.lsp.omnifunc")
+end
 
 -- -- linters and formatters <https://www.lunarvim.org/docs/languages#lintingformatting>
 -- local null_ls = require("null-ls")
@@ -123,6 +132,38 @@ linters.setup({
 -- -- Additional Plugins <https://www.lunarvim.org/docs/plugins#user-plugins>
 lvim.plugins = {
 	{
+		"ionide/Ionide-vim",
+		config = function()
+			vim.cmd([[
+let g:fsharp#fsautocomplete_command =
+    \ [ 'dotnet',
+    \   'fsautocomplete',
+    \   '--background-service-enabled'
+    \ ]
+let g:fsharp#lsp_auto_setup = 0
+]])
+			require("ionide").setup({})
+		end,
+	},
+	{
+		"lvimuser/lsp-inlayhints.nvim",
+		branch = "anticonceal",
+		opts = {},
+		lazy = true,
+		init = function()
+			vim.api.nvim_create_autocmd("LspAttach", {
+				group = vim.api.nvim_create_augroup("LspAttach_inlayhints", {}),
+				callback = function(args)
+					if not (args.data and args.data.client_id) then
+						return
+					end
+					local client = vim.lsp.get_client_by_id(args.data.client_id)
+					require("lsp-inlayhints").on_attach(client, args.buf)
+				end,
+			})
+		end,
+	},
+	{
 		dir = vim.env.HOME .. "/.config/lvim/lua/user/colors/pink_ai",
 	},
 	{
@@ -162,6 +203,11 @@ lvim.plugins = {
 	{
 		"notomo/cmdbuf.nvim",
 	},
+	-- {
+	-- 	"shellRaining/hlchunk.nvim",
+	-- 	dir = vim.env.HOME .. "/projects/hlchunk.nvim",
+	-- 	event = { "UIEnter" },
+	-- },
 	{
 		"lukas-reineke/indent-blankline.nvim",
 		config = function()
@@ -250,18 +296,12 @@ lvim.plugins = {
 		end,
 	},
 	{
-		"neovim/nvim-lspconfig",
+		"SmiteshP/nvim-navbuddy",
 		dependencies = {
-			{
-				"SmiteshP/nvim-navbuddy",
-				dependencies = {
-					"SmiteshP/nvim-navic",
-					"MunifTanjim/nui.nvim",
-					"numToStr/Comment.nvim", -- Optional
-					"nvim-telescope/telescope.nvim", -- Optional
-				},
-				opts = { lsp = { auto_attach = true } },
-			},
+			"SmiteshP/nvim-navic",
+			"MunifTanjim/nui.nvim",
+			"numToStr/Comment.nvim", -- Optional
+			"nvim-telescope/telescope.nvim", -- Optional
 		},
 	},
 	{
@@ -290,7 +330,7 @@ lvim.plugins = {
 	},
 	{
 		"catppuccin/nvim",
-		require("catppuccin").setup({
+		config = require("catppuccin").setup({
 			background = {
 				-- :h background
 				light = "latte",
