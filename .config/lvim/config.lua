@@ -76,14 +76,10 @@ require("lvim.lsp.manager").setup("csharp_ls", opts)
 -- -- you can set a custom on_attach function that will be used for all the language servers
 -- -- See <https://github.com/neovim/nvim-lspconfig#keybindings-and-completion>
 lvim.lsp.on_attach_callback = function(client, bufnr)
-	for index, data in ipairs(client) do
-		print("index: " .. index .. "data: " .. data)
-
-		-- for key, value in pairs(data) do
-		-- 	print("\t", key, value)
-		-- end
+	if client.name ~= "null-ls" then
+		require("nvim-navbuddy").attach(client, bufnr)
+		require("lsp-inlayhints").on_attach(client, bufnr)
 	end
-	require("nvim-navbuddy").attach(client, bufnr)
 	--   local function buf_set_option(...)
 	--     vim.api.nvim_buf_set_option(bufnr, ...)
 	--   end
@@ -150,18 +146,6 @@ let g:fsharp#lsp_auto_setup = 0
 		branch = "anticonceal",
 		opts = {},
 		lazy = true,
-		init = function()
-			vim.api.nvim_create_autocmd("LspAttach", {
-				group = vim.api.nvim_create_augroup("LspAttach_inlayhints", {}),
-				callback = function(args)
-					if not (args.data and args.data.client_id) then
-						return
-					end
-					local client = vim.lsp.get_client_by_id(args.data.client_id)
-					require("lsp-inlayhints").on_attach(client, args.buf)
-				end,
-			})
-		end,
 	},
 	{
 		dir = vim.env.HOME .. "/.config/lvim/lua/user/colors/pink_ai",
