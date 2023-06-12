@@ -11,6 +11,7 @@ vim.opt.exrc = true
 vim.opt.shiftwidth = 4
 vim.opt.tabstop = 4
 vim.opt.relativenumber = true
+-- Use ufo instead
 -- vim.opt.foldmethod = "expr" -- folding set to "expr" for treesitter based folding
 -- vim.opt.foldexpr = "nvim_treesitter#foldexpr()" -- set to "nvim_treesitter#foldexpr()" for treesitter based folding
 vim.o.foldcolumn = "1"
@@ -404,6 +405,7 @@ let g:fsharp#lsp_auto_setup = 0
 	},
 	{
 		"j-hui/fidget.nvim",
+		branch = "legacy",
 		config = function()
 			require("fidget").setup()
 		end,
