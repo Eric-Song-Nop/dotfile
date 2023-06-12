@@ -137,8 +137,8 @@ let g:fsharp#fsautocomplete_command =
     \   'fsautocomplete',
     \   '--background-service-enabled'
     \ ]
-let g:fsharp#lsp_auto_setup = 0
 ]])
+			vim.g["fsharp#lsp_auto_setup"] = 1
 			require("ionide").setup({})
 		end,
 	},
