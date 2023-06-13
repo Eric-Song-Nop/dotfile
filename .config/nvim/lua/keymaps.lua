@@ -78,6 +78,8 @@ wk.register({
         t = { ":Telescope live_grep<CR>", "Search words" },
         p = { ":Telescope projects<CR>", "Projects" },
         b = { ":Telescope buffers<CR>", "Search Buffers" },
+        k = { ":Telescope keymaps<CR>", "Search Keymaps" },
+        c = { ":Telescope colorscheme<CR>", "Search colorscheme" },
     },
 }, { prefix = "<leader>" })
 
