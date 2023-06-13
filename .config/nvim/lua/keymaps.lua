@@ -41,6 +41,16 @@ keymap("n", "<C-Right>", ":vertical resize +2<CR>", opts)
 -- Navigate buffers
 keymap("n", "<S-l>", ":bnext<CR>", opts)
 keymap("n", "<S-h>", ":bprevious<CR>", opts)
+-- Tab
+wk.register({
+    b = {
+        name = "Tab",
+        t = { ":$tabnew<CR>", "New tab" },
+        n = { ":tabn<CR>", "Next tab" },
+        p = { ":tabp<CR>", "Prev tab" },
+        c = { ":tabclose<CR>", "Close tab" },
+    },
+}, { prefix = "<leader>" })
 
 -- Close buffers
 keymap("n", "<S-q>", "<cmd>Bdelete!<CR>", opts)
@@ -80,6 +90,7 @@ wk.register({
         b = { ":Telescope buffers<CR>", "Search Buffers" },
         k = { ":Telescope keymaps<CR>", "Search Keymaps" },
         c = { ":Telescope colorscheme<CR>", "Search colorscheme" },
+        r = { ":Telescope oldfiles<CR>", "Recent files" },
     },
 }, { prefix = "<leader>" })
 
