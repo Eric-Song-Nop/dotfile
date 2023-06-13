@@ -1,3 +1,4 @@
+used_buffer_line = "tabby"
 require "options"
 require "Lazy"
 require "keymaps"
