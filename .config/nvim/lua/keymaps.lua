@@ -3,9 +3,15 @@ local keymap = vim.keymap.set
 -- Silent keymap option
 local opts = { silent = true }
 
+local wk = require "which-key"
+
 --Remap space as leader key
 keymap("", "<Space>", "<Nop>", opts)
 vim.g.mapleader = " "
+
+-- Ufo
+keymap("n", "zR", require("ufo").openAllFolds, opts)
+keymap("n", "zM", require("ufo").closeAllFolds, opts)
 
 -- Modes
 --   normal_mode = "n",
@@ -36,18 +42,18 @@ keymap("n", "<C-Right>", ":vertical resize +2<CR>", opts)
 keymap("n", "<S-l>", ":bnext<CR>", opts)
 keymap("n", "<S-h>", ":bprevious<CR>", opts)
 
--- Clear highlights
-keymap("n", "<leader>h", "<cmd>nohlsearch<CR>", opts)
-
 -- Close buffers
 keymap("n", "<S-q>", "<cmd>Bdelete!<CR>", opts)
+
+-- Clear highlights
+keymap("n", "<leader>h", "<cmd>nohlsearch<CR>", opts)
 
 -- Better paste
 keymap("v", "p", "P", opts)
 
 -- Insert --
 -- Press jk fast to enter
-keymap("i", "jk", "<ESC>", opts)
+-- keymap("i", "jk", "<ESC>", opts)
 
 -- Visual --
 -- Stay in indent mode
@@ -57,31 +63,64 @@ keymap("v", ">", ">gv", opts)
 -- Plugins --
 
 -- NvimTree
-keymap("n", "<leader>e", ":NvimTreeToggle<CR>", opts)
+wk.register({
+    e = {
+        ":NvimTreeToggle<CR>",
+        "Explorer",
+    },
+}, { prefix = "<leader>" })
 
 -- Telescope
-keymap("n", "<leader>ff", ":Telescope find_files<CR>", opts)
-keymap("n", "<leader>ft", ":Telescope live_grep<CR>", opts)
-keymap("n", "<leader>fp", ":Telescope projects<CR>", opts)
-keymap("n", "<leader>fb", ":Telescope buffers<CR>", opts)
+wk.register({
+    s = {
+        name = "Telescope",
+        f = { ":Telescope find_files<CR>", "Find files" },
+        t = { ":Telescope live_grep<CR>", "Search words" },
+        p = { ":Telescope projects<CR>", "Projects" },
+        b = { ":Telescope buffers<CR>", "Search Buffers" },
+    },
+}, { prefix = "<leader>" })
 
 -- Git
-keymap("n", "<leader>gg", "<cmd>lua _GITUI_TOGGLE()<CR>", opts)
+wk.register({
+    g = {
+        name = "Git",
+        g = { "<cmd>lua _GITUI_TOGGLE()<CR>", "Gitui" },
+        s = { "<cmd>Gitsigns stage_hunk<CR>", "Stage hunk" },
+        r = { "<cmd>Gitsigns reset_hunk<CR>", "Reset hunk" },
+        p = { "<cmd>Gitsigns preview_hunk<CR>", "Preview hunk" },
+        b = { "<cmd>Gitsigns toggle_current_line_blame<CR>", "Preview blame" },
+    },
+}, { prefix = "<leader>" })
 
 -- Comment
 keymap("n", "<leader>/", "<cmd>lua require('Comment.api').toggle.linewise.current()<CR>", opts)
 keymap("x", "<leader>/", "<esc><cmd>lua require('Comment.api').toggle.linewise(vim.fn.visualmode())<CR>", opts)
 
 -- DAP
-keymap("n", "<leader>db", "<cmd>lua require'dap'.toggle_breakpoint()<cr>", opts)
-keymap("n", "<leader>dc", "<cmd>lua require'dap'.continue()<cr>", opts)
-keymap("n", "<leader>di", "<cmd>lua require'dap'.step_into()<cr>", opts)
-keymap("n", "<leader>do", "<cmd>lua require'dap'.step_over()<cr>", opts)
-keymap("n", "<leader>dO", "<cmd>lua require'dap'.step_out()<cr>", opts)
-keymap("n", "<leader>dr", "<cmd>lua require'dap'.repl.toggle()<cr>", opts)
-keymap("n", "<leader>dl", "<cmd>lua require'dap'.run_last()<cr>", opts)
-keymap("n", "<leader>du", "<cmd>lua require'dapui'.toggle()<cr>", opts)
-keymap("n", "<leader>dt", "<cmd>lua require'dap'.terminate()<cr>", opts)
+wk.register({
+    d = {
+        name = "Dap",
+        b = { "<cmd>lua require'dap'.toggle_breakpoint()<cr>", "toggle breakpoint" },
+        c = { "<cmd>lua require'dap'.continue()<cr>", "continue" },
+        i = { "<cmd>lua require'dap'.step_into()<cr>", "step into" },
+        o = { "<cmd>lua require'dap'.step_over()<cr>", "step over" },
+        O = { "<cmd>lua require'dap'.step_out()<cr>", "step out" },
+        r = { "<cmd>lua require'dap'.repl.toggle()<cr>", "repl toggle" },
+        l = { "<cmd>lua require'dap'.run_last()<cr>", "run last" },
+        u = { "<cmd>lua require'dapui'.toggle()<cr>", "ui toggle" },
+        t = { "<cmd>lua require'dap'.terminate()<cr>", "terminate" },
+    },
+}, { prefix = "<leader>" })
+-- keymap("n", "<leader>db", "<cmd>lua require'dap'.toggle_breakpoint()<cr>", opts)
+-- keymap("n", "<leader>dc", "<cmd>lua require'dap'.continue()<cr>"         , opts)
+-- keymap("n", "<leader>di", "<cmd>lua require'dap'.step_into()<cr>"        , opts)
+-- keymap("n", "<leader>do", "<cmd>lua require'dap'.step_over()<cr>"        , opts)
+-- keymap("n", "<leader>dO", "<cmd>lua require'dap'.step_out()<cr>"         , opts)
+-- keymap("n", "<leader>dr", "<cmd>lua require'dap'.repl.toggle()<cr>"      , opts)
+-- keymap("n", "<leader>dl", "<cmd>lua require'dap'.run_last()<cr>"         , opts)
+-- keymap("n", "<leader>du", "<cmd>lua require'dapui'.toggle()<cr>"         , opts)
+-- keymap("n", "<leader>dt", "<cmd>lua require'dap'.terminate()<cr>"        , opts)
 
 -- Lsp
 keymap("n", "<leader>lf", "<cmd>lua vim.lsp.buf.format{ async = true }<cr>", opts)
