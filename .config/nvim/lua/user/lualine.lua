@@ -48,6 +48,14 @@ function M.config()
         return "spaces: " .. vim.api.nvim_buf_get_option(0, "shiftwidth")
     end
     lualine.setup {
+        extensions = {
+            "symbols-outline",
+            "nvim-tree",
+            "nvim-dap-ui",
+            "toggleterm",
+            "lazy",
+            "quickfix",
+        },
         options = {
             globalstatus = true,
             icons_enabled = true,
