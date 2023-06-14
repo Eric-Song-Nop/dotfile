@@ -1,3 +1,4 @@
+vim.g.mapleader = " "
 used_buffer_line = "tabby"
 require "options"
 require "Lazy"
