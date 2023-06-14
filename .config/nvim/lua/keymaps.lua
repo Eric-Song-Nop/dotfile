@@ -136,4 +136,10 @@ wk.register({
 -- keymap("n", "<leader>dt", "<cmd>lua require'dap'.terminate()<cr>"        , opts)
 
 -- Lsp
-keymap("n", "<leader>lf", "<cmd>lua vim.lsp.buf.format{ async = true }<cr>", opts)
+wk.register({
+    l = {
+        name = "Lsp",
+        f = { "<cmd>lua vim.lsp.buf.format{ async = true }<cr>", "Format" },
+        v = { "<cmd>Navbuddy<cr>", "Navbuddy" },
+    },
+}, { prefix = "<leader>" })
