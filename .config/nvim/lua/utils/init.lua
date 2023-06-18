@@ -1,6 +1,7 @@
 local M = {}
 
 M.servers = {
+    "typst_lsp",
     "clangd",
     "lua_ls",
     "cssls",
