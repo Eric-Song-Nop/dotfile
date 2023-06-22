@@ -2,7 +2,13 @@ local M = {
     "folke/flash.nvim",
     event = "VeryLazy",
     ---@type Flash.Config
-    opts = {},
+    opts = {
+        highlight = {
+            label = {
+                after = { 0, 0 },
+            },
+        },
+    },
     keys = {
         {
             "s",
@@ -13,7 +19,7 @@ local M = {
             end,
         },
         {
-            "S",
+            "<enter>",
             mode = { "n", "o", "x" },
             function()
                 require("flash").treesitter()
