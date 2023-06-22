@@ -3,6 +3,9 @@ local M = {
     event = "VeryLazy",
     ---@type Flash.Config
     opts = {
+        jump = {
+            autojump = true,
+        },
         highlight = {
             label = {
                 after = { 0, 0 },
