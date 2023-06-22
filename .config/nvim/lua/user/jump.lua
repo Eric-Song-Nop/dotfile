@@ -1,28 +1,25 @@
 local M = {
-    "ggandor/flit.nvim",
-    lazy = false,
-    dependencies = {
+    "folke/flash.nvim",
+    event = "VeryLazy",
+    ---@type Flash.Config
+    opts = {},
+    keys = {
         {
-            "ggandor/leap.nvim",
-            dependencies = {
-                "tpope/vim-repeat",
-            },
-            config = function()
-                require("leap").add_default_mappings()
+            "s",
+            mode = { "n", "x", "o" },
+            function()
+                -- default options: exact mode, multi window, all directions, with a backdrop
+                require("flash").jump()
+            end,
+        },
+        {
+            "S",
+            mode = { "n", "o", "x" },
+            function()
+                require("flash").treesitter()
             end,
         },
     },
-    config = function()
-        require("flit").setup {
-            keys = { f = "f", F = "F", t = "t", T = "T" },
-            -- A string like "nv", "nvo", "o", etc.
-            labeled_modes = "nvo",
-            multiline = false,
-            -- Like `leap`s similar argument (call-specific overrides).
-            -- E.g.: opts = { equivalence_classes = {} }
-            opts = {},
-        }
-    end,
 }
 
 return M
