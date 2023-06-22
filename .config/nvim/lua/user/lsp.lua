@@ -21,6 +21,12 @@ function M.config()
     local capabilities = vim.lsp.protocol.make_client_capabilities()
     capabilities.textDocument.completion.completionItem.snippetSupport = true
     capabilities = cmp_nvim_lsp.default_capabilities(M.capabilities)
+    capabilities = vim.tbl_deep_extend("force", capabilities, {
+        offsetEncoding = { "utf-16" },
+        general = {
+            positionEncodings = { "utf-16" },
+        },
+    })
 
     local function lsp_keymaps(bufnr)
         local opts = { noremap = true, silent = true }
@@ -66,6 +72,7 @@ function M.config()
         Opts = {
             on_attach = on_attach,
             capabilities = capabilities,
+            offset_encoding = "utf-16",
         }
 
         server = vim.split(server, "@")[1]
