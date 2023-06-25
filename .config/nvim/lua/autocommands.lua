@@ -67,6 +67,9 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
         local bufnr = args.buf
         local client = vim.lsp.get_client_by_id(args.data.client_id)
+        if client.name == "lua_ls" then
+            client.server_capabilities.documentFormattingProvider = false
+        end
         if client.name ~= "null-ls" then
             if client.server_capabilities.inlayHintProvider and client.name ~= "rust_analyzer" then
                 vim.lsp.buf.inlay_hint(bufnr, true)
