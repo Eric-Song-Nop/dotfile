@@ -10,12 +10,16 @@ local M = {
             "nvim-tree/nvim-web-devicons",
             event = "VeryLazy",
         },
+        {
+            "nvim-treesitter/nvim-treesitter-context",
+            event = "VeryLazy",
+        },
     },
 }
 function M.config()
     local treesitter = require "nvim-treesitter"
     local configs = require "nvim-treesitter.configs"
-
+    require("treesitter-context").setup {}
     configs.setup {
         ensure_installed = { "lua", "markdown", "markdown_inline", "bash", "python" }, -- put the language you want in this array
         -- ensure_installed = "all", -- one of "all" or a list of languages

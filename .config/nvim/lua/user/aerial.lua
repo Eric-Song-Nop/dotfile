@@ -1,5 +1,6 @@
 local M = {
     "stevearc/aerial.nvim",
+    -- dev = true,
     opts = {},
     dependencies = {
         "nvim-treesitter/nvim-treesitter",
