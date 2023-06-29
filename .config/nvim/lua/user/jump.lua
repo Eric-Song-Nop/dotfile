@@ -6,10 +6,8 @@ local M = {
         jump = {
             autojump = true,
         },
-        highlight = {
-            label = {
-                after = { 0, 0 },
-            },
+        label = {
+            after = { 0, 0 },
         },
     },
     keys = {

@@ -8,6 +8,7 @@ This is where I put all my important config files.
 - [gitui](https://github.com/extrawurst/gitui)
 - [ranger](https://ranger.github.io)
 - [kitty](https://sw.kovidgoyal.net/kitty/)
+- [kmonad](https://github.com/kmonad/kmonad/)
 - [BetterDiscord](https://betterdiscord.app/themes)
 - [zellij](https://zellij.dev)
 
@@ -21,4 +22,5 @@ This is where I put all my important config files.
 - [zoxide](https://github.com/ajeetdsouza/zoxide)
 
 ## Less active
+
 - [lvim](https://www.lunarvim.org), I use my own nvim config now.
