@@ -12,6 +12,7 @@ M.servers = {
     "jsonls",
     "yamlls",
     "zls",
+    "hls",
     -- "rust_analyzer",
 }
 
