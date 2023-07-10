@@ -18,7 +18,7 @@ if [[ $1 == "--edge" ]]; then
 fi
 
 if [[ $1 == "--files" ]]; then
-	thunar
+    dolphin
 fi
 
 if [[ $1 == "--discord" ]]; then
