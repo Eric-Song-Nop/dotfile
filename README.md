@@ -4,6 +4,7 @@ This is where I put all my important config files.
 
 ## Actively used configs
 
+- [awesome wm](https://awesomewm.org)
 - [nvim](https://neovim.io)
 - [gitui](https://github.com/extrawurst/gitui)
 - [ranger](https://ranger.github.io)
