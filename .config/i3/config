@@ -286,7 +286,7 @@ bindsym XF86AudioPrev exec playerctl previous
 bindsym $mod+p exec /usr/local/bin/switch-audio-port
 
 ## App shortcuts
-bindsym $mod+w exec /usr/bin/firefox
+bindsym $mod+w exec /usr/bin/vivaldi-stable
 bindsym $mod+n exec /usr/bin/thunar
 bindsym Print exec scrot ~/%Y-%m-%d-%T-screenshot.png && notify-send "Screenshot saved to ~/$(date +"%Y-%m-%d-%T")-screenshot.png"
 
@@ -304,11 +304,11 @@ set $ws2 "2:"
 set $ws3 "3:"
 set $ws4 "4:"
 set $ws5 "5:"
-set $ws6 "6"
-set $ws7 "7"
-set $ws8 "8"
-set $ws9 "9"
-set $ws10 "10"
+set $ws6 "6:α"
+set $ws7 "7:β"
+set $ws8 "8:λ"
+set $ws9 "9:γ"
+set $ws10 "10:θ"
 
 # use workspaces on different displays:
 # where you have to replace VGA-0/HDMI-0 with the names for your displays
@@ -321,14 +321,14 @@ set $ws10 "10"
 
 # bind program to workspace and focus to them on startup:
 assign [class="Xfce4-terminal"] $ws1
-assign [class="(?i)firefox"] $ws2
+assign [class="(?i)vivaldi-stable"] $ws2
 assign [class="Thunar"] $ws3
 assign [class="thunderbird"] $ws4
 assign [class="TelegramDesktop"] $ws5
 
 # automatic set focus new window if it opens on another workspace than the current:
 for_window [class=Xfce4-terminal] focus
-for_window [class=(?i)firefox] focus
+for_window [class=(?i)vivaldi-stable] focus
 for_window [class=Thunar] focus
 for_window [class=Thunderbird] focus
 for_window [class=TelegramDesktop] focus
@@ -395,7 +395,7 @@ exec --no-startup-id ~/.screenlayout/monitor.sh
 
 # set wallpaper
 # exec --no-startup-id sleep 2 && nitrogen --restore
-exec --no-startup-id sleep 1 && feh --bg-fill /usr/share/endeavouros/backgrounds/endeavouros-wallpaper.png
+exec --no-startup-id sleep 1 && feh --bg-fill /home/eric/Pictures/gruvbox-dark-rainbow.png
 
 # set powersavings for display:
 exec --no-startup-id xset s 480 dpms 600 600 600
@@ -429,7 +429,7 @@ exec --no-startup-id /usr/bin/dunst
 
 # Autostart apps as you like
 #exec --no-startup-id sleep 2 && xfce4-terminal
-exec --no-startup-id sleep 7 && firefox https://github.com/endeavouros-team/endeavouros-i3wm-setup/blob/main/force-knowledge.md
+# exec --no-startup-id sleep 7 && firefox https://github.com/endeavouros-team/endeavouros-i3wm-setup/blob/main/force-knowledge.md
 #exec --no-startup-id sleep 3 && thunar
 
 ###############
@@ -442,12 +442,13 @@ exec --no-startup-id sleep 7 && firefox https://github.com/endeavouros-team/ende
 #exec --no-startup-id blueberry-tray
 
 # networkmanager-applet
+exec --no-startup-id /home/eric/.config/polybar/gruvbox-by-bitterhalt/launch.sh
 exec --no-startup-id nm-applet
 
 exec --no-startup-id fcitx5
 
 # clipman-applet
-#exec --no-startup-id xfce4-clipman
+exec --no-startup-id xfce4-clipman
 
 ##################
 # floating rules #
@@ -507,33 +508,33 @@ client.urgent		    	$urgentred	$urgentred	$white		$yellowbrown	$yellowbrown
 
 # Start i3bar to display a workspace bar
 # (plus the system information i3status finds out, if available)
-bar {
-		font pango: Noto Sans Regular 10
-		status_command i3blocks -c ~/.config/i3/i3blocks.conf
-	    	position bottom
-#	    	i3bar_command i3bar --transparency
-# it could be that you have no primary display set: set one (xrandr --output <output> --primary)
-# reference: https://i3wm.org/docs/userguide.html#_tray_output
-		    #tray_output primary
-		    tray_padding 0
-
-# When strip_workspace_numbers is set to yes,
-# any workspace that has a name of the form
-# “[n][:][NAME]” will display only the name.
-strip_workspace_numbers yes
-##strip_workspace_name no
-
-		    colors {
-		    separator          $purple
-		    background         $darkgrey
-		    statusline         $white
-#                          		border 		        bg		txt		indicator
-		focused_workspace	$mediumgrey	   	$grey		$darkgrey	$purple
-		active_workspace	$lightblue      	$mediumgrey	$darkgrey	$purple
-		inactive_workspace	$darkgrey   		$darkgrey	$grey		$purple
-		urgent_workspace	$urgentred	    	$urgentred	$white		$purple
-	}
-}
+# bar {
+# 		font pango: Noto Sans Regular 10
+# 		status_command i3blocks -c ~/.config/i3/i3blocks.conf
+# 	    	position bottom
+# #	    	i3bar_command i3bar --transparency
+# # it could be that you have no primary display set: set one (xrandr --output <output> --primary)
+# # reference: https://i3wm.org/docs/userguide.html#_tray_output
+# 		    #tray_output primary
+# 		    tray_padding 0
+#
+# # When strip_workspace_numbers is set to yes,
+# # any workspace that has a name of the form
+# # “[n][:][NAME]” will display only the name.
+# strip_workspace_numbers yes
+# ##strip_workspace_name no
+#
+# 		    colors {
+# 		    separator          $purple
+# 		    background         $darkgrey
+# 		    statusline         $white
+# #                          		border 		        bg		txt		indicator
+# 		focused_workspace	$mediumgrey	   	$grey		$darkgrey	$purple
+# 		active_workspace	$lightblue      	$mediumgrey	$darkgrey	$purple
+# 		inactive_workspace	$darkgrey   		$darkgrey	$grey		$purple
+# 		urgent_workspace	$urgentred	    	$urgentred	$white		$purple
+# 	}
+# }
 
 # you can add different bars for multidisplay setups on each display:
 # set output HDMI-0 to the display you want the bar, --transparency can be set.
