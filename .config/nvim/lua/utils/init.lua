@@ -14,7 +14,7 @@ M.servers = {
     "yamlls",
     "zls",
     "hls",
-    -- "rust_analyzer",
+    "rust_analyzer",
 }
 
 return M
