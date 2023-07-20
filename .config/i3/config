@@ -192,7 +192,7 @@ bindsym $mod+Shift+c reload
 bindsym $mod+Shift+r restart
 
 # keybinding in fancy rofi (automated):
-bindsym F1 exec ~/.config/i3/scripts/keyhint-2
+bindsym $mod+F1 exec ~/.config/i3/scripts/keyhint-2
 # alternative
 # keybinding list in editor:
 # bindsym $mod+F1 exec xed ~/.config/i3/keybindings
@@ -323,16 +323,19 @@ set $ws10 "10:θ"
 assign [class="Xfce4-terminal"] $ws1
 assign [class="(?i)vivaldi-stable"] $ws2
 assign [class="Thunar"] $ws3
-assign [class="thunderbird"] $ws4
+assign [class="Code"] $ws4
+# assign [class="thunderbird"] $ws4
 assign [class="TelegramDesktop"] $ws5
-assign [class="clash-verge"] $ws9
+assign [class="Clash-verge"] $ws9
 
 # automatic set focus new window if it opens on another workspace than the current:
 for_window [class=Xfce4-terminal] focus
 for_window [class=(?i)vivaldi-stable] focus
 for_window [class=Thunar] focus
+for_window [class=Code] focus
 for_window [class=Thunderbird] focus
 for_window [class=TelegramDesktop] focus
+for_window [class=Clash-verge] focus
 
 ##############
 # compositor #
@@ -450,6 +453,8 @@ exec --no-startup-id fcitx5
 
 # clipman-applet
 exec --no-startup-id xfce4-clipman
+
+exec --no-startup-id gnome-keyring-daemon -s --components=pkcs11,secrets,ssh
 
 ##################
 # floating rules #

@@ -20,7 +20,7 @@ local M = {
             end,
         },
         {
-            "<enter>",
+            "S",
             mode = { "n", "o", "x" },
             function()
                 require("flash").treesitter()

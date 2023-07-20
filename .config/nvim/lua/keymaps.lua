@@ -21,6 +21,8 @@ keymap("n", "zM", require("ufo").closeAllFolds, opts)
 --   term_mode = "t",
 --   command_mode = "c",
 
+keymap("i", "<C-enter>", "<C-o>$;<enter>", opts)
+
 -- Normal --
 -- Common save and quit
 keymap("n", "<C-s>", "<cmd>w<CR>", opts)

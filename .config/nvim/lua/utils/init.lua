@@ -3,6 +3,7 @@ local M = {}
 M.servers = {
     "typst_lsp",
     "clangd",
+    "csharp_ls",
     "lua_ls",
     "cssls",
     "html",
