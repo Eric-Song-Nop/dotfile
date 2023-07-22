@@ -72,11 +72,11 @@ vim.api.nvim_create_autocmd("LspAttach", {
         end
         if client.name ~= "null-ls" then
             if client.server_capabilities.inlayHintProvider then
-                if client.server_capabilities.inlayHintProvider == true and client.name ~= "rust_analyzer" then
-                    vim.lsp.buf.inlay_hint(bufnr, true)
-                else
-                    require("lsp-inlayhints").on_attach(client, bufnr)
-                end
+                -- if client.server_capabilities.inlayHintProvider == true and client.name ~= "rust_analyzer" then
+                --     vim.lsp.buf.inlay_hint(bufnr, true)
+                -- else
+                require("lsp-inlayhints").on_attach(client, bufnr)
+                -- end
             end
         end
     end,
