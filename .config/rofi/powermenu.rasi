@@ -25,7 +25,7 @@ window {
     /*x-offset:       850;*/
 }
 listview {
-    lines:     7;
+    lines:     5;
     columns:   1;
     scrollbar: false;
 }
