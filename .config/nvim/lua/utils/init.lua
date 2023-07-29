@@ -6,6 +6,7 @@ M.servers = {
     "csharp_ls",
     "lua_ls",
     "cssls",
+    "gopls",
     "html",
     "tsserver",
     "pyright",

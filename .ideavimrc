@@ -1,0 +1,16 @@
+set relativenumber
+set ignorecase
+set smartcase
+let mapleader = " "
+set hlsearch
+
+nnoremap <leader>h :noh<cr>
+map <leader>la <Action>(ShowIntentionActions)
+map <leader>f <Action>(SearchEverywhere)
+map <leader>lf <Action>(ReformatCode)
+map <leader>rr <Action>(Run)
+map <leader>rr <Action>(Run)
+
+map <leader>ds <Action>(Debug)
+map <leader>dc <Action>(Resume)
+map <leader>db <Action>(ToggleLineBreakpoint)
