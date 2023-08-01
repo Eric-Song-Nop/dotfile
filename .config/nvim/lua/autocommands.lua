@@ -33,14 +33,20 @@ vim.api.nvim_create_autocmd({ "TextYankPost" }, {
 vim.api.nvim_create_autocmd({ "BufWritePre" }, {
     buffer = buffer,
     callback = function()
-        vim.lsp.buf.format { async = false }
+        -- vim.lsp.buf.format { async = false }
     end,
 })
+
+vim.cmd [[augroup FormatAutogroup
+  autocmd!
+  autocmd BufWritePost * FormatWrite
+augroup END]]
 
 vim.api.nvim_create_autocmd({ "BufWritePost" }, {
     pattern = { "*.java" },
     callback = function()
         vim.lsp.codelens.refresh()
+        require("lint").try_lint()
     end,
 })
 
