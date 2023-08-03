@@ -24,11 +24,14 @@ local M = {
                 chunk = {
                     notify = false,
                     style = {
-                        { fg = "#806d9c" },
+                        { fg = "#FABD2F" },
                     },
                 },
                 blank = {
                     enable = false,
+                },
+                line_num = {
+                    style = "#FABD2F",
                 },
             }
         end,

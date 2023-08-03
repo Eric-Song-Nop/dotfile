@@ -26,5 +26,6 @@ local M = {
             }
         end,
     },
+    "Bekaboo/dropbar.nvim",
 }
 return M
