@@ -1,9 +1,0 @@
-[opener]
-text = [
-  { cmd = "nvim", args = [
-    "$*",
-  ], block = true },
-  { cmd = "code", args = [
-    "$*",
-  ] },
-]
