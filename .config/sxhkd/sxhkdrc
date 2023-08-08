@@ -9,7 +9,7 @@ super + Return
 # program launcher
 super + d
     rofi -modi drun -show drun \
-		        -config ~/.config/rofi/rofidmenu.rasi
+		        -config ~/.config/rofi/rofidmenu.rasi -drun-show-actions
 	# rofi -modi drun -show drun -line-padding 4 \
  #                -columns 2 -padding 50 -hide-scrollbar -terminal kitty \
  #                -show-icons -drun-icon-theme "Qogir-dark" -font "Droid Sans Regular 10"
@@ -30,7 +30,7 @@ super + shift + d
  #                -columns 2 -padding 50 -hide-scrollbar -terminal kitty \
  #                -show-icons -drun-icon-theme "Qogir-dark" -font "Droid Sans Regular 10"
 
-# power-menu 
+# power-menu
 super + shift + e
      ~/.config/bspwm/scripts/powermenu
 
@@ -158,7 +158,7 @@ XF86AudioLowerVolume
 # still
 XF86AudioMute
   amixer -D pulse sset Master toggle-mute
-  
+
 # amixer -q set Master toggle
 # Simple amixer command seems to have problems unmuting device
 
@@ -178,11 +178,11 @@ super + Print
   ~/.config/bspwm/scripts/screenshot.sh
 
 # Shortcuts
-super + w 
+super + w
   vivaldi-stable
 
-super + n 
-  thunar  
+super + n
+  thunar
 
 super + F1
   ~/.config/bspwm/scripts/keybindings_rofi.sh
