@@ -4,6 +4,7 @@ M.servers = {
     "typst_lsp",
     "clangd",
     "csharp_ls",
+    "cmake",
     "lua_ls",
     "cssls",
     "gopls",

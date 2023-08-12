@@ -42,9 +42,9 @@ local M = {
                     python = {
                         require("formatter.filetypes.lua").black,
                     },
-                    toml = {
-                        require("formatter.filetypes.toml").taplo,
-                    },
+                    -- toml = {
+                    --     require("formatter.filetypes.toml").taplo,
+                    -- },
                     ["*"] = {
                         -- "formatter.filetypes.any" defines default configurations for any
                         -- filetype
