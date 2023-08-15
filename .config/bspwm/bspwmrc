@@ -26,6 +26,7 @@ bspc rule -a Clash-verge desktop='^9'
 bspc rule -a discord desktop='^10'
 bspc rule -a mplayer2 state=floating
 bspc rule -a Yad state=floating
+bspc rule -a Launcher state=floating
 bspc rule -a Kupfer.py focus=on
 bspc rule -a Screenkey manage=off
 
@@ -41,7 +42,7 @@ bspc config active_border_color         "#073642"
 # Set display from arandr saved script
 sh ~/.screenlayout/monitor.sh &
 # Notifications
-/usr/bin/dunst &
+# /usr/bin/dunst &
 
 # Wallpaper
 feh --bg-fill /home/eric/Pictures/gruvbox-dark-rainbow.png &
@@ -50,7 +51,7 @@ feh --bg-fill /home/eric/Pictures/gruvbox-dark-rainbow.png &
 # dex -a -s /etc/xdg/autostart/:~/.config/autostart/  &
 dex --autostart --environment bspwm &
 # Picom
-# picom -b &
+picom -b &
 # Network Applet
 nm-applet --indicator &
 
