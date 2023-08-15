@@ -6,6 +6,9 @@
 super + Return
 	kitty
 
+super + backslash
+    ~/.config/bspwm/scripts/dropdown.sh dropdown
+
 # program launcher
 super + d
     rofi -modi drun -show drun \
