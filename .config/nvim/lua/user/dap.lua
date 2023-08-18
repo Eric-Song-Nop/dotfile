@@ -1,5 +1,6 @@
 local M = {
     "mfussenegger/nvim-dap",
+    cond = vim.g.vscode == nil,
     event = "VeryLazy",
 }
 

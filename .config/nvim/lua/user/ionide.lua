@@ -1,5 +1,6 @@
 local M = {
     "ionide/Ionide-vim",
+    cond = vim.g.vscode == nil,
     ft = "fsharp",
 }
 

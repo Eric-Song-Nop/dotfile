@@ -1,5 +1,6 @@
 local M = {
     "hrsh7th/nvim-cmp",
+    cond = vim.g.vscode == nil,
     dependencies = {
         {
             "hrsh7th/cmp-nvim-lsp",

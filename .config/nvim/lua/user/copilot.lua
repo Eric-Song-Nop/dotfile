@@ -1,6 +1,7 @@
 local M = {
     "zbirenbaum/copilot.lua",
     event = "InsertEnter",
+    cond = vim.g.vscode == nil,
     config = function()
         if vim.g.neovide then
             require("copilot").setup {

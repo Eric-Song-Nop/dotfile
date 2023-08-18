@@ -1,5 +1,6 @@
 local M = {
     "nvim-lualine/lualine.nvim",
+    cond = vim.g.vscode == nil,
     event = { "VimEnter", "InsertEnter", "BufReadPre", "BufAdd", "BufNew", "BufReadPost" },
 }
 

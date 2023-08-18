@@ -18,6 +18,7 @@ local M = {
     -- },
     {
         "shellRaining/hlchunk.nvim",
+        cond = vim.g.vscode == nil,
         event = { "UIEnter" },
         config = function()
             require("hlchunk").setup {

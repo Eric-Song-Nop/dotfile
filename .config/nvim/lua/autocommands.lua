@@ -37,53 +37,57 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
     end,
 })
 
-vim.cmd [[augroup FormatAutogroup
+if vim.g.vscode == nil then
+    vim.cmd [[augroup FormatAutogroup
   autocmd!
   autocmd BufWritePost * FormatWrite
 augroup END]]
 
-vim.api.nvim_create_autocmd({ "BufWritePost" }, {
-    pattern = { "*.java" },
-    callback = function()
-        vim.lsp.codelens.refresh()
-        require("lint").try_lint()
-    end,
-})
+    vim.api.nvim_create_autocmd({ "BufWritePost" }, {
+        pattern = { "*.java" },
+        callback = function()
+            vim.lsp.codelens.refresh()
+            require("lint").try_lint()
+        end,
+    })
 
-vim.api.nvim_create_autocmd({ "VimEnter" }, {
-    callback = function()
-        vim.cmd "hi link illuminatedWord LspReferenceText"
-    end,
-})
+    vim.api.nvim_create_autocmd({ "VimEnter" }, {
+        callback = function()
+            vim.cmd "hi link illuminatedWord LspReferenceText"
+        end,
+    })
 
-vim.api.nvim_create_autocmd({ "BufWinEnter" }, {
-    callback = function()
-        local line_count = vim.api.nvim_buf_line_count(0)
-        if line_count >= 5000 then
-            vim.cmd "IlluminatePauseBuf"
-        end
-    end,
-})
-
-vim.api.nvim_create_autocmd("LspAttach", {
-    callback = function(args)
-        if not (args.data and args.data.client_id) then
-            return
-        end
-
-        local bufnr = args.buf
-        local client = vim.lsp.get_client_by_id(args.data.client_id)
-        if client.name == "lua_ls" then
-            client.server_capabilities.documentFormattingProvider = false
-        end
-        if client.name ~= "null-ls" then
-            if client.server_capabilities.inlayHintProvider then
-                -- if client.server_capabilities.inlayHintProvider == true and client.name ~= "rust_analyzer" then
-                --     vim.lsp.buf.inlay_hint(bufnr, true)
-                -- else
-                require("lsp-inlayhints").on_attach(client, bufnr)
-                -- end
+    vim.api.nvim_create_autocmd({ "BufWinEnter" }, {
+        callback = function()
+            local line_count = vim.api.nvim_buf_line_count(0)
+            if line_count >= 5000 then
+                vim.cmd "IlluminatePauseBuf"
             end
-        end
-    end,
-})
+        end,
+    })
+
+    vim.api.nvim_create_autocmd("LspAttach", {
+        callback = function(args)
+            if not (args.data and args.data.client_id) then
+                return
+            end
+
+            local bufnr = args.buf
+            local client = vim.lsp.get_client_by_id(args.data.client_id)
+            if client ~= nil then
+                if client.name == "lua_ls" then
+                    client.server_capabilities.documentFormattingProvider = false
+                end
+                if client.name ~= "null-ls" then
+                    if client.server_capabilities.inlayHintProvider then
+                        -- if client.server_capabilities.inlayHintProvider == true and client.name ~= "rust_analyzer" then
+                        --     vim.lsp.buf.inlay_hint(bufnr, true)
+                        -- else
+                        require("lsp-inlayhints").on_attach(client, bufnr)
+                        -- end
+                    end
+                end
+            end
+        end,
+    })
+end

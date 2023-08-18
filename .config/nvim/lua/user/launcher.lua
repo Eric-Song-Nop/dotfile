@@ -1,6 +1,7 @@
 local M = {
     "Eric-Song-Nop/launcher.nvim",
-    -- dev = true,
+    cond = vim.g.vscode == nil,
+    dev = true,
     cmd = "DRun",
     dependencies = {
         "nvim-telescope/telescope.nvim",

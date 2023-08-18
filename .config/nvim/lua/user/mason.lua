@@ -1,5 +1,6 @@
 local M = {
     "williamboman/mason.nvim",
+    cond = vim.g.vscode == nil,
     cmd = "Mason",
     event = "BufReadPre",
     dependencies = {

@@ -1,5 +1,6 @@
 return {
     "stevearc/overseer.nvim",
+    cond = vim.g.vscode == nil,
     opts = {},
     cmd = { "OverseerRun", "OverseerToggle" },
     config = function()

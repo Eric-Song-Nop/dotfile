@@ -1,6 +1,7 @@
 local M = {
     {
         "kosayoda/nvim-lightbulb",
+        cond = vim.g.vscode == nil,
         event = "VeryLazy",
         dependencies = {
             "neovim/nvim-lspconfig",
@@ -8,6 +9,7 @@ local M = {
     },
     {
         "mfussenegger/nvim-lint",
+        cond = vim.g.vscode == nil,
         event = "BufWritePre",
         config = function()
             require("lint").linters_by_ft = {
@@ -18,6 +20,7 @@ local M = {
     },
     {
         "mhartington/formatter.nvim",
+        cond = vim.g.vscode == nil,
         event = "BufWritePre",
         cmd = "FormatWrite",
         config = function()

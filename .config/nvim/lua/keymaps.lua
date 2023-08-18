@@ -44,15 +44,17 @@ keymap("n", "<C-Right>", ":vertical resize +2<CR>", opts)
 keymap("n", "<S-l>", ":bnext<CR>", opts)
 keymap("n", "<S-h>", ":bprevious<CR>", opts)
 -- Tab
-wk.register({
-    b = {
-        name = "Tab",
-        t = { ":$tabnew<CR>", "New tab" },
-        n = { ":tabn<CR>", "Next tab" },
-        p = { ":tabp<CR>", "Prev tab" },
-        c = { ":tabclose<CR>", "Close tab" },
-    },
-}, { prefix = "<leader>" })
+if vim.g.vscode == nil then
+    wk.register({
+        b = {
+            name = "Tab",
+            t = { ":$tabnew<CR>", "New tab" },
+            n = { ":tabn<CR>", "Next tab" },
+            p = { ":tabp<CR>", "Prev tab" },
+            c = { ":tabclose<CR>", "Close tab" },
+        },
+    }, { prefix = "<leader>" })
+end
 
 -- Close buffers
 keymap("n", "<S-q>", "<cmd>Bdelete!<CR>", opts)
@@ -75,76 +77,78 @@ keymap("v", ">", ">gv", opts)
 -- Plugins --
 
 -- NvimTree
-wk.register({
-    e = {
-        ":NvimTreeToggle<CR>",
-        "Explorer",
-    },
-}, { prefix = "<leader>" })
+if vim.g.vscode == nil then
+    wk.register({
+        e = {
+            ":NvimTreeToggle<CR>",
+            "Explorer",
+        },
+    }, { prefix = "<leader>" })
 
--- Telescope
-wk.register({
-    s = {
-        name = "Telescope",
-        f = { ":Telescope find_files<CR>", "Find files" },
-        t = { ":Telescope live_grep<CR>", "Search words" },
-        p = { ":Telescope projects<CR>", "Projects" },
-        b = { ":Telescope buffers<CR>", "Search Buffers" },
-        k = { ":Telescope keymaps<CR>", "Search Keymaps" },
-        c = { ":Telescope colorscheme<CR>", "Search colorscheme" },
-        r = { ":Telescope oldfiles<CR>", "Recent files" },
-        d = { ":TodoTelescope<CR>", "Search Todo" },
-    },
-}, { prefix = "<leader>" })
+    -- Telescope
+    wk.register({
+        s = {
+            name = "Telescope",
+            f = { ":Telescope find_files<CR>", "Find files" },
+            t = { ":Telescope live_grep<CR>", "Search words" },
+            p = { ":Telescope projects<CR>", "Projects" },
+            b = { ":Telescope buffers<CR>", "Search Buffers" },
+            k = { ":Telescope keymaps<CR>", "Search Keymaps" },
+            c = { ":Telescope colorscheme<CR>", "Search colorscheme" },
+            r = { ":Telescope oldfiles<CR>", "Recent files" },
+            d = { ":TodoTelescope<CR>", "Search Todo" },
+        },
+    }, { prefix = "<leader>" })
 
--- Git
-wk.register({
-    g = {
-        name = "Git",
-        g = { "<cmd>lua _GITUI_TOGGLE()<CR>", "Gitui" },
-        s = { "<cmd>Gitsigns stage_hunk<CR>", "Stage hunk" },
-        r = { "<cmd>Gitsigns reset_hunk<CR>", "Reset hunk" },
-        p = { "<cmd>Gitsigns preview_hunk<CR>", "Preview hunk" },
-        b = { "<cmd>Gitsigns toggle_current_line_blame<CR>", "Preview blame" },
-        k = { "<cmd>Gitsigns prev_hunk<CR>", "Previous hunk" },
-        j = { "<cmd>Gitsigns next_hunk<CR>", "Next hunk" },
-    },
-}, { prefix = "<leader>" })
+    -- Git
+    wk.register({
+        g = {
+            name = "Git",
+            g = { "<cmd>lua _GITUI_TOGGLE()<CR>", "Gitui" },
+            s = { "<cmd>Gitsigns stage_hunk<CR>", "Stage hunk" },
+            r = { "<cmd>Gitsigns reset_hunk<CR>", "Reset hunk" },
+            p = { "<cmd>Gitsigns preview_hunk<CR>", "Preview hunk" },
+            b = { "<cmd>Gitsigns toggle_current_line_blame<CR>", "Preview blame" },
+            k = { "<cmd>Gitsigns prev_hunk<CR>", "Previous hunk" },
+            j = { "<cmd>Gitsigns next_hunk<CR>", "Next hunk" },
+        },
+    }, { prefix = "<leader>" })
 
--- Comment
-keymap("n", "<leader>/", "<cmd>lua require('Comment.api').toggle.linewise.current()<CR>", opts)
-keymap("x", "<leader>/", "<esc><cmd>lua require('Comment.api').toggle.linewise(vim.fn.visualmode())<CR>", opts)
+    -- Comment
+    keymap("n", "<leader>/", "<cmd>lua require('Comment.api').toggle.linewise.current()<CR>", opts)
+    keymap("x", "<leader>/", "<esc><cmd>lua require('Comment.api').toggle.linewise(vim.fn.visualmode())<CR>", opts)
 
--- DAP
-wk.register({
-    d = {
-        name = "Dap",
-        b = { "<cmd>lua require'dap'.toggle_breakpoint()<cr>", "toggle breakpoint" },
-        c = { "<cmd>lua require'dap'.continue()<cr>", "continue" },
-        i = { "<cmd>lua require'dap'.step_into()<cr>", "step into" },
-        o = { "<cmd>lua require'dap'.step_over()<cr>", "step over" },
-        O = { "<cmd>lua require'dap'.step_out()<cr>", "step out" },
-        r = { "<cmd>lua require'dap'.repl.toggle()<cr>", "repl toggle" },
-        l = { "<cmd>lua require'dap'.run_last()<cr>", "run last" },
-        u = { "<cmd>lua require'dapui'.toggle()<cr>", "ui toggle" },
-        t = { "<cmd>lua require'dap'.terminate()<cr>", "terminate" },
-    },
-}, { prefix = "<leader>" })
--- keymap("n", "<leader>db", "<cmd>lua require'dap'.toggle_breakpoint()<cr>", opts)
--- keymap("n", "<leader>dc", "<cmd>lua require'dap'.continue()<cr>"         , opts)
--- keymap("n", "<leader>di", "<cmd>lua require'dap'.step_into()<cr>"        , opts)
--- keymap("n", "<leader>do", "<cmd>lua require'dap'.step_over()<cr>"        , opts)
--- keymap("n", "<leader>dO", "<cmd>lua require'dap'.step_out()<cr>"         , opts)
--- keymap("n", "<leader>dr", "<cmd>lua require'dap'.repl.toggle()<cr>"      , opts)
--- keymap("n", "<leader>dl", "<cmd>lua require'dap'.run_last()<cr>"         , opts)
--- keymap("n", "<leader>du", "<cmd>lua require'dapui'.toggle()<cr>"         , opts)
--- keymap("n", "<leader>dt", "<cmd>lua require'dap'.terminate()<cr>"        , opts)
+    -- DAP
+    wk.register({
+        d = {
+            name = "Dap",
+            b = { "<cmd>lua require'dap'.toggle_breakpoint()<cr>", "toggle breakpoint" },
+            c = { "<cmd>lua require'dap'.continue()<cr>", "continue" },
+            i = { "<cmd>lua require'dap'.step_into()<cr>", "step into" },
+            o = { "<cmd>lua require'dap'.step_over()<cr>", "step over" },
+            O = { "<cmd>lua require'dap'.step_out()<cr>", "step out" },
+            r = { "<cmd>lua require'dap'.repl.toggle()<cr>", "repl toggle" },
+            l = { "<cmd>lua require'dap'.run_last()<cr>", "run last" },
+            u = { "<cmd>lua require'dapui'.toggle()<cr>", "ui toggle" },
+            t = { "<cmd>lua require'dap'.terminate()<cr>", "terminate" },
+        },
+    }, { prefix = "<leader>" })
+    -- keymap("n", "<leader>db", "<cmd>lua require'dap'.toggle_breakpoint()<cr>", opts)
+    -- keymap("n", "<leader>dc", "<cmd>lua require'dap'.continue()<cr>"         , opts)
+    -- keymap("n", "<leader>di", "<cmd>lua require'dap'.step_into()<cr>"        , opts)
+    -- keymap("n", "<leader>do", "<cmd>lua require'dap'.step_over()<cr>"        , opts)
+    -- keymap("n", "<leader>dO", "<cmd>lua require'dap'.step_out()<cr>"         , opts)
+    -- keymap("n", "<leader>dr", "<cmd>lua require'dap'.repl.toggle()<cr>"      , opts)
+    -- keymap("n", "<leader>dl", "<cmd>lua require'dap'.run_last()<cr>"         , opts)
+    -- keymap("n", "<leader>du", "<cmd>lua require'dapui'.toggle()<cr>"         , opts)
+    -- keymap("n", "<leader>dt", "<cmd>lua require'dap'.terminate()<cr>"        , opts)
 
--- Lsp
-wk.register({
-    l = {
-        name = "Lsp",
-        f = { "<cmd>lua vim.lsp.buf.format{ async = true }<cr>", "Format" },
-        v = { "<cmd>Navbuddy<cr>", "Navbuddy" },
-    },
-}, { prefix = "<leader>" })
+    -- Lsp
+    wk.register({
+        l = {
+            name = "Lsp",
+            f = { "<cmd>lua vim.lsp.buf.format{ async = true }<cr>", "Format" },
+            v = { "<cmd>Navbuddy<cr>", "Navbuddy" },
+        },
+    }, { prefix = "<leader>" })
+end

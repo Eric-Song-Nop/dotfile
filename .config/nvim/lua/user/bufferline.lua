@@ -1,6 +1,7 @@
 if used_buffer_line == "bufferline" then
     local M = {
         "akinsho/bufferline.nvim",
+        cond = vim.g.vscode == nil,
         event = { "BufReadPre", "BufAdd", "BufNew", "BufReadPost" },
         dependencies = {
             {
@@ -97,6 +98,7 @@ if used_buffer_line == "bufferline" then
 else
     local M = {
         "nanozuki/tabby.nvim",
+        cond = vim.g.vscode == nil,
         event = { "BufReadPre", "BufAdd", "BufNew", "BufReadPost" },
     }
 

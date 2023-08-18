@@ -1,6 +1,7 @@
 local M = {
     {
         "simrat39/symbols-outline.nvim",
+        cond = vim.g.vscode == nil,
         cmd = "SymbolsOutline",
         config = function()
             require("symbols-outline").setup()
@@ -10,6 +11,7 @@ local M = {
         "stevearc/aerial.nvim",
         -- dev = true,
         opts = {},
+        cond = vim.g.vscode == nil,
         dependencies = {
             "nvim-treesitter/nvim-treesitter",
             "nvim-tree/nvim-web-devicons",

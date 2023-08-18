@@ -1,6 +1,7 @@
 return {
     {
         "stevearc/oil.nvim",
+        cond = vim.g.vscode == nil,
         lazy = false,
         opts = {},
         -- Optional dependencies
@@ -8,6 +9,7 @@ return {
     },
     {
         "kevinhwang91/rnvimr",
+        cond = vim.g.vscode == nil,
         cmd = { "RnvimrToggle" },
         keys = {
             { "<leader>ra", "<cmd>RnvimrToggle<cr>", desc = "Ranger Toggle" },

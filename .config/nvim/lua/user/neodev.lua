@@ -1,5 +1,6 @@
 local M = {
     "folke/neodev.nvim",
+    cond = vim.g.vscode == nil,
     lazy = true, -- make sure we load this during startup if it is your main colorscheme
 }
 

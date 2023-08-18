@@ -1,7 +1,8 @@
 local M = {
     {
         "nvim-orgmode/orgmode",
-        lazy = false,
+        cond = vim.g.vscode == nil,
+        event = "VeryLazy",
         config = function()
             require("orgmode").setup {}
             require("orgmode").setup_ts_grammar()
@@ -30,6 +31,7 @@ local M = {
     },
     {
         "akinsho/org-bullets.nvim",
+        cond = vim.g.vscode == nil,
         ft = "org",
         config = function()
             require("org-bullets").setup()

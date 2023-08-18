@@ -1,5 +1,6 @@
 local M = {
     "numToStr/Comment.nvim",
+    cond = vim.g.vscode == nil,
     event = "BufRead",
     dependencies = {
         {

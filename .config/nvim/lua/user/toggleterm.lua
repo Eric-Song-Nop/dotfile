@@ -1,5 +1,6 @@
 local M = {
     "akinsho/toggleterm.nvim",
+    cond = vim.g.vscode == nil,
     event = "VeryLazy",
 }
 

@@ -28,6 +28,7 @@ end
 
 local M = {
     "kevinhwang91/nvim-ufo",
+    cond = vim.g.vscode == nil,
     dependencies = {
         "kevinhwang91/promise-async",
         "nvim-treesitter/nvim-treesitter",

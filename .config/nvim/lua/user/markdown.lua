@@ -1,5 +1,6 @@
 local M = {
     "iamcco/markdown-preview.nvim",
+    cond = vim.g.vscode == nil,
     build = "cd app && yarn install",
     ft = { "markdown" },
 }

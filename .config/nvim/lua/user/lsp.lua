@@ -1,5 +1,6 @@
 local M = {
     "neovim/nvim-lspconfig",
+    cond = vim.g.vscode == nil,
     lazy = true,
     dependencies = {
         {

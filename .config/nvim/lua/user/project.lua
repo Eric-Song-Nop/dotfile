@@ -1,5 +1,6 @@
 local M = {
     "ahmedkhalf/project.nvim",
+    cond = vim.g.vscode == nil,
     dependencies = {
         {
             "nvim-telescope/telescope.nvim",
