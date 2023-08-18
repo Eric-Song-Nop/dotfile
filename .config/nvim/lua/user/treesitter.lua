@@ -1,6 +1,7 @@
 local M = {
     "nvim-treesitter/nvim-treesitter",
     event = "BufReadPost",
+    cond = vim.g.vscode == nil,
     dependencies = {
         {
             "JoosepAlviste/nvim-ts-context-commentstring",

@@ -24,12 +24,6 @@ vim.api.nvim_create_autocmd({ "VimResized" }, {
     end,
 })
 
-vim.api.nvim_create_autocmd({ "TextYankPost" }, {
-    callback = function()
-        vim.highlight.on_yank { higroup = "Visual", timeout = 500 }
-    end,
-})
-
 vim.api.nvim_create_autocmd({ "BufWritePre" }, {
     buffer = buffer,
     callback = function()
@@ -38,6 +32,13 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
 })
 
 if vim.g.vscode == nil then
+
+    vim.api.nvim_create_autocmd({ "TextYankPost" }, {
+        callback = function()
+            vim.highlight.on_yank { higroup = "Visual", timeout = 500 }
+        end,
+    })
+
     vim.cmd [[augroup FormatAutogroup
   autocmd!
   autocmd BufWritePost * FormatWrite

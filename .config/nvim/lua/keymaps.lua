@@ -3,15 +3,14 @@ local keymap = vim.keymap.set
 -- Silent keymap option
 local opts = { silent = true }
 
-local wk = require "which-key"
+local wk = nil
+if vim.g.vscode == nil then
+    wk = require "which-key"
+end
 
 --Remap space as leader key
 keymap("", "<Space>", "<Nop>", opts)
 vim.g.mapleader = " "
-
--- Ufo
-keymap("n", "zR", require("ufo").openAllFolds, opts)
-keymap("n", "zM", require("ufo").closeAllFolds, opts)
 
 -- Modes
 --   normal_mode = "n",
@@ -151,4 +150,8 @@ if vim.g.vscode == nil then
             v = { "<cmd>Navbuddy<cr>", "Navbuddy" },
         },
     }, { prefix = "<leader>" })
+
+-- Ufo
+keymap("n", "zR", require("ufo").openAllFolds, opts)
+keymap("n", "zM", require("ufo").closeAllFolds, opts)
 end

@@ -14,4 +14,9 @@ vim.g.gruvbox_material_enable_italic = 1
 vim.g.gruvbox_material_background = "medium"
 vim.g.gruvbox_material_foreground = "original"
 vim.g.gruvbox_material_transparent_background = 0
-vim.cmd [[colorscheme gruvbox-material]]
+
+if vim.g.vscode then
+    -- vim.cmd [[colorscheme catppuccin]]
+else
+    vim.cmd [[colorscheme gruvbox-material]]
+end

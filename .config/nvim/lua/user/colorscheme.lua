@@ -10,6 +10,16 @@ local M = {
         priority = 1000, -- make sure to load this before all the other start plugins
         opts = { style = "moon" },
     },
+    {
+        "catppuccin/nvim",
+        name = "catppuccin",
+        priority = 1000,
+        config = function()
+            require("catppuccin").setup {
+                flavour = "frappe",
+            }
+        end,
+    },
 }
 
 return M
