@@ -19,4 +19,9 @@ return {
             vim.g.rnvimr_edit_cmd = "drop"
         end,
     },
+    {
+        "Eric-Song-Nop/fm-nvim",
+        cond = vim.g.vscode == nil,
+        cmd = { "Yazi", "Joshuto" },
+    },
 }
