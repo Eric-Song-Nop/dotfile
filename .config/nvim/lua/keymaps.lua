@@ -77,10 +77,16 @@ keymap("v", ">", ">gv", opts)
 
 -- NvimTree
 if vim.g.vscode == nil then
+    -- wk.register({
+    --     e = {
+    --         ":NvimTreeToggle<CR>",
+    --         "Explorer",
+    --     },
+    -- }, { prefix = "<leader>" })
     wk.register({
         e = {
-            ":NvimTreeToggle<CR>",
-            "Explorer",
+            ":Yazi<CR>",
+            "Yazi",
         },
     }, { prefix = "<leader>" })
 
@@ -151,7 +157,7 @@ if vim.g.vscode == nil then
         },
     }, { prefix = "<leader>" })
 
--- Ufo
-keymap("n", "zR", require("ufo").openAllFolds, opts)
-keymap("n", "zM", require("ufo").closeAllFolds, opts)
+    -- Ufo
+    keymap("n", "zR", require("ufo").openAllFolds, opts)
+    keymap("n", "zM", require("ufo").closeAllFolds, opts)
 end
