@@ -28,6 +28,6 @@ local M = {
             }
         end,
     },
-    "Bekaboo/dropbar.nvim",
+    -- "Bekaboo/dropbar.nvim",
 }
 return M

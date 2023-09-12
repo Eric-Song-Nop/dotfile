@@ -1,6 +1,0 @@
-Traceback (most recent call last):
-  File "/home/eric/.config/eww/scripts/logger.py", line 42, in <module>
-    import cache
-  File "/home/eric/.config/eww/scripts/cache.py", line 41, in <module>
-    import dbus
-ModuleNotFoundError: No module named 'dbus'
