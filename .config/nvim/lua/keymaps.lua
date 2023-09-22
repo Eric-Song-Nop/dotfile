@@ -88,6 +88,10 @@ if vim.g.vscode == nil then
             ":Yazi<CR>",
             "Yazi",
         },
+        f = {
+            ":NvimTreeToggle<CR>",
+            "NvimTreeToggle",
+        },
     }, { prefix = "<leader>" })
 
     -- Telescope
