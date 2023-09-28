@@ -105,6 +105,7 @@ if vim.g.vscode == nil then
             k = { ":Telescope keymaps<CR>", "Search Keymaps" },
             c = { ":Telescope colorscheme<CR>", "Search colorscheme" },
             r = { ":Telescope oldfiles<CR>", "Recent files" },
+            m = { ":Telescope marks<CR>", "Bookmarks" },
             d = { ":TodoTelescope<CR>", "Search Todo" },
         },
     }, { prefix = "<leader>" })
