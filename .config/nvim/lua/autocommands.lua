@@ -26,23 +26,15 @@ vim.api.nvim_create_autocmd({ "VimResized" }, {
 
 vim.api.nvim_create_autocmd({ "BufWritePre" }, {
     buffer = buffer,
-    callback = function()
-        -- vim.lsp.buf.format { async = false }
-    end,
+    callback = function() end,
 })
 
 if vim.g.vscode == nil then
-
     vim.api.nvim_create_autocmd({ "TextYankPost" }, {
         callback = function()
             vim.highlight.on_yank { higroup = "Visual", timeout = 500 }
         end,
     })
-
-    vim.cmd [[augroup FormatAutogroup
-  autocmd!
-  autocmd BufWritePost * FormatWrite
-augroup END]]
 
     vim.api.nvim_create_autocmd({ "BufWritePost" }, {
         pattern = { "*.java" },

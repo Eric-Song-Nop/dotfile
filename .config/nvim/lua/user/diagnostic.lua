@@ -19,40 +19,21 @@ local M = {
         end,
     },
     {
-        "mhartington/formatter.nvim",
-        cond = vim.g.vscode == nil,
-        event = "BufWritePre",
-        cmd = "FormatWrite",
+        "stevearc/conform.nvim",
         config = function()
-            require("formatter").setup {
-                log_level = vim.log.levels.INFO,
-                filetype = {
-                    c = {
-                        require("formatter.filetypes.c").clangformat,
-                    },
-                    cpp = {
-                        require("formatter.filetypes.c").clangformat,
-                    },
-                    cs = {
-                        require("formatter.filetypes.c").clangformat,
-                    },
-                    go = {
-                        require("formatter.filetypes.go").gofmt,
-                    },
-                    lua = {
-                        require("formatter.filetypes.lua").stylua,
-                    },
-                    python = {
-                        require("formatter.filetypes.lua").black,
-                    },
-                    -- toml = {
-                    --     require("formatter.filetypes.toml").taplo,
-                    -- },
-                    ["*"] = {
-                        -- "formatter.filetypes.any" defines default configurations for any
-                        -- filetype
-                        require("formatter.filetypes.any").remove_trailing_whitespace,
-                    },
+            require("conform").setup {
+                format_on_save = {
+                    -- These options will be passed to conform.format()
+                    timeout_ms = 500,
+                    lsp_fallback = true,
+                },
+                formatters_by_ft = {
+                    lua = { "stylua" },
+                    -- Conform will run multiple formatters sequentially
+                    python = { "isort", "black" },
+                    -- Use a sub-list to run only the first available formatter
+                    javascript = { { "prettierd", "prettier" } },
+                    cpp = { "clang_format" },
                 },
             }
         end,

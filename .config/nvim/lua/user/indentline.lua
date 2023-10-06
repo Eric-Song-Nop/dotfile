@@ -1,38 +1,29 @@
 local M = {
-    -- {
-    --     "lukas-reineke/indent-blankline.nvim",
-    --     event = "BufReadPre",
-    --     opts = {
-    --         char = "▏",
-    --         show_trailing_blankline_indent = false,
-    --         show_first_indent_level = true,
-    --         use_treesitter = true,
-    --         show_current_context = true,
-    --         buftype_exclude = { "terminal", "nofile" },
-    --         filetype_exclude = {
-    --             "help",
-    --             "packer",
-    --             "NvimTree",
-    --         },
-    --     },
-    -- },
     {
         "shellRaining/hlchunk.nvim",
         cond = vim.g.vscode == nil,
         event = { "UIEnter" },
         config = function()
+            local fn = vim.fn
+
+            local function get_color(group, attr)
+                return fn.synIDattr(fn.synIDtrans(fn.hlID(group)), attr)
+            end
+
+            local hl = get_color("CursorLineNr", "fg#")
+
             require("hlchunk").setup {
                 chunk = {
                     notify = false,
                     style = {
-                        { fg = "#FABD2F" },
+                        { fg = hl },
                     },
                 },
                 blank = {
                     enable = false,
                 },
                 line_num = {
-                    style = "#FABD2F",
+                    { fg = hl },
                 },
             }
         end,

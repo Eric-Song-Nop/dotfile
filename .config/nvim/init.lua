@@ -18,5 +18,5 @@ vim.g.gruvbox_material_transparent_background = 0
 if vim.g.vscode then
     -- vim.cmd [[colorscheme catppuccin]]
 else
-    vim.cmd [[colorscheme gruvbox-material]]
+    vim.cmd [[colorscheme catppuccin]]
 end
