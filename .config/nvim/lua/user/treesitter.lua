@@ -34,7 +34,7 @@ function M.config()
         autopairs = {
             enable = true,
         },
-        indent = { enable = true, disable = { "python", "css", "cpp" } },
+        indent = { enable = true, disable = { "python", "css", "cpp", "ocaml" } },
 
         context_commentstring = {
             enable = true,
@@ -42,12 +42,13 @@ function M.config()
         },
 
         incremental_selection = {
-            enable = false,
+            enable = true,
             keymaps = {
-                init_selection = "<enter>", -- set to `false` to disable one of the mappings
-                node_incremental = "<enter>",
+                -- visualize scope
+                init_selection = "<leader>vs", -- set to `false` to disable one of the mappings
+                node_incremental = "<leader>vs",
                 scope_incremental = "grc",
-                node_decremental = "<A-Enter>",
+                node_decremental = "<leader>vd",
             },
         },
     }

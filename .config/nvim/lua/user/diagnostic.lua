@@ -25,7 +25,7 @@ local M = {
                 format_on_save = {
                     -- These options will be passed to conform.format()
                     timeout_ms = 500,
-                    lsp_fallback = true,
+                    lsp_fallback = false,
                 },
                 formatters_by_ft = {
                     lua = { "stylua" },
@@ -34,8 +34,12 @@ local M = {
                     -- Use a sub-list to run only the first available formatter
                     javascript = { { "prettierd", "prettier" } },
                     cpp = { "clang_format" },
+                    ocaml = { "ocamlformat" },
                 },
             }
+            vim.api.nvim_create_user_command("Format", function()
+                require("conform").format { async = true, lsp_fallback = true }
+            end, { nargs = 0 })
         end,
     },
 }

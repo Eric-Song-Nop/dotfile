@@ -77,12 +77,6 @@ keymap("v", ">", ">gv", opts)
 
 -- NvimTree
 if vim.g.vscode == nil then
-    -- wk.register({
-    --     e = {
-    --         ":NvimTreeToggle<CR>",
-    --         "Explorer",
-    --     },
-    -- }, { prefix = "<leader>" })
     wk.register({
         e = {
             ":Yazi<CR>",
