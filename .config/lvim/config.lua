@@ -3,6 +3,12 @@ vim.o.foldcolumn = "1"
 vim.opt.foldlevel = 99
 vim.o.foldlevelstart = 99
 vim.o.foldenable = true
+lvim.builtin.treesitter.indent = {
+  disable = { "cpp" }
+}
+
+lvim.keys.normal_mode["L"] = ":bn<CR>"
+lvim.keys.normal_mode["H"] = ":bp<CR>"
 
 vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "rust_analyzer" })
 
@@ -307,7 +313,11 @@ lvim.plugins = {
     cmd = "Copilot",
     event = "InsertEnter",
     config = function()
-      require("copilot").setup({})
+      require("copilot").setup({
+        panel = {
+          auto_refresh = true
+        }
+      })
     end,
   },
   {
