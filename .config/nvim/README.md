@@ -1,3 +1,4 @@
-# Cire's Neovim Configuration
+# 💤 LazyVim
 
-This configuration is created on [nvim-basic-ide](https://github.com/LunarVim/nvim-basic-ide) from LunarVim community.
+A starter template for [LazyVim](https://github.com/LazyVim/LazyVim).
+Refer to the [documentation](https://lazyvim.github.io/installation) to get started.
