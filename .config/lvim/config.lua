@@ -1,4 +1,6 @@
-lvim.colorscheme = "gruvbox"
+lvim.colorscheme = "catppuccin"
+
+lvim.builtin.cmp.cmdline.enable = true
 
 vim.opt.relativenumber = true
 vim.o.foldcolumn = "1"
@@ -10,7 +12,7 @@ vim.o.shiftwidth = 4
 vim.o.wrap = true
 
 if vim.g.neovide then
-	vim.o.guifont = "CaskaydiaCove Nerd Font Mono:h15"
+	vim.o.guifont = "CaskaydiaMono Nerd Font:h15"
 	vim.g.neovide_transparency = 0.95
 	vim.g.neovide_fullscreen = false
 	vim.g.neovide_remember_window_size = true
@@ -407,6 +409,7 @@ lvim.plugins = {
 	},
 	"wakatime/vim-wakatime",
 	{ "ellisonleao/gruvbox.nvim", priority = 1000, config = true },
+	{ "catppuccin/nvim", name = "catppuccin", priority = 1000 },
 	{
 		"luisiacc/gruvbox-baby",
 		priority = 1000,
@@ -450,6 +453,7 @@ lvim.plugins = {
 	},
 	{
 		"kawre/leetcode.nvim",
+		dev = false,
 		build = ":TSUpdate html",
 		dependencies = {
 			"nvim-telescope/telescope.nvim",
