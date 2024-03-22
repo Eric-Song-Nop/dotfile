@@ -94,6 +94,7 @@ local plugins = {
 	},
 	require("user.plugins.lean"),
 	require("user.plugins.gp"),
+	require("user.plugins.cmp_latex"),
 }
 
 return plugins

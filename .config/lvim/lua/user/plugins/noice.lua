@@ -7,6 +7,11 @@ return {
 		"rcarriga/nvim-notify",
 	},
 	config = function()
+        require("notify").setup({
+            -- smaller popup
+            timeout = 1000,
+            max_width = 30,
+        })
 		require("noice").setup({
 			lsp = {
 				override = {

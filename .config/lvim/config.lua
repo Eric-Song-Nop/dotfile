@@ -1,5 +1,3 @@
-lvim.colorscheme = "catppuccin"
-
 lvim.builtin.cmp.cmdline.enable = true
 
 vim.opt.relativenumber = true
@@ -201,6 +199,7 @@ local formatters = require("lvim.lsp.null-ls.formatters")
 formatters.setup({
 	{ name = "stylua" },
 	{ name = "ktlint" },
+	{ name = "black" },
 })
 
 --#region Keymaps
@@ -211,9 +210,10 @@ lvim.plugins = require("user.plugins")
 
 lvim.builtin.bufferline.options = {
 	-- mode = "tabs",
-    show_tab_indicators = true,
+	show_tab_indicators = true,
 }
 
 -- Example for configuring Neovim to load user-installed installed Lua rocks:
 package.path = package.path .. ";" .. vim.fn.expand("$HOME") .. "/.luarocks/share/lua/5.1/?/init.lua;"
 package.path = package.path .. ";" .. vim.fn.expand("$HOME") .. "/.luarocks/share/lua/5.1/?.lua;"
+lvim.colorscheme = "catppuccin-macchiato"
